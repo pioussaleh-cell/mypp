@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TemanQu - Sahabat Perjalanan Jiwa</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0F172A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TemanQu">
+    
+    <!-- Manifest Link -->
+    <link rel="manifest" href="data:application/manifest+json,{
+        'name': 'TemanQu App',
+        'short_name': 'TemanQu',
+        'description': 'Sahabat Perjalanan Jiwa',
+        'start_url': './index.html',
+        'display': 'standalone',
+        'background_color': '#0F172A',
+        'theme_color': '#059669',
+        'icons': [
+            {
+                'src': 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%22.9em%22 x=%225%22 font-size=%2280%22 fill=%22white%22>✨</text></svg>',
+                'sizes': '192x192',
+                'type': 'image/svg+xml',
+                'purpose': 'any maskable'
+            },
+            {
+                'src': 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23059669%22/><text y=%22.9em%22 x=%225%22 font-size=%2280%22 fill=%22white%22>✨</text></svg>',
+                'sizes': '512x512',
+                'type': 'image/svg+xml',
+                'purpose': 'any maskable'
+            }
+        ]
+    }">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+    
+    <!-- Core Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Mobile Drag Drop Polyfill -->
+    <link rel="stylesheet" href="https://unpkg.com/mobile-drag-drop@2.3.0-rc.2/default.css">
+    <script src="https://unpkg.com/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Patrick+Hand&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'toast-in': 'toastIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'toast-out': 'toastOut 0.5s forwards',
+                    },
+                    keyframes: {
+                        toastIn: {
+                            '0%': { transform: 'translate(-50%, -100%)', opacity: 0 },
+                            '100%': { transform: 'translate(-50%, 0)', opacity: 1 },
+                        },
+                        toastOut: {
+                            '0%': { transform: 'translate(-50%, 0)', opacity: 1 },
+                            '100%': { transform: 'translate(-50%, -100%)', opacity: 0 },
+                        }
+                    },
+                    colors: {
+                        tech: {
+                            light: '#FFFFFF', 
+                            dark: '#0F172A',
+                            accent: '#059669', 
+                            accentGlow: '#34D399',
+                            cardDark: '#1E293B',
+                            base: '#3B4953'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #FFFFFF;
+            color: #1A1A1A;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
+        }
+        .dark body { background-color: #0F172A; color: #F8FAFC; }
+        .tech-3d-card {
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.12), 0 4px 12px -4px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            background: #FFFFFF;
+        }
+        .dark .tech-3d-card {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #1E293B;
+        }
+        .paper-sheet {
+            background-color: #FFFFFF !important;
+            box-shadow: 0 15px 40px -10px rgba(0,0,0,0.3);
+            border: 1px solid #E2E8F0;
+            position: relative;
+            color: #1A1A1A !important; 
+            background-image: linear-gradient(#F1F5F9 1px, transparent 1px);
+            background-size: 100% 2.5rem;
+            line-height: 2.5rem;
+        }
+        .dark .paper-sheet {
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.05), 0 20px 50px rgba(0,0,0,0.6);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        .dark .glass-nav {
+            background: rgba(15, 23, 42, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .font-patrick { font-family: 'Patrick Hand', cursive; }
+        .animate-in { animation: slideUp 0.5s ease-out forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .glow-active {
+            filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.15));
+            color: #000000 !important;
+        }
+        .dark .glow-active {
+            filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.5));
+            color: #34D399 !important;
+        }
+        .breath-circle { animation: breath 8s ease-in-out infinite; }
+        @keyframes breath { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.4); opacity: 0.8; } }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #059669; border-radius: 10px; }
+        input:disabled { opacity: 0.6; cursor: not-allowed; background-color: #F1F5F9 !important; }
+        .dragging-item { opacity: 0.5; background: #f0fdf4; transform: scale(1.02); }
+        .dark .dragging-item { background: #064e3b; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+        // --- INLINE SERVICE WORKER ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    self.addEventListener('install', (e) => self.skipWaiting());
+                    self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                    self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => {})));
+                `;
+                const blob = new Blob([swCode], { type: 'text/javascript' });
+                const url = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(url).catch(err => console.log('SW registration failed:', err));
+            });
+        }
+        
+        // --- Polyfill Drag Drop Mobile ---
+        if (typeof MobileDragDrop !== 'undefined') {
+            MobileDragDrop.polyfill({
+                dragImageOffset: { x: 0, y: 0 },
+                holdToDrag: 200
+            });
+            window.addEventListener( 'touchmove', function() {}, {passive: false});
+        }
+    </script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo, useRef } = React;
+
+        const STORAGE_KEY = "temanqu_v42_final_secured";
+
+        // --- DATA ASSETS ---
+        const SURAHS_LIST = ["Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "An-Anfal", "At-Tawbah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Ta-Ha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Ash-Shu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Ya-Sin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hashr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghashiyah", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duha", "Ash-Sharh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", "At-Takathur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"];
+
+        const WISDOM_PILLS_200 = ["Mintalah pertolongan kepada Allah dengan sabar dan sholat.","Dan Allah Maha Mengetahui apa yang ada dalam hatimu.","Janganlah kamu berputus asa dari rahmat Allah.","Sesungguhnya Allah mencintai orang-orang yang bertawakal.","Rahmat-Ku meliputi segala sesuatu."];
+
+        const RECOVERY_ADVICES_200 = [
+            "Allah melihatmu, Kak. Jangan biarkan Dia melihatmu bermaksiat di balik pintu yang terkunci.",
+            "Satu klik salah bisa menghancurkan benteng pertahanan yang sudah kamu bangun berhari-hari.",
+            "Ingat wajah Ibu dan Ayah. Maukah kamu mengecewakan harapan dan doa mereka demi kesenangan semu?",
+            "Layar HP-mu akan menjadi saksi di hari kiamat. Pastikan ia bersaksi tentang kebaikanmu.",
+            "Pikirkan maut. Bagaimana jika malaikat maut datang saat layar itu masih menyala?",
+            "Dopamin yang kamu kejar itu merusak saraf kebahagiaanmu. Berhentilah sebelum terlambat.",
+            "Kebahagiaan maksiat itu palsu, ia hanya meninggalkan rasa hampa dan sedih di hatimu.",
+            "Hati yang bersih akan merasakan nikmatnya sujud yang lama. Menanglah hari ini!"
+        ];
+
+        const CONTEXT_ADVICES_MAP = {
+            "pmo": ["Ingat, Allah melihatmu meski di kamar gelap.", "Kesenangan semu hanya merusak masa depanmu.", "Wudhu adalah obat saat pikiran mulai kotor."],
+            "marah": ["Sabar itu ciri orang hebat, bukan yang menang berkelahi.", "Ambil napas, duduk, atau wudhu saat marah datang."],
+            "malas": ["Ayo bangun! Allah suka hamba yang giat beramal.", "Waktu yang hilang takkan pernah kembali."]
+        };
+
+        const Icon = ({ name, size = 20, className = "", strokeWidth = 2.5 }) => {
+            const icons = {
+                Home: <React.Fragment><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></React.Fragment>,
+                HeartPulse: <React.Fragment><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></React.Fragment>,
+                BookOpen: <React.Fragment><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></React.Fragment>,
+                CheckCircle: <React.Fragment><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></React.Fragment>,
+                ShieldCheck: <React.Fragment><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></React.Fragment>,
+                Settings: <React.Fragment><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></React.Fragment>,
+                Sparkles: <path d="m12 3 1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3Z"/>,
+                Moon: <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>,
+                Sun: <React.Fragment><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></React.Fragment>,
+                Camera: <React.Fragment><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></React.Fragment>,
+                Trash2: <React.Fragment><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></React.Fragment>,
+                ShieldAlert: <React.Fragment><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></React.Fragment>,
+                MapPin: <React.Fragment><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></React.Fragment>,
+                Plus: <React.Fragment><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></React.Fragment>,
+                LogOut: <React.Fragment><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></React.Fragment>,
+                Save: <React.Fragment><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></React.Fragment>,
+                RotateCcw: <React.Fragment><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></React.Fragment>,
+                Trophy: <React.Fragment><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M12 5v17"/></React.Fragment>,
+                Lock: <React.Fragment><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></React.Fragment>,
+                Unlock: <React.Fragment><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></React.Fragment>,
+                RefreshCw: <React.Fragment><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></React.Fragment>,
+                User: <React.Fragment><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></React.Fragment>,
+                Key: <React.Fragment><path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3L15.5 7.5z"/></React.Fragment>,
+                LinkIcon: <React.Fragment><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></React.Fragment>,
+                GripVertical: <React.Fragment><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></React.Fragment>,
+                Info: <React.Fragment><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></React.Fragment>,
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name] || <circle cx="12" cy="12" r="10" />}
+                </svg>
+            );
+        };
+
+        const DigitalClock = () => {
+            const [time, setTime] = useState(new Date());
+            useEffect(() => {
+                const t = setInterval(() => setTime(new Date()), 1000);
+                return () => clearInterval(t);
+            }, []);
+            return <span className="tabular-nums font-black tracking-tight">{time.toLocaleTimeString('id-ID')}</span>;
+        };
+
+        const App = () => {
+            const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('temanqu_session') === 'true');
+            const [currentUserIdx, setCurrentUserIdx] = useState(() => parseInt(localStorage.getItem('temanqu_active_idx') || '0'));
+            const [activeTab, setActiveTab] = useState('home');
+            const [isDarkMode, setIsDarkMode] = useState(false);
+            const [accounts, setAccounts] = useState([]);
+            const [loginUser, setLoginUser] = useState("");
+            const [loginPass, setLoginPass] = useState("");
+            const [profileForm, setProfileForm] = useState({ displayName: '', city: '', gasUrl: '', username: '', password: '' });
+            const [prayerTimes, setPrayerTimes] = useState(null);
+            const [hijriDate, setHijriDate] = useState("");
+            const [locationInfo, setLocationInfo] = useState("Mencari lokasi...");
+            const [currentTime, setCurrentTime] = useState(new Date());
+            const [isLoading, setIsLoading] = useState(false);
+            const [healingResult, setHealingResult] = useState("");
+            const [journalResult, setJournalResult] = useState("");
+            const [journalInput, setJournalInput] = useState({ surah: '', ayat: '' });
+            const [surahSearch, setSurahSearch] = useState("");
+            const [wisdomPill, setWisdomPill] = useState("");
+            const [curhatInput, setCurhatInput] = useState("");
+            const [isProfileLocked, setIsProfileLocked] = useState(true);
+            const [deletingId, setDeletingId] = useState(null);
+            const [toast, setToast] = useState(null);
+            const [nextPrayer, setNextPrayer] = useState(null);
+
+            // Refs
+            const dragItem = useRef(null);
+            const dragOverItem = useRef(null);
+            const healingRef = useRef(null);
+            const journalRef = useRef(null);
+            const lastBackPressTime = useRef(0);
+
+            // Toast Helper
+            const triggerToast = (message, type = 'success') => {
+                setToast({ message, type });
+                setTimeout(() => setToast(null), 3000);
+            };
+
+            // --- NAVIGATION GUARD ---
+            useEffect(() => {
+                window.history.pushState(null, document.title, window.location.href);
+                const handlePopState = (event) => {
+                    if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+                        document.activeElement.blur();
+                        window.history.pushState(null, document.title, window.location.href);
+                        return;
+                    }
+                    if (activeTab !== 'home') {
+                        setActiveTab('home');
+                        window.history.pushState(null, document.title, window.location.href);
+                        return;
+                    }
+                    const now = Date.now();
+                    if (now - lastBackPressTime.current < 2000) {
+                        return;
+                    } else {
+                        lastBackPressTime.current = now;
+                        triggerToast("Tekan Sekali Lagi untuk Keluar", "info");
+                        window.history.pushState(null, document.title, window.location.href);
+                    }
+                };
+                window.addEventListener('popstate', handlePopState);
+                return () => window.removeEventListener('popstate', handlePopState);
+            }, [activeTab]);
+
+            const fetchPrayerByCity = (city) => {
+                setLocationInfo(city);
+                fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=Indonesia&method=11`)
+                .then(r => r.json()).then(d => {
+                    if(d && d.data) {
+                        setPrayerTimes(d.data.timings);
+                        setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`);
+                    }
+                }).catch(err => console.error(err));
+            };
+
+            const fetchPrayerByGPS = () => {
+                setLocationInfo("Mencari Satelit...");
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        const { latitude, longitude } = pos.coords;
+                        fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=11`)
+                        .then(r => r.json()).then(d => {
+                            if(d && d.data) {
+                                setPrayerTimes(d.data.timings);
+                                setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`);
+                                setLocationInfo(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+                            }
+                        }).catch(() => fetchPrayerByCity(user.city || "Jakarta"));
+                    }, (err) => fetchPrayerByCity(user.city || "Jakarta"), { timeout: 5000 });
+                } else { fetchPrayerByCity(user.city || "Jakarta"); }
+            };
+
+            const getDayName = () => {
+                return currentTime.toLocaleDateString('id-ID', { weekday: 'long' }).replace('Minggu', 'Ahad');
+            };
+
+            const recoveryAdviceIndex = useMemo(() => {
+                const totalMinutes = Math.floor(currentTime.getTime() / (1 * 60 * 1000));
+                return totalMinutes % RECOVERY_ADVICES_200.length;
+            }, [currentTime]);
+
+            const getSpecificAdvice = (name) => {
+                if(!name) return null;
+                const lower = name.toLowerCase();
+                for (const key in CONTEXT_ADVICES_MAP) {
+                    if (lower.includes(key)) return CONTEXT_ADVICES_MAP[key];
+                }
+                return null;
+            };
+
+            useEffect(() => {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    try { setAccounts(JSON.parse(saved)); } catch(e) { console.error(e); }
+                } else {
+                    const init = [{ username: 'admin', password: '123', displayName: 'Ananda', city: 'Jakarta', todos: [], recovery: [], gasUrl: "" }];
+                    setAccounts(init);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(init));
+                }
+                const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+                return () => clearInterval(timer);
+            }, []);
+
+            useEffect(() => { document.documentElement.classList.toggle('dark', isDarkMode); }, [isDarkMode]);
+
+            useEffect(() => {
+                if (prayerTimes && currentTime) {
+                    const list = [
+                        { k: 'Fajr', n: 'Subuh' }, { k: 'Dhuhr', n: 'Dzuhur' },
+                        { k: 'Asr', n: 'Ashar' }, { k: 'Maghrib', n: 'Maghrib' },
+                        { k: 'Isha', n: 'Isya' }
+                    ];
+                    let found = null;
+                    const now = currentTime.getTime();
+                    for (let p of list) {
+                        if (!prayerTimes[p.k]) continue;
+                        const [h, m] = prayerTimes[p.k].split(':');
+                        const pTime = new Date(currentTime);
+                        pTime.setHours(parseInt(h), parseInt(m), 0, 0);
+                        if (pTime.getTime() > now) {
+                            found = { ...p, time: pTime };
+                            break;
+                        }
+                    }
+                    if (!found && prayerTimes.Fajr) {
+                        const [h, m] = prayerTimes.Fajr.split(':');
+                        const pTime = new Date(currentTime);
+                        pTime.setDate(pTime.getDate() + 1);
+                        pTime.setHours(parseInt(h), parseInt(m), 0, 0);
+                        found = { k: 'Fajr', n: 'Subuh', time: pTime };
+                    }
+                    if (found) {
+                        const diff = found.time.getTime() - now;
+                        const hh = Math.floor(diff / 3600000);
+                        const mm = Math.floor((diff % 3600000) / 60000);
+                        const ss = Math.floor((diff % 60000) / 1000);
+                        setNextPrayer({
+                            name: found.n,
+                            countdown: `${hh > 0 ? hh + 'j ' : ''}${mm}m ${ss}s`
+                        });
+                    }
+                }
+            }, [currentTime, prayerTimes]);
+
+            const user = accounts[currentUserIdx] || {};
+
+            useEffect(() => {
+                if (user && isLoggedIn) {
+                    setProfileForm({
+                        displayName: user.displayName || '',
+                        city: user.city || '',
+                        gasUrl: user.gasUrl || '',
+                        username: user.username || '',
+                        password: user.password || ''
+                    });
+                    fetchPrayerByGPS();
+                    triggerToast(`Ahlan wa Sahlan, ${user.displayName}!`, 'success');
+                }
+            }, [currentUserIdx, isLoggedIn]);
+
+            const callAI = async (type, data) => {
+                setIsLoading(true);
+                if(type === 'journal') setJournalResult(""); else setHealingResult("");
+                const targetUrl = profileForm.gasUrl || user.gasUrl;
+                const handleSuccess = (res) => {
+                    const clean = res.replace(/[#*]/g, "").trim();
+                    type === 'journal' ? setJournalResult(clean) : setHealingResult(clean);
+                    setIsLoading(false);
+                    triggerToast("Pesan diterima dari langit.", "success");
+                };
+                const handleFail = () => {
+                    triggerToast("Gagal terhubung. Periksa internet/Link GAS.", "error");
+                    setIsLoading(false);
+                };
+                if (typeof google !== 'undefined' && google.script && google.script.run) {
+                    google.script.run.withSuccessHandler(handleSuccess).withFailureHandler(handleFail).callAIFromBackend(type, data);
+                } else if (targetUrl) {
+                    try {
+                        const response = await fetch(targetUrl, { method: 'POST', body: JSON.stringify({ action: 'callAI', type: type, data: data }) });
+                        const result = await response.json();
+                        handleSuccess(result.data);
+                    } catch (e) { handleFail(); }
+                } else { 
+                    triggerToast("Link GAS belum diatur di Profil.", "error"); 
+                    setIsLoading(false); 
+                }
+            };
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                const idx = accounts.findIndex(a => a.username === loginUser && a.password === loginPass);
+                if (idx !== -1) { 
+                    setCurrentUserIdx(idx); 
+                    setIsLoggedIn(true); 
+                    localStorage.setItem('temanqu_session', 'true');
+                    localStorage.setItem('temanqu_active_idx', idx.toString());
+                } else triggerToast("Username atau Password salah.", "error");
+            };
+
+            const handleRegister = (e) => {
+                e.preventDefault();
+                if (!loginUser || !loginPass) {
+                    triggerToast("Username & Password wajib diisi!", "error");
+                    return;
+                }
+                const existing = accounts.find(a => a.username === loginUser);
+                if (existing) {
+                    triggerToast("Username sudah dipakai!", "error");
+                    return;
+                }
+                const newAccount = { 
+                    username: loginUser, 
+                    password: loginPass, 
+                    displayName: 'Sahabat Baru', 
+                    city: 'Jakarta', 
+                    todos: [], 
+                    recovery: [], 
+                    gasUrl: "" 
+                };
+                const newAccounts = [...accounts, newAccount];
+                setAccounts(newAccounts);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(newAccounts));
+                
+                // Auto login
+                const idx = newAccounts.length - 1;
+                setCurrentUserIdx(idx);
+                setIsLoggedIn(true);
+                localStorage.setItem('temanqu_session', 'true');
+                localStorage.setItem('temanqu_active_idx', idx.toString());
+                triggerToast("Akun berhasil dibuat!", "success");
+            };
+
+            const handleLogout = () => {
+                if(window.confirm('Keluar dari sesi ini?')) {
+                    setIsLoggedIn(false);
+                    localStorage.removeItem('temanqu_session');
+                    setLoginUser("");
+                    setLoginPass("");
+                    triggerToast("Sampai jumpa lagi!", "info");
+                }
+            };
+
+            const updateData = (newData) => {
+                const updated = [...accounts];
+                updated[currentUserIdx] = { ...updated[currentUserIdx], ...newData };
+                setAccounts(updated);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+            };
+
+            const saveProfileChanges = () => {
+                updateData({
+                    displayName: profileForm.displayName,
+                    city: profileForm.city,
+                    gasUrl: profileForm.gasUrl
+                });
+                setIsProfileLocked(true);
+                triggerToast("Profil berhasil disimpan!", "success");
+            };
+
+            const saveCredentialsChanges = () => {
+                if(!profileForm.username || !profileForm.password) {
+                    triggerToast("Username/Password tidak boleh kosong!", "error");
+                    return;
+                }
+                // Cek username unik (kecuali milik sendiri)
+                const existing = accounts.find((a, i) => a.username === profileForm.username && i !== currentUserIdx);
+                if (existing) {
+                    triggerToast("Username sudah dipakai!", "error");
+                    return;
+                }
+
+                updateData({
+                    username: profileForm.username,
+                    password: profileForm.password
+                });
+                setIsProfileLocked(true);
+                triggerToast("Keamanan akun diperbarui!", "success");
+            };
+
+            const capture = (ref, name) => {
+                if (!window.html2canvas || !ref.current) return;
+                triggerToast("Sedang memproses gambar...", "info");
+                setTimeout(() => {
+                    window.html2canvas(ref.current, { 
+                        backgroundColor: '#FFFFFF', 
+                        scale: 2, 
+                        useCORS: true,
+                        logging: false
+                    }).then(c => {
+                        c.toBlob(blob => {
+                            if(blob) {
+                                const url = URL.createObjectURL(blob);
+                                const link = document.createElement('a'); 
+                                link.download = `TemanQu-${name}-${Date.now()}.png`; 
+                                link.href = url; 
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                setTimeout(() => URL.revokeObjectURL(url), 100); 
+                                triggerToast("Gambar tersimpan di galeri!", "success");
+                            } else {
+                                triggerToast("Gagal membuat file.", "error");
+                            }
+                        }, 'image/png', 0.8);
+                    }).catch(e => {
+                        console.error(e);
+                        triggerToast("Gagal. Memori penuh.", "error");
+                    });
+                }, 100);
+            };
+
+            const popWisdom = () => {
+                const random = WISDOM_PILLS_200[Math.floor(Math.random() * WISDOM_PILLS_200.length)];
+                setWisdomPill(random);
+                triggerToast("Hikmah baru ditemukan", "success");
+            };
+
+            const formatRecoveryTime = (start) => {
+                const diff = currentTime - start;
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                return { d, h, m, s, full: `${d} Hari, ${h}j : ${m}m : ${s}s` };
+            };
+
+            const activeProgress = user.todos?.length > 0 ? Math.round((user.todos.filter(t => t.done).length / user.todos.length) * 100) : 0;
+
+            const handleDragStart = (e, position) => {
+                dragItem.current = position;
+                e.target.classList.add('dragging-item');
+                if (navigator.vibrate) navigator.vibrate(20);
+            };
+
+            const handleDragEnter = (e, position) => {
+                e.preventDefault();
+                if (dragItem.current === null || dragItem.current === position) return;
+                const newTodos = [...user.todos];
+                const draggedItemContent = newTodos[dragItem.current];
+                newTodos.splice(dragItem.current, 1);
+                newTodos.splice(position, 0, draggedItemContent);
+                dragItem.current = position;
+                updateData({ todos: newTodos });
+            };
+
+            const handleDragEnd = (e) => {
+                e.target.classList.remove('dragging-item');
+                dragItem.current = null;
+                dragOverItem.current = null;
+            };
+
+            const deleteTodo = (id) => {
+                if(window.confirm('Hapus amalan ini?')) {
+                    const newTodos = user.todos.filter(t => t.id !== id);
+                    updateData({ todos: newTodos });
+                    triggerToast("Amalan dihapus.", "info");
+                }
+            };
+
+            return (
+                <div className="min-h-screen transition-all duration-500 pb-32 overflow-x-hidden text-center relative bg-white dark:bg-tech-dark">
+                    
+                    {toast && (
+                        <div className={`fixed top-6 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-full shadow-2xl font-black text-[10px] uppercase tracking-widest flex items-center gap-2 animate-toast-in ${toast.type === 'error' ? 'bg-rose-500 text-white' : toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-slate-800 text-white'}`}>
+                            <Icon name={toast.type === 'error' ? 'ShieldAlert' : toast.type === 'success' ? 'CheckCircle' : 'Info'} size={14} />
+                            {toast.message}
+                        </div>
+                    )}
+
+                    {!isLoggedIn ? (
+                        <div className="min-h-screen flex items-center justify-center p-6 animate-in">
+                            <div className="bg-white dark:bg-tech-cardDark p-10 rounded-[48px] border border-slate-100 dark:border-white/10 tech-3d-card w-full max-w-md shadow-2xl">
+                                <div className="mb-8">
+                                    <div className="w-20 h-20 bg-tech-accent rounded-[30px] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-emerald-500/20 text-white text-4xl">✨</div>
+                                    <h1 className="text-2xl font-black text-black dark:text-white mb-2">Selamat Datang</h1>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 font-bold">Masuk untuk melanjutkan perjalanan.</p>
+                                </div>
+                                <form className="space-y-4">
+                                    <div className="relative group">
+                                        <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors"><Icon name="User" size={18}/></div>
+                                        <input type="text" value={loginUser} onChange={e => setLoginUser(e.target.value)} className="w-full p-5 pl-14 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-3xl font-bold text-sm outline-none shadow-inner text-black dark:text-white placeholder-slate-400" placeholder="Username" />
+                                    </div>
+                                    <div className="relative group">
+                                        <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors"><Icon name="Key" size={18}/></div>
+                                        <input type="password" value={loginPass} onChange={e => setLoginPass(e.target.value)} className="w-full p-5 pl-14 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-3xl font-bold text-sm outline-none shadow-inner text-black dark:text-white placeholder-slate-400" placeholder="Password" />
+                                    </div>
+                                    <div className="pt-4 space-y-3">
+                                        <button onClick={handleLogin} className="w-full py-5 bg-tech-accent text-white rounded-[32px] font-black uppercase text-xs shadow-xl shadow-emerald-500/20 active:scale-95 transition-transform">Masuk Sekarang</button>
+                                        <button onClick={handleRegister} className="w-full py-5 bg-white dark:bg-white/5 text-slate-500 dark:text-slate-300 rounded-[32px] font-black uppercase text-xs border border-slate-200 dark:border-white/10 active:scale-95 transition-transform">Buat Akun Baru</button>
+                                    </div>
+                                </form>
+                                <p className="mt-8 text-[9px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest">TemanQu App v4.2</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <header className="px-6 py-5 max-w-xl mx-auto sticky top-4 z-50">
+                                <div className="glass-nav rounded-3xl p-5 flex justify-between items-center tech-3d-card border-none shadow-sm">
+                                    <h1 className="text-xl font-black text-black dark:text-tech-accentGlow font-serif italic">TemanQu</h1>
+                                    <button onClick={() => setIsDarkMode(!isDarkMode)} className={`relative w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${isDarkMode ? 'bg-indigo-900' : 'bg-amber-100 border border-amber-200'}`}>
+                                        <div className={`toggle-dot w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center transform duration-300 ${isDarkMode ? 'translate-x-6' : 'translate-x-0'}`}>
+                                            <Icon name={isDarkMode ? 'Moon' : 'Sun'} size={12} className={isDarkMode ? 'text-indigo-600' : 'text-amber-500'} />
+                                        </div>
+                                    </button>
+                                </div>
+                            </header>
+
+                            <main className="max-w-xl mx-auto px-6 space-y-10 mt-12 text-black dark:text-slate-100">
+                                {activeTab === 'home' && (
+                                    <div className="animate-in space-y-8">
+                                        <div><h2 className="text-3xl font-black mb-1 uppercase tracking-tighter">Ahlan, {user.displayName}</h2><p className="text-[11px] font-black opacity-60 uppercase tracking-[0.2em]">{getDayName()}, {currentTime.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} • {hijriDate}</p></div>
+                                        
+                                        {/* Countdown Banner */}
+                                        {nextPrayer && (
+                                            <div className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-6 rounded-[32px] shadow-xl animate-in mb-6 relative overflow-hidden">
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+                                                <div className="relative z-10 flex justify-between items-end">
+                                                    <div className="text-left">
+                                                        <p className="text-[10px] font-black uppercase tracking-widest opacity-80 mb-1">Menuju Sholat</p>
+                                                        <h2 className="text-3xl font-black tracking-tighter">{nextPrayer.name}</h2>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="text-2xl font-mono font-bold tracking-tight">{nextPrayer.countdown}</p>
+                                                        <p className="text-[9px] font-bold opacity-60 uppercase tracking-wider">Lagi</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <div className="bg-white dark:bg-tech-cardDark p-8 rounded-[40px] border border-slate-100 dark:border-white/10 tech-3d-card shadow-lg text-black dark:text-white">
+                                            <div className="flex justify-between items-center mb-8 border-b border-slate-100 dark:border-white/10 pb-5">
+                                                <div className="text-left"><h3 className="text-[9px] font-black opacity-40 tracking-widest mb-1 uppercase">Koordinat Lokasi</h3><div className="flex items-center gap-2"><p className="text-[11px] font-bold flex items-center gap-1 text-black dark:text-tech-accentGlow"><Icon name="MapPin" size={12}/> {locationInfo}</p><button onClick={fetchPrayerByGPS} className="p-1 text-stone-400 hover:text-emerald-500 transition-colors"><Icon name="RefreshCw" size={10} /></button></div></div>
+                                                <div className="text-2xl font-black text-tech-accent tracking-tighter"><DigitalClock /></div>
+                                            </div>
+                                            {prayerTimes ? (
+                                                <div className="grid grid-cols-1 gap-3">
+                                                    {['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map(p => (
+                                                        <div key={p} className={`flex justify-between p-5 rounded-3xl border border-slate-100 dark:border-white/5 hover:scale-[1.02] transition-transform shadow-sm text-black dark:text-white ${nextPrayer && nextPrayer.name === (p === 'Fajr' ? 'Subuh' : p === 'Asr' ? 'Ashar' : p) ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-500/30' : 'bg-slate-50 dark:bg-white/5'}`}>
+                                                            <span className="font-black text-xs uppercase opacity-50 dark:text-slate-400">{p === 'Fajr' ? 'Subuh' : p === 'Asr' ? 'Ashar' : p}</span>
+                                                            <span className="font-black">{prayerTimes[p]}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : <div className="py-12 animate-pulse text-xs font-black uppercase opacity-20 tracking-widest">Sinkronisasi...</div>}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Recovery, Healing, Journal, Amal Tabs - SAME AS BEFORE */}
+                                {activeTab === 'recovery' && (
+                                    <div className="animate-in space-y-8">
+                                        <h2 className="text-3xl font-black tracking-tighter uppercase text-rose-600 dark:text-rose-400 font-serif italic">Bebas Kecanduan</h2>
+                                        <div className="p-10 rounded-[48px] paper-sheet text-left border-none shadow-2xl">
+                                            <div className="flex items-center gap-2 mb-6 border-b border-gray-200 pb-3 opacity-60">
+                                                <Icon name="ShieldAlert" size={16} className="text-rose-500" />
+                                                <span className="text-[9px] font-black uppercase text-slate-500">200 Peringatan Pejuang (1 Menit Rotasi)</span>
+                                            </div>
+                                            <p className="font-patrick text-2xl leading-relaxed text-black italic">"{RECOVERY_ADVICES_200[recoveryAdviceIndex] || RECOVERY_ADVICES_200[0]}"</p>
+                                            <p className="mt-6 text-[8px] font-black uppercase opacity-30 text-center tracking-[0.3em] text-emerald-700">Berubah otomatis tiap 1 menit • TemanQu</p>
+                                        </div>
+                                        {user.recovery?.map(r => {
+                                            const time = formatRecoveryTime(r.startTime);
+                                            const specAdvice = getSpecificAdvice(r.name);
+                                            const isConfirmingDelete = deletingId === r.id;
+                                            return (
+                                                <div key={r.id} className="bg-white dark:bg-tech-cardDark p-8 rounded-[40px] border-l-[12px] border-rose-500 tech-3d-card text-left shadow-lg mb-6 text-black dark:text-white">
+                                                    <div className="flex justify-between items-start mb-6">
+                                                        <div className="w-full text-black dark:text-slate-100">
+                                                            <div className="flex items-center gap-2 mb-4 bg-amber-500/10 px-3 py-1.5 rounded-full w-fit text-amber-600 dark:text-amber-400 font-sans"><Icon name="Trophy" size={14} /><span className="text-[10px] font-black uppercase">{time.d} Poin Kemenangan</span></div>
+                                                            <h4 className="text-[10px] font-black opacity-50 uppercase mb-2 tracking-widest uppercase">Bebas {r.name} selama:</h4>
+                                                            <div className="text-3xl font-black tabular-nums tracking-tighter text-rose-600 dark:text-rose-400">{time.full}</div>
+                                                        </div>
+                                                        <div className="flex flex-col gap-2">
+                                                            {isConfirmingDelete ? (
+                                                                <div className="flex flex-col gap-2 animate-in zoom-in">
+                                                                    <button onClick={() => { updateData({ recovery: user.recovery.filter(x => x.id !== r.id) }); setDeletingId(null); triggerToast("Masa lalu dihapus. Semangat!", "info"); }} className="p-2 bg-rose-600 text-white rounded-lg text-[8px] font-black uppercase">Ya, Hapus</button>
+                                                                    <button onClick={() => setDeletingId(null)} className="p-2 bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg text-[8px] font-black uppercase">Batal</button>
+                                                                </div>
+                                                            ) : (
+                                                                <button onClick={() => setDeletingId(r.id)} className="p-2 text-slate-300 dark:text-slate-500 hover:text-rose-500 transition-colors"><Icon name="Trash2" size={20}/></button>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    {specAdvice && (<div className="paper-sheet p-8 rounded-[32px] mb-6 border-none shadow-inner"><div className="flex items-center gap-2 mb-4 text-emerald-700 opacity-60 uppercase"><Icon name="Sparkles" size={14} /><span className="text-[9px] font-black uppercase">Catatan Kecil Khusus</span></div><p className="font-patrick text-xl leading-relaxed text-black italic">"{specAdvice[time.d % specAdvice.length]}"</p></div>)}
+                                                    <div className="grid grid-cols-2 gap-4 mt-8"><button onClick={() => callAI('recovery', r.name)} className="py-4 bg-slate-100 dark:bg-white/10 rounded-3xl font-black text-[10px] uppercase active:scale-95 border border-slate-200 dark:border-white/5 shadow-sm text-black dark:text-slate-100 font-sans">AI Bimbingan</button><button onClick={() => { if(window.confirm('Ulangi dari nol?')) { updateData({ recovery: user.recovery.map(x => x.id === r.id ? {...x, startTime: Date.now()} : x) }); triggerToast("Waktu direset. Bismillah lagi!", "info"); } }} className="py-4 bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-3xl font-black text-[10px] uppercase active:scale-95 border border-rose-500/20 shadow-sm font-sans">Ulangi</button></div>
+                                                </div>
+                                            );
+                                        })}
+                                        <div className="space-y-3 text-black dark:text-slate-100"><input id="addRec" className="w-full p-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-[32px] outline-none font-bold text-center placeholder-slate-400 dark:text-slate-100 shadow-inner" placeholder="Tulis target perjuangan..." />
+                                        <button onClick={() => { const i = document.getElementById('addRec'); if(i.value) { updateData({ recovery: [...(user.recovery || []), { id: Date.now(), name: i.value, startTime: Date.now() }] }); i.value = ""; triggerToast("Perjuangan dimulai!", "success"); } }} className="w-full bg-rose-600 text-white py-6 rounded-[32px] font-black uppercase tracking-widest text-xs shadow-xl active:scale-95">Mulai Berjuang</button></div>
+                                    </div>
+                                )}
+
+                                {activeTab === 'healing' && (
+                                    <div className="animate-in space-y-10">
+                                        <div className="space-y-4 text-center"><h3 className="text-sm font-black uppercase tracking-[0.3em] text-tech-accent opacity-60">Sinkronisasi Napas</h3><div className="relative h-40 flex items-center justify-center"><div className="absolute w-24 h-24 bg-tech-accent rounded-full breath-circle"></div><div className="relative z-10"><p className="text-[10px] font-black uppercase tracking-widest text-tech-accent">Tarik Napas... Lepaskan...</p></div></div></div>
+                                        <div className="space-y-6 bg-white dark:bg-tech-cardDark p-8 rounded-[40px] tech-3d-card shadow-lg text-black dark:text-slate-100"><h3 className="text-xl font-bold font-serif italic text-emerald-700 dark:text-emerald-400">Cermin Jiwa</h3><p className="text-xs opacity-60 -mt-3 dark:text-slate-400 text-center text-black dark:text-slate-400">Keluarkan semua isi hatimu di sini, Sahabat.</p><textarea className="w-full p-6 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-[32px] outline-none font-bold text-sm text-black dark:text-slate-100 shadow-inner min-h-[160px] resize-none" placeholder="Saya sedang merasa..." value={curhatInput} onChange={(e) => setCurhatInput(e.target.value)} /><button onClick={() => callAI('healing', curhatInput)} disabled={!curhatInput || isLoading} className="w-full bg-tech-accent text-white py-5 rounded-[32px] font-black uppercase tracking-widest text-xs shadow-xl active:scale-95 disabled:opacity-30">Minta Pelukan Kata AI</button></div>
+                                        <div className="space-y-4 text-black dark:text-slate-100 text-center"><button onClick={popWisdom} className="px-8 py-5 bg-white dark:bg-tech-cardDark rounded-full font-black text-[10px] uppercase tracking-widest border border-slate-200 dark:border-white/10 tech-3d-button flex items-center justify-center gap-2 mx-auto text-black dark:text-white"><Icon name="RotateCcw" size={14} /> Kapsul Hikmah Acak</button>{wisdomPill && (<div className="p-12 rounded-[48px] paper-sheet animate-in shadow-2xl italic font-patrick text-2xl leading-relaxed text-black">"{wisdomPill}"</div>)}</div>
+                                        {healingResult && (<div className="animate-in space-y-6 text-left"><div ref={healingRef} className="p-12 rounded-[48px] paper-sheet border-none shadow-2xl"><div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-3 opacity-50 text-slate-500"><span className="text-[10px] font-black uppercase tracking-widest">Wasiat Penenang</span><Icon name="HeartPulse" size={14} className="text-rose-500" /></div><div className={`prose max-w-none font-patrick text-2xl leading-relaxed text-black`}><div className="whitespace-pre-wrap">{healingResult}</div></div><div className="mt-10 pt-6 border-t border-gray-100 opacity-40 text-center text-[9px] font-black uppercase tracking-[0.4em] text-emerald-700">TemanQu AI</div></div><button onClick={() => capture(healingRef, 'Healing')} className="w-full py-5 bg-slate-900 dark:bg-slate-800 text-white rounded-[32px] font-black uppercase text-xs flex items-center justify-center gap-2 shadow-lg active:scale-95 shadow-xl text-white"><Icon name="Camera" size={18} /> Simpan Gambar</button></div>)}
+                                    </div>
+                                )}
+
+                                {activeTab === 'journal' && (
+                                    <div className="animate-in space-y-8">
+                                        <h2 className="text-2xl font-bold uppercase text-black dark:text-tech-accentGlow tracking-tighter text-center">Jurnal Tadabbur</h2>
+                                        <div className="bg-white dark:bg-tech-cardDark p-6 rounded-[32px] border border-slate-100 dark:border-white/10 tech-3d-card flex gap-3 text-black dark:text-white shadow-md text-center"><input type="number" placeholder="No" className="w-20 p-5 bg-white/5 dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-2xl outline-none font-black text-center text-black dark:text-slate-100 shadow-inner" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} /><div className="relative flex-1 text-left text-center"><input type="text" placeholder="Cari Nama Surat..." className="w-full p-5 bg-white/5 dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-2xl outline-none font-black text-xs text-black dark:text-slate-100 shadow-inner text-center" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} />{surahSearch && (<div className="absolute top-full left-0 right-0 mt-3 bg-white dark:bg-stone-800 border border-slate-100 dark:border-white/10 rounded-[24px] shadow-2xl max-h-48 overflow-y-auto z-50 p-2 text-black dark:text-white">{SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (<button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); callAI('journal', {surah: s, ayat: journalInput.ayat}); }} className="w-full text-left p-4 hover:bg-tech-accent hover:text-white dark:hover:bg-tech-accentGlow rounded-xl text-xs font-black transition-all mb-1">{s}</button>))}</div>)}</div></div>
+                                        {journalResult && (<div className="animate-in space-y-6 text-left text-center"><div ref={journalRef} className="p-12 rounded-[48px] paper-sheet border-none shadow-2xl text-center"><div className="flex justify-between items-center mb-10 border-b border-gray-200 pb-4 opacity-50 text-slate-500 font-sans"><span className="text-[10px] font-black uppercase tracking-widest text-center">Hikmah Harian</span><Icon name="BookOpen" size={14} className="text-blue-500" /></div><div className={`prose max-w-none font-patrick text-2xl leading-relaxed text-black`}><div className="whitespace-pre-wrap italic">{journalResult}</div></div><div className="mt-12 pt-8 border-t border-gray-100 opacity-40 text-center text-[9px] font-bold text-slate-400">TemanQu Core</div></div><button onClick={() => capture(journalRef, 'Tadabbur')} className="w-full py-5 bg-black dark:bg-slate-800 text-white rounded-[32px] font-black uppercase text-xs tech-3d-button flex items-center justify-center gap-2 active:scale-95 shadow-lg text-white"><Icon name="Camera" size={18} /> Simpan Lembaran</button></div>)}
+                                    </div>
+                                )}
+
+                                {activeTab === 'amal' && (
+                                    <div className="animate-in space-y-8 text-center text-black dark:text-white">
+                                        <h2 className="text-2xl font-bold uppercase text-black dark:text-emerald-400 tracking-tighter">Amal Harian</h2>
+                                        <div className="bg-white dark:bg-tech-cardDark p-10 rounded-[48px] border border-slate-100 dark:border-white/10 tech-3d-card flex flex-col items-center shadow-lg text-center"><div className="relative inline-flex items-center justify-center mb-8 glow-shadow"><svg className="w-40 h-40 transform -rotate-90"><circle cx="80" cy="80" r="74" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100 dark:text-slate-900 opacity-20" /><circle cx="80" cy="80" r="74" stroke="currentColor" strokeWidth="12" fill="transparent" strokeDasharray={464.7} strokeDashoffset={464.7 - (464.7 * (activeProgress / 100))} className="text-tech-accent transition-all duration-1000 ease-out" strokeLinecap="round" /></svg><span className="absolute text-4xl font-black text-black dark:text-slate-100 tabular-nums">{activeProgress}%</span></div><p className="text-xs font-bold opacity-50 uppercase tracking-widest italic dark:text-slate-400">Setiap amal adalah benih kebahagiaan.</p></div>
+                                        <div className="bg-white dark:bg-tech-cardDark p-8 rounded-[40px] space-y-4 border border-slate-100 dark:border-white/10 tech-3d-card text-left text-black dark:text-white shadow-md">
+                                            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-center opacity-40 mb-2">Tahan & Geser untuk Mengurutkan</p>
+                                            {user.todos?.map((t, idx) => (
+                                                <div 
+                                                    key={t.id} 
+                                                    draggable
+                                                    onDragStart={(e) => handleDragStart(e, idx)}
+                                                    onDragEnter={(e) => handleDragEnter(e, idx)}
+                                                    onDragEnd={handleDragEnd}
+                                                    onDragOver={(e) => e.preventDefault()}
+                                                    className={`flex items-center gap-3 p-4 rounded-[28px] border transition-all cursor-move ${t.done ? 'bg-emerald-500/10 border-emerald-500/20 opacity-60' : 'bg-slate-50 dark:bg-white/5 border-white/10 shadow-sm'}`}
+                                                >
+                                                    {/* Grip Icon (Handle) */}
+                                                    <div className="text-slate-300 dark:text-slate-600 cursor-grab active:cursor-grabbing">
+                                                        <Icon name="GripVertical" size={16} />
+                                                    </div>
+
+                                                    {/* Checkbox */}
+                                                    <div onClick={() => updateData({ todos: user.todos.map(x => x.id === t.id ? {...x, done: !x.done} : x) })} className={`w-10 h-10 shrink-0 rounded-2xl flex items-center justify-center border-2 transition-colors cursor-pointer ${t.done ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 dark:border-slate-700'}`}>
+                                                        {t.done && <Icon name="CheckCircle" size={20} />}
+                                                    </div>
+                                                    
+                                                    {/* Text */}
+                                                    <span onClick={() => updateData({ todos: user.todos.map(x => x.id === t.id ? {...x, done: !x.done} : x) })} className={`font-black text-sm tracking-tight flex-1 cursor-pointer select-none ${t.done ? 'line-through opacity-40' : 'dark:text-slate-100'}`}>
+                                                        {t.text}
+                                                    </span>
+
+                                                    {/* Delete Button */}
+                                                    <button 
+                                                        onClick={() => deleteTodo(t.id)} 
+                                                        className="p-2 text-rose-300 dark:text-rose-800 hover:text-rose-500 rounded-lg active:scale-90 transition-transform flex items-center justify-center"
+                                                    >
+                                                        <Icon name="Trash2" size={16} />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            
+                                            <div className="flex gap-3 mt-10 text-black dark:text-white">
+                                                <input id="addTodo" className="flex-1 p-5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-3xl outline-none font-bold text-sm text-black dark:text-white placeholder-slate-400 shadow-inner" placeholder="Tulis amalan baru..." />
+                                                <button onClick={() => { const i = document.getElementById('addTodo'); if(i.value) { updateData({ todos: [...(user.todos || []), { id: Date.now(), text: i.value, done: false }] }); i.value = ""; triggerToast("Amalan ditambahkan!", "success"); } }} className="bg-tech-accent text-white w-16 rounded-3xl flex items-center justify-center shadow-lg active:scale-90"><Icon name="Plus" strokeWidth={4}/></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {activeTab === 'profil' && (
+                                    <div className="animate-in space-y-8 text-black dark:text-white text-center">
+                                        <h2 className="text-2xl font-bold uppercase tracking-tighter text-center">Pengaturan</h2>
+                                        <div className="bg-white dark:bg-tech-cardDark p-10 rounded-[48px] border border-slate-100 dark:border-white/10 tech-3d-card space-y-8 text-left shadow-2xl relative">
+                                            <div className="absolute top-6 right-8 flex items-center gap-2"><div className={`w-2 h-2 rounded-full ${isProfileLocked ? 'bg-rose-500 animate-pulse' : 'bg-tech-accent'}`}></div><span className="text-[8px] font-black uppercase tracking-widest opacity-60 dark:text-slate-400">{isProfileLocked ? "Terkunci" : "Terbuka"}</span></div>
+                                            
+                                            {/* Bagian Profil Umum */}
+                                            <div className="space-y-6">
+                                                <div className="flex items-center gap-2 mb-2 text-slate-400 font-bold uppercase text-[10px] tracking-widest"><Icon name="User" size={14} /> Profil & Preferensi</div>
+                                                <div className="space-y-2 text-center text-black dark:text-slate-100"><label className="text-[10px] font-black opacity-30 uppercase ml-4 tracking-[0.2em]">Nama Panggilan</label><input type="text" disabled={isProfileLocked} value={profileForm.displayName} onChange={e => setProfileForm({...profileForm, displayName: e.target.value})} className="w-full p-5 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-3xl font-black text-sm outline-none shadow-sm text-center text-black dark:text-white" /></div>
+                                                <div className="space-y-2 text-center text-black dark:text-slate-100"><label className="text-[10px] font-black opacity-30 uppercase ml-4 tracking-[0.2em]">Kota (Waktu Sholat)</label><input type="text" disabled={isProfileLocked} value={profileForm.city} onChange={e => setProfileForm({...profileForm, city: e.target.value})} className="w-full p-5 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-3xl font-black text-sm outline-none shadow-sm text-center text-black dark:text-white" /></div>
+                                                
+                                                <div className="space-y-2 text-center">
+                                                    <label className="text-[9px] font-black text-rose-500 uppercase tracking-widest text-center text-center">Tautan Link GAS</label>
+                                                    <div className="relative group">
+                                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors"><Icon name="LinkIcon" size={16}/></div>
+                                                        <input type="text" disabled={isProfileLocked} value={profileForm.gasUrl} onChange={e => setProfileForm({...profileForm, gasUrl: e.target.value})} className="w-full p-5 pl-12 bg-white/5 dark:bg-white/5 border border-white/5 rounded-3xl outline-none font-mono text-[10px] text-tech-accentGlow text-center shadow-inner" placeholder="https://script.google.com/..." />
+                                                    </div>
+                                                </div>
+
+                                                {!isProfileLocked && (
+                                                    <button onClick={saveProfileChanges} className="w-full py-4 bg-slate-800 text-white rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-transform">Simpan Profil</button>
+                                                )}
+                                            </div>
+                                            
+                                            {/* Bagian Keamanan */}
+                                            <div className="pt-8 border-t border-slate-100 dark:border-white/10 space-y-6">
+                                                <div className="flex items-center gap-2 mb-2 text-slate-400 font-bold uppercase text-[10px] tracking-widest"><Icon name="Lock" size={14} /> Akun & Keamanan</div>
+                                                
+                                                <div className="relative group">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors"><Icon name="User" size={16}/></div>
+                                                    <input type="text" disabled={isProfileLocked} value={profileForm.username} onChange={e => setProfileForm({...profileForm, username: e.target.value})} className="w-full p-5 pl-12 bg-white/5 dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-3xl font-black text-sm outline-none text-center text-black dark:text-white" placeholder="Username" />
+                                                </div>
+
+                                                <div className="relative group">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors"><Icon name="Key" size={16}/></div>
+                                                    <input type="password" disabled={isProfileLocked} value={profileForm.password} onChange={e => setProfileForm({...profileForm, password: e.target.value})} className="w-full p-5 pl-12 bg-white/5 dark:bg-slate-900 border border-slate-100 dark:border-white/5 rounded-3xl font-black text-sm outline-none text-center text-black dark:text-white" placeholder="Password Baru" />
+                                                </div>
+
+                                                {!isProfileLocked && (
+                                                    <button onClick={saveCredentialsChanges} className="w-full py-4 bg-emerald-600 text-white rounded-[24px] font-black uppercase text-[10px] tracking-widest shadow-lg active:scale-95 transition-transform">Ubah Password</button>
+                                                )}
+                                            </div>
+
+                                            <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-white/10">
+                                                {isProfileLocked ? (
+                                                    <button onClick={() => setIsProfileLocked(false)} className="w-full py-5 bg-slate-700 dark:bg-slate-600 text-white rounded-[32px] font-black text-xs uppercase shadow-xl active:scale-95 flex items-center justify-center gap-2"><Icon name="Unlock" size={18}/> Buka Kunci untuk Edit</button>
+                                                ) : (
+                                                    <button onClick={() => { setIsProfileLocked(true); setProfileForm({...user}); triggerToast("Perubahan dibatalkan", "info"); }} className="w-full py-5 bg-slate-200 dark:bg-slate-800 text-slate-500 rounded-[32px] font-black text-xs uppercase shadow-sm border border-slate-100 dark:border-white/5">Selesai / Batal</button>
+                                                )}
+                                                <button onClick={handleLogout} className="w-full py-5 bg-white/5 text-rose-500 rounded-[32px] font-black uppercase text-[10px] tracking-widest active:scale-95 border border-rose-500/20 flex items-center justify-center gap-2 shadow-lg mt-4"><Icon name="LogOut" size={16}/> Keluar Sesi</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {isLoading && <div className="fixed inset-0 bg-black/60 backdrop-blur-xl z-[100] flex items-center justify-center animate-in"><div className="bg-white/10 p-12 rounded-[48px] tech-3d-card text-center"><div className="w-16 h-16 border-4 border-black dark:border-tech-accent border-t-transparent rounded-full animate-spin mx-auto mb-6 shadow-xl"></div><p className="font-black text-xs uppercase tracking-[0.3em] text-white dark:text-tech-accentGlow animate-pulse">Menghubungkan ke langit...</p></div></div>}
+                            </main>
+
+                            <nav className="fixed bottom-6 left-6 right-6 h-22 rounded-[40px] glass-nav tech-3d-card flex items-center justify-around px-4 z-40 border-none transition-all duration-300">
+                                {[
+                                    { id: 'home', icon: 'Home', label: 'Home' },
+                                    { id: 'healing', icon: 'HeartPulse', label: 'Healing' },
+                                    { id: 'journal', icon: 'BookOpen', label: 'Jurnal' },
+                                    { id: 'amal', icon: 'CheckCircle', label: 'Amal' },
+                                    { id: 'recovery', icon: 'ShieldCheck', label: 'Bebas' },
+                                    { id: 'profil', icon: 'Settings', label: 'Profil' }
+                                ].map(t => (
+                                    <button key={t.id} onClick={() => setActiveTab(t.id)} className={`flex flex-col items-center flex-1 transition-all py-3 ${activeTab === t.id ? 'glow-active scale-110' : 'text-slate-500 dark:text-slate-400 opacity-60'}`}>
+                                        <Icon name={t.icon} size={22} strokeWidth={activeTab === t.id ? 3 : 2} />
+                                        <span className={`text-[7px] font-black uppercase mt-1.5 tracking-tighter ${activeTab === t.id ? 'text-black dark:text-slate-100' : 'text-slate-500 dark:text-slate-400 opacity-60'}`}>{t.label}</span>
+                                    </button>
+                                ))}
+                            </nav>
+                        </>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
