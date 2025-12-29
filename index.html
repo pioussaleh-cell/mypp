@@ -51,7 +51,6 @@
             overscroll-behavior-y: none;
             user-select: none;
             transition: background-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            /* Support for Safe Area */
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
         }
@@ -184,6 +183,7 @@
                 catch { return [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "" }]; }
             });
 
+            // Initialize profileForm without 'gasUrl'
             const [profileForm, setProfileForm] = useState({ displayName: '', city: '', githubToken: '', username: '', password: '' });
             const [prayerTimes, setPrayerTimes] = useState(null);
             const [hijriDate, setHijriDate] = useState("");
@@ -234,9 +234,8 @@
                 }
 
                 const handlePopState = (event) => {
-                    // Logic to handle Android Back Button
                     if (activeTab !== 'home') {
-                        // If not on home, go back to home
+                        // If user presses back while on a non-home tab, go to home
                         setActiveTab('home');
                     }
                 };
@@ -534,7 +533,7 @@
                           })}<div className="flex gap-4"><input id="addRec" className="flex-1 p-6 bg-white/60 border border-white rounded-[2rem] outline-none font-bold text-center" placeholder="Target?" /><button onClick={() => { const i = document.getElementById('addRec'); if(i.value) { updateData({ recovery: [...(user.recovery || []), { id: Date.now(), name: i.value, startTime: Date.now() }] }); i.value = ""; } }} className="bg-teal-700 text-white w-20 rounded-[2rem] flex items-center justify-center shadow-xl active-press"><Icon name="Plus" size={32}/></button></div></div>
                         )}
                         {activeTab === 'journal' && (
-                            <div className="space-y-10 text-center"><h2 className="text-3xl font-bold">Renungan Ayat 📔</h2><div className={`p-8 rounded-[3rem] border shadow-xl flex gap-4 ${isDarkMode ? 'bg-slate-900' : 'bg-white/60'}`}><input type="number" placeholder="No" className="w-24 p-5 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-black text-center" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} /><input type="text" placeholder="Surat..." className="flex-1 p-5 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} /></div>{surahSearch && (<div className="bg-white/80 rounded-[2rem] shadow-2xl max-h-64 overflow-y-auto p-4">{SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (<button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); callAI('journal', {surah: s, ayat: journalInput.ayat}); }} className="w-full text-left p-4 rounded-2xl font-bold hover:bg-teal-50 active-press">{s}</button>))}</div>)}{journalResult && (<div ref={journalRef} className="p-12 rounded-[4rem] bg-[#FFFBF0] text-black shadow-2xl border-4 border-white relative overflow-hidden text-center"><div className="prose max-w-none"><p className="text-xl leading-loose text-justify font-handwriting whitespace-pre-wrap">{journalResult}</p></div><button onClick={() => handleCapture(journalRef, 'Tadabbur')} className="w-full py-5 bg-teal-900 text-white rounded-[1.8rem] font-bold mt-10 flex items-center justify-center gap-3 active-press"><Icon name="Download" size={20}/> Simpan</button></div>)}</div>
+                            <div className="space-y-10 text-center"><h2 className="text-3xl font-bold">Renungan Ayat 📔</h2><div className={`p-8 rounded-[3rem] border shadow-xl flex gap-4 ${isDarkMode ? 'bg-slate-900' : 'bg-white/60'}`}><input type="number" placeholder="No" className="w-24 p-5 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-black text-center" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} /><input type="text" placeholder="Surat..." className="flex-1 p-5 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} /></div>{surahSearch && (<div className="bg-white/80 rounded-[2rem] shadow-2xl max-h-64 overflow-y-auto p-4">{SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (<button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); callAI('journal', {surah: s, ayat: journalInput.ayat}); }} className="w-full text-left p-4 rounded-2xl font-bold hover:bg-teal-50 active-press">{s}</button>))}</div>)}{journalResult && (<div ref={journalRef} className="p-12 rounded-[4rem] bg-[#FFFBF0] text-black shadow-2xl border-4 border-white relative overflow-hidden text-center"><div className="prose max-w-none"><p className="text-xl leading-loose text-justify font-handwriting whitespace-pre-wrap">{journalResult}</p></div><button onClick={() => handleCapture(journalRef, 'Tadabbur')} className="w-full py-5 bg-teal-900 text-white rounded-[1.8rem] font-bold mt-10 flex items-center justify-center gap-3 active:scale-95 transition-all active-press"><Icon name="Download" size={20}/> Simpan</button></div>)}</div>
                         )}
                         {activeTab === 'profil' && (
                             <div className="space-y-10 text-center"><h2 className="text-3xl font-bold">Akun Saya ⚙️</h2><div className="p-12 rounded-[4rem] border bg-white/60 shadow-xl text-left space-y-8"><div className="space-y-2"><label className="text-[10px] font-black opacity-30 uppercase ml-4">Nama</label><input type="text" value={profileForm.displayName} onChange={e => setProfileForm({...profileForm, displayName: e.target.value})} className="w-full p-6 bg-white/40 dark:bg-slate-800 rounded-[1.8rem] outline-none font-bold text-lg dark:text-white border border-white" /></div><div className="space-y-2"><label className="text-[10px] font-black opacity-30 uppercase ml-4">GitHub Token (Wajib)</label><div className="relative"><input type={showToken ? "text" : "password"} value={profileForm.githubToken} onChange={e => setProfileForm({...profileForm, githubToken: e.target.value})} className={`w-full p-6 bg-white/40 dark:bg-slate-800 rounded-[1.8rem] outline-none font-mono text-xs text-teal-600 ${isProfileLocked ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isProfileLocked} placeholder="ghp_..." /><button onClick={() => setShowToken(!showToken)} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-teal-600 p-2"><Icon name={showToken ? "EyeOff" : "Eye"} size={20} /></button></div></div><button onClick={() => { updateData(profileForm); setSaveStatus("Tersimpan!"); setTimeout(() => setSaveStatus(""), 2000); }} className="w-full py-6 bg-teal-700 text-white rounded-[2rem] font-bold shadow-xl active-press">Simpan Data</button>{saveStatus && <p className="text-center font-bold text-teal-600">{saveStatus}</p>}
@@ -548,6 +547,19 @@
                             <button key={t.id} onClick={() => navigateToTab(t.id)} className={`flex flex-col items-center justify-center transition-all px-2 py-3 rounded-3xl active-press ${activeTab === t.id ? 'bg-teal-600 text-white shadow-lg' : 'text-slate-400'}`}><Icon name={t.icon} size={20} strokeWidth={activeTab === t.id ? 3 : 2} /><span className={`text-[7px] font-black uppercase mt-1.5 transition-opacity ${activeTab === t.id ? 'opacity-100' : 'opacity-0 h-0'}`}>{t.label}</span></button>
                         ))}
                     </nav>
+
+                    {isLoading && (
+                        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center animate-in">
+                            <div className="bg-white p-8 rounded-[2rem] text-center shadow-2xl space-y-6 max-w-xs mx-4 border-4 border-teal-100">
+                                <div className="w-16 h-16 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mx-auto"></div>
+                                <div>
+                                    <h3 className="font-bold text-teal-800 text-lg mb-2">Mohon Tunggu Sebentar</h3>
+                                    <p className="text-slate-500 text-sm font-handwriting text-lg">"Sambil nunggu, bisa dzikir dulu..."</p>
+                                    <p className="text-teal-600 text-xs font-bold mt-4 animate-pulse">Subhanallah • Alhamdulillah • Allahuakbar</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
