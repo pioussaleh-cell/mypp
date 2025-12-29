@@ -275,7 +275,6 @@
             const [journalResult, setJournalResult] = useState("");
             const [journalInput, setJournalInput] = useState({ surah: '', ayat: '' });
             const [surahSearch, setSurahSearch] = useState("");
-            const [wisdomPill, setWisdomPill] = useState("");
             const [curhatInput, setCurhatInput] = useState("");
             const [isProfileLocked, setIsProfileLocked] = useState(true);
             const [saveStatus, setSaveStatus] = useState("");
@@ -285,29 +284,13 @@
             const healingRef = useRef(null);
             const journalRef = useRef(null);
             const langRef = useRef(null);
-
             const user = accounts[currentUserIdx] || {};
 
+            // Constants
             const SURAHS_LIST = ["Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "An-Anfal", "At-Tawbah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Ta-Ha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Ash-Shu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Ya-Sin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hashr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghashiyah", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duha", "Ash-Sharh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", "At-Takathur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"];
-            const RECOVERY_ADVICES_200 = [
-                "Allah melihatmu, Kak. Jangan biarkan Dia melihatmu bermaksiat di balik pintu yang terkunci.",
-                "Satu klik salah bisa menghancurkan benteng pertahanan yang sudah kamu bangun berhari-hari.",
-                "Ingat wajah Ibu dan Ayah. Maukah kamu mengecewakan harapan dan doa mereka demi kesenangan semu?",
-                "Layar HP-mu akan menjadi saksi di hari kiamat. Pastikan ia bersaksi tentang kebaikanmu.",
-                "Pikirkan maut. Bagaimana jika malaikat maut datang saat layar itu masih menyala?",
-                "Kebahagiaan maksiat itu palsu, ia hanya meninggalkan rasa hampa dan sedih di hatimu.",
-                "Hati yang bersih akan merasakan nikmatnya sujud yang lama. Menanglah hari ini!"
-            ];
+            const RECOVERY_ADVICES_200 = ["Allah melihatmu, Kak. Jangan biarkan Dia melihatmu bermaksiat di balik pintu yang terkunci.","Satu klik salah bisa menghancurkan benteng pertahanan yang sudah kamu bangun berhari-hari.","Ingat wajah Ibu dan Ayah. Maukah kamu mengecewakan harapan dan doa mereka demi kesenangan semu?","Layar HP-mu akan menjadi saksi di hari kiamat. Pastikan ia bersaksi tentang kebaikanmu.","Pikirkan maut. Bagaimana jika malaikat maut datang saat layar itu masih menyala?","Kebahagiaan maksiat itu palsu, ia hanya meninggalkan rasa hampa dan sedih di hatimu.","Hati yang bersih akan merasakan nikmatnya sujud yang lama. Menanglah hari ini!"];
             
-            const WISDOM_PILLS_200 = [
-                "Mintalah pertolongan kepada Allah dengan sabar dan sholat.",
-                "Dan Allah Maha Mengetahui apa yang ada dalam hatimu.",
-                "Janganlah kamu berputus asa dari rahmat Allah.",
-                "Sesungguhnya Allah mencintai orang-orang yang bertawakal.",
-                "Rahmat-Ku meliputi segala sesuatu.",
-                "Hati yang tenang adalah kunci kebahagiaan sejati."
-            ];
-
+            // History & Nav Logic
             useEffect(() => {
                 try { if (!window.history.state) window.history.replaceState({ tab: 'home' }, ''); } catch (e) {}
                 const handlePopState = () => { if (activeTab !== 'home') setActiveTab('home'); };
@@ -320,6 +303,7 @@
                 try { if (newTab !== 'home') window.history.pushState({ tab: newTab }, '', `#${newTab}`); else window.history.pushState({ tab: 'home' }, '', window.location.pathname); } catch (e) {}
             };
 
+            // Scroll Logic
             useEffect(() => {
                 const handleScroll = () => {
                     const currentY = window.scrollY;
@@ -330,6 +314,7 @@
                 return () => window.removeEventListener('scroll', handleScroll);
             }, [lastScrollY]);
 
+            // Timer & Init Logic
             useEffect(() => {
                 const timer = setInterval(() => setCurrentTime(new Date()), 1000);
                 const session = localStorage.getItem('temanqu_session');
@@ -347,6 +332,7 @@
 
             useEffect(() => { document.documentElement.classList.toggle('dark', isDarkMode); }, [isDarkMode]);
 
+            // Memoized Values
             const recoveryAdviceIndex = useMemo(() => Math.floor(currentTime.getTime() / (1 * 60 * 1000)) % 7, [currentTime]);
             
             const nextPrayerInfo = useMemo(() => {
@@ -375,10 +361,7 @@
             const formatRecoveryTime = (start) => {
                 const diff = currentTime - start;
                 const d = Math.floor(diff / 86400000);
-                const h = Math.floor((diff % 86400000) / 3600000);
-                const m = Math.floor((diff % 3600000) / 60000);
-                const s = Math.floor((diff % 60000) / 1000);
-                return { d, h, m, s, full: `${d} Hari, ${h}j : ${m}m : ${s}d` };
+                return { full: `${d} Hari`, d };
             };
 
             const getStreakMessage = (days) => {
@@ -440,7 +423,10 @@
                     });
                     if (!res.ok) throw new Error();
                     const json = await res.json();
-                    const txt = json.choices[0].message.content.trim();
+                    let txt = json.choices[0].message.content.trim();
+                    // Clean text (remove bold/header markdown)
+                    txt = txt.replace(/[\*#]/g, '');
+
                     if(type === 'journal') setJournalResult(txt); else if(type === 'language') setLangResult(txt); else setHealingResult(txt);
                 } catch (e) {
                     const err = "[Gagal] Cek Token/Koneksi.";
@@ -457,7 +443,6 @@
             const handleDragStart = (e, i) => { setDraggedIndex(i); e.dataTransfer.effectAllowed = 'move'; };
             const handleDragOver = (e, i) => { e.preventDefault(); if (draggedIndex === null || draggedIndex === i) return; const list = [...user.todos]; const item = list.splice(draggedIndex, 1)[0]; list.splice(i, 0, item); setDraggedIndex(i); updateData({ todos: list }); };
             const handleDragEnd = () => setDraggedIndex(null);
-            const popWisdom = () => setWisdomPill(WISDOM_PILLS_200[Math.floor(Math.random() * WISDOM_PILLS_200.length)]);
             const activeProgress = user.todos?.length > 0 ? Math.round((user.todos.filter(t => t.done).length / user.todos.length) * 100) : 0;
 
             if (!isLoggedIn) return (
