@@ -6,7 +6,7 @@
     <title>TemanQu - Sahabat Perjalanan Jiwa</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,12 +18,39 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                         hand: ['Patrick Hand', 'cursive'],
+                    },
+                    colors: {
+                        primary: '#0F766E', // Teal 700
+                        accent: '#F59E0B', // Amber 500
+                        darkbg: '#020617', // Slate 950
+                        glass: 'rgba(255, 255, 255, 0.65)',
+                        glassDark: 'rgba(15, 23, 42, 0.65)',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(20, 184, 166, 0.5)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
                     },
                     spacing: {
                         'safe-top': 'env(safe-area-inset-top)',
                         'safe-bottom': 'env(safe-area-inset-bottom)',
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: 0, transform: 'translateY(20px) scale(0.96)' },
+                            '100%': { opacity: 1, transform: 'translateY(0) scale(1)' },
+                        }
                     }
                 }
             }
@@ -37,7 +64,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        /* --- NATIVE APP FEEL CSS --- */
+        /* --- SOPHISTICATED NATIVE FEEL CSS --- */
         html {
             -webkit-tap-highlight-color: transparent;
             scroll-behavior: smooth;
@@ -45,45 +72,83 @@
         }
 
         body { 
-            font-family: 'Outfit', sans-serif; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overscroll-behavior-y: none;
             user-select: none;
-            transition: background-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            /* Support for Safe Area */
+            /* Animated Mesh Gradient Background */
+            background-color: #F8FAFC;
+            transition: background-color 0.5s ease;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .dark body {
+            background-color: #020617;
+        }
+
+        /* Ambient Background blobs */
+        .ambient-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: blob 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         /* Hide Scrollbar */
         ::-webkit-scrollbar { display: none; }
         * { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Animation */
-        @keyframes spring-up {
-            0% { transform: translateY(20px) scale(0.98); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
+        /* Modern Interactions */
+        .touch-scale {
+            transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
-        .animate-in {
-            animation: spring-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            will-change: transform, opacity;
+        .touch-scale:active {
+            transform: scale(0.94);
         }
 
-        .active-press:active {
-            transform: scale(0.96);
-            transition: transform 0.1s;
-        }
-        
-        .font-handwriting { font-family: 'Patrick Hand', cursive; }
-        
-        input, textarea, button {
-            transition: all 0.2s ease-out;
+        /* Input Styling */
+        input, textarea, select {
+            appearance: none;
+            outline: none;
         }
     </style>
 </head>
-<body class="bg-[#F2F6F5] text-slate-800 selection:bg-teal-100 selection:text-teal-900">
+<body class="text-slate-800 dark:text-slate-100">
+    <!-- Ambient Background -->
+    <div class="ambient-light">
+        <div class="blob bg-teal-200/40 dark:bg-teal-900/30 w-96 h-96 rounded-full top-0 -left-20"></div>
+        <div class="blob bg-purple-200/40 dark:bg-indigo-900/30 w-96 h-96 rounded-full bottom-0 -right-20 animation-delay-2000"></div>
+        <div class="blob bg-amber-100/40 dark:bg-amber-900/20 w-80 h-80 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animation-delay-4000"></div>
+    </div>
+
     <div id="root"></div>
 
     <script type="text/babel">
@@ -135,14 +200,14 @@
         const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, isDarkMode }) => {
             if (!isOpen) return null;
             return (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-900/20 backdrop-blur-md animate-in">
-                    <div className={`w-full max-w-sm rounded-[3rem] p-10 shadow-2xl border ${isDarkMode ? 'bg-slate-900 border-white/10 text-white' : 'bg-white border-white/60 text-slate-900'}`}>
-                        <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce"><Icon name="AlertTriangle" className="text-rose-400" size={40} /></div>
-                        <h3 className="text-2xl font-bold mb-3 tracking-tight">{title}</h3>
-                        <p className="text-sm text-slate-500 mb-10 leading-relaxed">{message}</p>
-                        <div className="flex flex-col gap-3">
-                            <button onClick={onConfirm} className="py-5 rounded-[1.5rem] bg-slate-900 text-white font-bold shadow-xl active:scale-95 transition-transform active-press">Ya, Lanjut</button>
-                            <button onClick={onCancel} className="py-4 text-slate-400 font-medium hover:text-slate-600 active-press">Batal</button>
+                <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-900/30 backdrop-blur-md animate-in">
+                    <div className={`w-full max-w-xs rounded-[2.5rem] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-white/50 ${isDarkMode ? 'bg-slate-900/90 text-white border-slate-700' : 'bg-white/95 text-slate-800'}`}>
+                        <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse"><Icon name="AlertTriangle" className="text-rose-500" size={32} /></div>
+                        <h3 className="text-xl font-bold mb-2 tracking-tight text-center">{title}</h3>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 leading-relaxed text-center">{message}</p>
+                        <div className="grid grid-cols-2 gap-3">
+                            <button onClick={onCancel} className="py-4 rounded-2xl text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 touch-scale">Batal</button>
+                            <button onClick={onConfirm} className="py-4 rounded-2xl text-sm font-bold bg-rose-500 text-white shadow-lg shadow-rose-500/30 touch-scale">Lanjut</button>
                         </div>
                     </div>
                 </div>
@@ -150,18 +215,34 @@
         };
 
         const TodoItem = ({ t, onToggle, onDelete, isDarkMode, index, onDragStart, onDragOver, onDragEnd, isDragging }) => (
-            <div draggable onDragStart={(e) => onDragStart(e, index)} onDragOver={(e) => onDragOver(e, index)} onDragEnd={onDragEnd} className={`group relative mb-4 rounded-[2rem] transition-all duration-300 border flex items-center gap-4 p-5 cursor-pointer active-press ${isDragging ? 'opacity-30 scale-95 border-teal-500 dashed' : ''} ${t.done ? 'bg-teal-500/10 border-teal-200 opacity-60' : (isDarkMode ? 'bg-slate-800 border-white/5' : 'bg-white/80 border-white shadow-sm hover:shadow-md')} hover:scale-[1.01]`}>
-                <div className="text-slate-300 cursor-grab active:cursor-grabbing hover:text-teal-500 p-1"><Icon name="GripVertical" size={20} /></div>
+            <div 
+                draggable 
+                onDragStart={(e) => onDragStart(e, index)} 
+                onDragOver={(e) => onDragOver(e, index)} 
+                onDragEnd={onDragEnd} 
+                className={`group relative mb-3 rounded-[2rem] transition-all duration-300 border flex items-center gap-4 p-4 cursor-pointer touch-scale
+                    ${isDragging ? 'opacity-40 scale-95 border-dashed border-teal-500' : ''} 
+                    ${t.done 
+                        ? 'bg-teal-50/50 dark:bg-teal-900/10 border-teal-100 dark:border-teal-900/30 opacity-75' 
+                        : (isDarkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-transparent shadow-sm hover:shadow-md')}`}
+            >
+                <div className="text-slate-300 dark:text-slate-600 cursor-grab active:cursor-grabbing hover:text-teal-500 p-1"><Icon name="GripVertical" size={18} /></div>
                 <div className="flex-1 flex items-center gap-4" onClick={() => onToggle(t.id)}>
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all shrink-0 ${t.done ? 'bg-teal-600 border-teal-600 text-white shadow-lg' : (isDarkMode ? 'border-slate-600' : 'border-slate-200 bg-slate-50/50')}`}>{t.done && <Icon name="CheckCircle" size={24} />}</div>
-                    <span className={`font-semibold text-base tracking-tight text-left flex-1 ${t.done ? 'line-through opacity-40 text-slate-400' : (isDarkMode ? 'text-white' : 'text-slate-700')}`}>{t.text}</span>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all shrink-0 
+                        ${t.done 
+                            ? 'bg-teal-500 border-teal-500 text-white scale-90' 
+                            : (isDarkMode ? 'border-slate-600 bg-slate-800' : 'border-slate-200 bg-slate-50')}`}>
+                        {t.done && <Icon name="CheckCircle" size={20} />}
+                    </div>
+                    <span className={`font-semibold text-sm tracking-tight flex-1 transition-all ${t.done ? 'line-through text-slate-400' : (isDarkMode ? 'text-slate-200' : 'text-slate-700')}`}>{t.text}</span>
                 </div>
-                <button className="p-3 text-slate-300 hover:text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => { e.stopPropagation(); onDelete(t.id); }}><Icon name="Trash2" size={18} /></button>
+                <button className="p-3 text-slate-300 hover:text-rose-400 active:text-rose-500 transition-colors" onClick={(e) => { e.stopPropagation(); onDelete(t.id); }}><Icon name="Trash2" size={18} /></button>
             </div>
         );
 
-        const DigitalClock = ({ time }) => <span className="tabular-nums font-bold tracking-tighter text-3xl">{time.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>;
+        const DigitalClock = ({ time }) => <span className="tabular-nums font-extrabold tracking-tighter text-5xl md:text-6xl bg-gradient-to-br from-teal-600 to-teal-800 dark:from-teal-400 dark:to-teal-200 bg-clip-text text-transparent drop-shadow-sm">{time.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}<span className="text-xl md:text-2xl ml-1 font-medium text-slate-400">{time.toLocaleTimeString('id-ID', { second: '2-digit' })}</span></span>;
 
+        // --- MAIN APP ---
         function App() {
             const STORAGE_KEY = "temanqu_v42_final_secured";
             const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -180,12 +261,11 @@
 
             const [accounts, setAccounts] = useState(() => {
                 const saved = localStorage.getItem(STORAGE_KEY);
-                try { return saved ? JSON.parse(saved) : [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "" }]; } 
-                catch { return [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "" }]; }
+                try { return saved ? JSON.parse(saved) : [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "", hijriAdjustment: 0 }]; } 
+                catch { return [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "", hijriAdjustment: 0 }]; }
             });
 
-            // Initialize profileForm without 'gasUrl'
-            const [profileForm, setProfileForm] = useState({ displayName: '', city: '', githubToken: '', username: '', password: '' });
+            const [profileForm, setProfileForm] = useState({ displayName: '', city: '', githubToken: '', username: '', password: '', hijriAdjustment: 0 });
             const [prayerTimes, setPrayerTimes] = useState(null);
             const [hijriDate, setHijriDate] = useState("");
             const [locationInfo, setLocationInfo] = useState("Jakarta");
@@ -229,36 +309,21 @@
             ];
 
             useEffect(() => {
-                // Initial history state
-                if (!window.history.state) {
-                    window.history.replaceState({ tab: 'home' }, '');
-                }
-
-                const handlePopState = (event) => {
-                    if (activeTab !== 'home') {
-                        // If user presses back while on a non-home tab, go to home
-                        setActiveTab('home');
-                    }
-                };
-
+                try { if (!window.history.state) window.history.replaceState({ tab: 'home' }, ''); } catch (e) {}
+                const handlePopState = () => { if (activeTab !== 'home') setActiveTab('home'); };
                 window.addEventListener('popstate', handlePopState);
                 return () => window.removeEventListener('popstate', handlePopState);
             }, [activeTab]);
 
             const navigateToTab = (newTab) => {
                 setActiveTab(newTab);
-                if (newTab !== 'home') {
-                    window.history.pushState({ tab: newTab }, '', `#${newTab}`);
-                } else {
-                    window.history.pushState({ tab: 'home' }, '', window.location.pathname);
-                }
+                try { if (newTab !== 'home') window.history.pushState({ tab: newTab }, '', `#${newTab}`); else window.history.pushState({ tab: 'home' }, '', window.location.pathname); } catch (e) {}
             };
 
             useEffect(() => {
                 const handleScroll = () => {
                     const currentY = window.scrollY;
-                    if (currentY < lastScrollY || currentY < 50) setShowNav(true);
-                    else setShowNav(false);
+                    if (currentY < lastScrollY || currentY < 50) setShowNav(true); else setShowNav(false);
                     setLastScrollY(currentY);
                 };
                 window.addEventListener('scroll', handleScroll);
@@ -269,17 +334,14 @@
                 const timer = setInterval(() => setCurrentTime(new Date()), 1000);
                 const session = localStorage.getItem('temanqu_session');
                 const savedIdx = localStorage.getItem('temanqu_active_idx');
-                if(session === 'true' && savedIdx !== null) {
-                    setIsLoggedIn(true);
-                    setCurrentUserIdx(parseInt(savedIdx));
-                }
+                if(session === 'true' && savedIdx !== null) { setIsLoggedIn(true); setCurrentUserIdx(parseInt(savedIdx)); }
                 return () => clearInterval(timer);
             }, []);
 
             useEffect(() => {
                 if (user && isLoggedIn) {
-                    setProfileForm({ displayName: user.displayName || '', city: user.city || '', githubToken: user.githubToken || '', username: user.username || '', password: user.password || '' });
-                    if(!prayerTimes) fetchPrayerByCity(user.city || 'Jakarta');
+                    setProfileForm({ displayName: user.displayName || '', city: user.city || '', githubToken: user.githubToken || '', username: user.username || '', password: user.password || '', hijriAdjustment: user.hijriAdjustment || 0 });
+                    if(!prayerTimes) fetchPrayerByCity(user.city || 'Jakarta', user.hijriAdjustment || 0);
                 }
             }, [currentUserIdx, isLoggedIn, user]);
 
@@ -291,13 +353,13 @@
                 if (!prayerTimes) return null;
                 const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
                 for (let name of prayers) {
-                    const timeStr = prayerTimes[name];
-                    if (!timeStr) continue;
-                    const [h, m] = timeStr.split(':');
+                    const [h, m] = prayerTimes[name].split(':');
                     const pTime = new Date(currentTime); pTime.setHours(parseInt(h), parseInt(m), 0, 0);
                     if (pTime > currentTime) return { name, time: pTime };
                 }
-                return { name: 'Fajr', time: new Date(currentTime.getTime() + 86400000) };
+                const [fh, fm] = prayerTimes['Fajr'].split(':');
+                const nextFajr = new Date(currentTime); nextFajr.setDate(nextFajr.getDate() + 1); nextFajr.setHours(parseInt(fh), parseInt(fm), 0, 0);
+                return { name: 'Fajr', time: nextFajr };
             }, [prayerTimes, currentTime]);
 
             const countdownString = useMemo(() => {
@@ -306,9 +368,10 @@
                 const h = Math.floor(diff / 3600000);
                 const m = Math.floor((diff % 3600000) / 60000);
                 const s = Math.floor((diff % 60000) / 1000);
-                return `${h}j ${m}m ${s}d`;
+                return (h < 10 ? '0' + h : h) + 'j ' + (m < 10 ? '0' + m : m) + 'm ' + (s < 10 ? '0' + s : s) + 'd';
             }, [currentTime, nextPrayerInfo]);
 
+            // Helpers
             const formatRecoveryTime = (start) => {
                 const diff = currentTime - start;
                 const d = Math.floor(diff / 86400000);
@@ -319,33 +382,33 @@
             };
 
             const getStreakMessage = (days) => {
-                if (days === 0) return "Perjalanan 1000 mil dimulai dari 1 langkah.";
-                if (days === 1) return "MasyaAllah! 24 Jam pertama berhasil ditaklukkan!";
-                if (days === 3) return "3 Hari! Kamu semakin kuat melawan hawa nafsu.";
-                if (days === 7) return "Satu minggu! Ini adalah pencapaian luar biasa.";
-                if (days === 40) return "40 Hari! Kebiasaan baru mulai terbentuk.";
-                return `Alhamdulillah, ${days} hari terlewati. Terus berjuang!`;
+                if (days === 0) return "Awal perjalanan suci.";
+                if (days === 1) return "24 Jam pertama!";
+                if (days <= 3) return "Kamu semakin kuat!";
+                if (days <= 7) return "Seminggu kemenangan!";
+                return "Maa Syaa Allah, istiqomah!";
             };
 
-            const fetchPrayerByCity = (city) => {
+            const fetchPrayerByCity = (city, adjustment = 0) => {
                 setLocationInfo(city);
-                fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=Indonesia&method=11`)
+                fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=Indonesia&method=20&adjustment=${adjustment}&t=${Date.now()}`)
                 .then(r => r.json()).then(d => { if(d?.data) { setPrayerTimes(d.data.timings); setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`); } });
             };
-            const fetchPrayerByGPS = () => {
-                setLocationInfo("Mencari GPS...");
+            const fetchPrayerByGPS = (adjustment = 0) => {
+                setLocationInfo("Mencari...");
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((pos) => {
-                        fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=11`)
+                        fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=20&adjustment=${adjustment}&t=${Date.now()}`)
                         .then(r => r.json()).then(d => { if(d?.data) { setPrayerTimes(d.data.timings); setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`); setLocationInfo(`${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`); } });
-                    }, () => fetchPrayerByCity(user.city || "Jakarta"));
+                    }, () => fetchPrayerByCity(user.city || "Jakarta", adjustment));
                 }
             };
+
             const handleCapture = async (ref, fileName) => {
                 if (!ref.current || !window.html2canvas) return;
                 setIsLoading(true);
                 try {
-                    const canvas = await window.html2canvas(ref.current, { backgroundColor: "#FFFBF0", scale: 2, useCORS: true });
+                    const canvas = await window.html2canvas(ref.current, { backgroundColor: "#FFFBF0", scale: 3, useCORS: true });
                     const link = document.createElement("a");
                     link.href = canvas.toDataURL("image/png");
                     link.download = `TemanQu-${fileName}-${Date.now()}.png`;
@@ -356,211 +419,155 @@
 
             const callAI = async (type, data) => {
                 const token = (profileForm.githubToken || user.githubToken || "").trim();
-                
                 if (!token) {
-                    const simulated = `[Info] Harap masukkan Token GitHub di menu Profil untuk menggunakan fitur AI.`;
+                    const simulated = `[Info] Masukkan Token GitHub di Profil untuk fitur AI.`;
                     if(type === 'journal') setJournalResult(simulated); else if(type === 'language') setLangResult(simulated); else setHealingResult(simulated);
                     return;
                 }
-                
                 setIsLoading(true);
                 if(type === 'journal') setJournalResult(""); else if(type === 'language') setLangResult(""); else setHealingResult("");
 
-                let systemPrompt = "";
-                let userPrompt = "";
-
-                if (type === 'healing') {
-                    systemPrompt = "Anda adalah 'TemanQu', sahabat virtual yang bijak, Islami, hangat. Gunakan bahasa Indonesia santai.";
-                    userPrompt = `Pengguna merasa: "${data}". Berikan tanggapan menenangkan, validasi perasaan, nasihat psikologis ringan, dan motivasi spiritual/kutipan Islami.`;
-                } else if (type === 'journal') {
-                    systemPrompt = "Anda adalah ahli tafsir Al-Qur'an yang puitis. Jawab dalam Bahasa Indonesia.";
-                    userPrompt = `Berikan tadabbur singkat untuk Surat ${data.surah} Ayat ${data.ayat}. Jelaskan makna inti dan hikmah praktis.`;
-                } else if (type === 'language') {
-                    const langName = selectedLang === 'ar' ? 'Bahasa Arab' : 'Bahasa Inggris';
-                    systemPrompt = `Anda adalah ahli bahasa ${langName}. Jawab dalam Bahasa Indonesia.`;
-                    userPrompt = `Analisis kalimat: "${data}". Cek tata bahasa, koreksi jika salah, dan jelaskan alasannya.`;
-                } else if (type === 'recovery') {
-                    systemPrompt = "Anda adalah mentor recovery kecanduan yang tegas namun penuh kasih sayang. Jawab dalam Bahasa Indonesia.";
-                    userPrompt = `Pengguna berjuang melawan: "${data}". Berikan motivasi kuat cegah relapse.`;
-                }
+                let sysPrompt = "", usrPrompt = "";
+                if (type === 'healing') { sysPrompt = "TemanQu: sahabat bijak Islami, hangat, bahasa Indonesia santai."; usrPrompt = `User rasa: "${data}". Beri tanggapan tenang, validasi, nasihat psikologis & spiritual.`; }
+                else if (type === 'journal') { sysPrompt = "Ahli tafsir puitis Indonesia."; usrPrompt = `Tadabbur: Surat ${data.surah} Ayat ${data.ayat}. Makna & hikmah praktis.`; }
+                else if (type === 'language') { sysPrompt = `Ahli bahasa ${selectedLang==='ar'?'Arab':'Inggris'}, jawab Indo.`; usrPrompt = `Analisis: "${data}". Cek grammar & koreksi.`; }
+                else if (type === 'recovery') { sysPrompt = "Mentor recovery tegas sayang."; usrPrompt = `Lawan: "${data}". Motivasi kuat cegah relapse.`; }
 
                 try {
-                    const response = await fetch("https://models.inference.ai.azure.com/chat/completions", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            messages: [
-                                { role: "system", content: systemPrompt },
-                                { role: "user", content: userPrompt }
-                            ],
-                            model: "gpt-4o",
-                            temperature: 0.7,
-                            max_tokens: 800
-                        })
+                    const res = await fetch("https://models.inference.ai.azure.com/chat/completions", {
+                        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ messages: [{ role: "system", content: sysPrompt }, { role: "user", content: usrPrompt }], model: "gpt-4o", temperature: 0.7, max_tokens: 800 })
                     });
-
-                    if (!response.ok) throw new Error("API Error");
-                    const result = await response.json();
-                    const clean = result.choices[0].message.content.trim();
-                    
-                    if(type === 'journal') setJournalResult(clean); else if(type === 'language') setLangResult(clean); else setHealingResult(clean);
+                    if (!res.ok) throw new Error();
+                    const json = await res.json();
+                    const txt = json.choices[0].message.content.trim();
+                    if(type === 'journal') setJournalResult(txt); else if(type === 'language') setLangResult(txt); else setHealingResult(txt);
                 } catch (e) {
-                    const errMsg = "[Gagal] Periksa Token GitHub Anda.";
-                    if(type === 'language') setLangResult(errMsg); else if(type === 'journal') setJournalResult(errMsg); else setHealingResult(errMsg);
+                    const err = "[Gagal] Cek Token/Koneksi.";
+                    if(type === 'language') setLangResult(err); else if(type === 'journal') setJournalResult(err); else setHealingResult(err);
                 } finally { setIsLoading(false); }
             };
-            
-            const handleLogin = (e) => {
-                e.preventDefault();
-                const idx = accounts.findIndex(a => a.username === loginInputUser && a.password === loginInputPass);
-                if (idx !== -1) {
-                    setCurrentUserIdx(idx);
-                    setIsLoggedIn(true);
-                    localStorage.setItem('temanqu_session', 'true');
-                    localStorage.setItem('temanqu_active_idx', idx.toString());
-                    setLoginError("");
-                } else {
-                    setLoginError("Kombinasi salah.");
-                }
-            };
 
-            const handleLogout = () => {
-                setConfirmDeleteData({
-                    isOpen: true,
-                    id: 'logout',
-                    type: 'logout',
-                    title: 'Ingin beristirahat?',
-                    message: 'Kamu akan keluar dari sesi ini.'
-                });
-            };
-
-            const updateData = (newData) => {
-                const updated = [...accounts];
-                updated[currentUserIdx] = { ...updated[currentUserIdx], ...newData };
-                setAccounts(updated);
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-            };
-
-            const triggerDeleteDeed = (id) => {
-                setConfirmDeleteData({
-                    isOpen: true,
-                    id,
-                    type: 'todo',
-                    title: 'Hapus Amalan?',
-                    message: 'Catatan ini akan dihapus permanen.'
-                });
-            };
-
-            const handleConfirmAction = () => {
-                if (confirmDeleteData.type === 'todo') {
-                    updateData({ todos: user.todos.filter(x => x.id !== confirmDeleteData.id) });
-                } else if (confirmDeleteData.type === 'logout') {
-                    setIsLoggedIn(false);
-                    localStorage.removeItem('temanqu_session');
-                }
-                setConfirmDeleteData({ isOpen: false, id: null, type: null, title: '', message: '' });
-            };
-
-            const handleDragStart = (e, index) => {
-                setDraggedIndex(index);
-                e.dataTransfer.effectAllowed = 'move';
-            };
-
-            const handleDragOver = (e, index) => {
-                e.preventDefault();
-                if (draggedIndex === null || draggedIndex === index) return;
-                const currentTodos = [...user.todos];
-                const itemToMove = currentTodos[draggedIndex];
-                currentTodos.splice(draggedIndex, 1);
-                currentTodos.splice(index, 0, itemToMove);
-                setDraggedIndex(index);
-                updateData({ todos: currentTodos });
-            };
-
-            const handleDragEnd = () => {
-                setDraggedIndex(null);
-            };
-
-            const activeProgress = user.todos?.length > 0 ? Math.round((user.todos.filter(t => t.done).length / user.todos.length) * 100) : 0;
+            const handleLogin = (e) => { e.preventDefault(); const idx = accounts.findIndex(a => a.username === loginInputUser && a.password === loginInputPass); if(idx !== -1) { setCurrentUserIdx(idx); setIsLoggedIn(true); localStorage.setItem('temanqu_session', 'true'); localStorage.setItem('temanqu_active_idx', idx.toString()); setLoginError(""); } else setLoginError("Kombinasi salah."); };
+            const handleLogout = () => setConfirmDeleteData({ isOpen: true, id: 'logout', type: 'logout', title: 'Istirahat?', message: 'Keluar sesi.' });
+            const updateData = (newData) => { const updated = [...accounts]; updated[currentUserIdx] = { ...updated[currentUserIdx], ...newData }; setAccounts(updated); localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); };
+            const handleSaveCorrection = () => { updateData({ hijriAdjustment: profileForm.hijriAdjustment }); setSaveStatus("Menyimpan..."); setTimeout(() => { fetchPrayerByCity(profileForm.city || user.city || 'Jakarta', profileForm.hijriAdjustment); setSaveStatus("Berhasil!"); setTimeout(() => setSaveStatus(""), 2000); }, 500); };
+            const triggerDeleteDeed = (id) => setConfirmDeleteData({ isOpen: true, id, type: 'todo', title: 'Hapus?', message: 'Permanen.' });
+            const handleConfirmAction = () => { if (confirmDeleteData.type === 'todo') updateData({ todos: user.todos.filter(x => x.id !== confirmDeleteData.id) }); else if (confirmDeleteData.type === 'logout') { setIsLoggedIn(false); localStorage.removeItem('temanqu_session'); } setConfirmDeleteData({ isOpen: false }); };
+            const handleDragStart = (e, i) => { setDraggedIndex(i); e.dataTransfer.effectAllowed = 'move'; };
+            const handleDragOver = (e, i) => { e.preventDefault(); if (draggedIndex === null || draggedIndex === i) return; const list = [...user.todos]; const item = list.splice(draggedIndex, 1)[0]; list.splice(i, 0, item); setDraggedIndex(i); updateData({ todos: list }); };
+            const handleDragEnd = () => setDraggedIndex(null);
             const popWisdom = () => setWisdomPill(WISDOM_PILLS_200[Math.floor(Math.random() * WISDOM_PILLS_200.length)]);
+            const activeProgress = user.todos?.length > 0 ? Math.round((user.todos.filter(t => t.done).length / user.todos.length) * 100) : 0;
 
-            if (!isLoggedIn) {
-                return (
-                    <div className="min-h-screen flex items-center justify-center bg-[#E5ECEB] dark:bg-slate-900 p-6">
-                        <div className="w-full max-w-sm bg-white/70 backdrop-blur-2xl border border-white p-10 rounded-[3.5rem] shadow-2xl text-center space-y-8 animate-in">
-                            <div className="w-24 h-24 bg-teal-600 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-2xl rotate-12"><Icon name="Sparkles" className="text-white" size={48} /></div>
-                            <h1 className="text-4xl font-bold text-teal-800 tracking-tight">TemanQu</h1>
-                            <form onSubmit={handleLogin} className="space-y-4">
-                                <div className="relative group"><Icon name="User" className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-600" size={20}/><input type="text" value={loginInputUser} onChange={e => setLoginInputUser(e.target.value)} className="w-full p-5 pl-14 bg-white/50 border border-white rounded-[1.5rem] outline-none font-semibold" placeholder="Username" required /></div>
-                                <div className="relative group"><Icon name="Key" className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-600" size={20}/><input type="password" value={loginInputPass} onChange={e => setLoginInputPass(e.target.value)} className="w-full p-5 pl-14 bg-white/50 border border-white rounded-[1.5rem] outline-none font-semibold" placeholder="Password" required /></div>
-                                {loginError && <div className="p-4 bg-rose-50 text-rose-500 rounded-2xl text-xs font-bold animate-pulse">{loginError}</div>}
-                                <button type="submit" className="w-full py-5 bg-teal-700 text-white rounded-[1.5rem] font-bold uppercase tracking-widest text-sm shadow-xl active:scale-95 transition-transform active-press">Mulai Perjalanan</button>
-                            </form>
-                            <div className="opacity-30 font-medium text-[10px] uppercase tracking-widest">Demo: admin / 123</div>
-                        </div>
+            if (!isLoggedIn) return (
+                <div className="min-h-screen flex items-center justify-center bg-[#E5ECEB] dark:bg-slate-900 p-6">
+                    <div className="w-full max-w-sm glass-panel p-10 rounded-[3rem] shadow-2xl text-center space-y-8 animate-in">
+                        <div className="w-20 h-20 bg-teal-600 rounded-[2rem] flex items-center justify-center mx-auto shadow-xl shadow-teal-600/30 rotate-12"><Icon name="Sparkles" className="text-white" size={40} /></div>
+                        <div><h1 className="text-3xl font-bold text-teal-900 dark:text-white tracking-tight">TemanQu</h1><p className="text-slate-500 text-sm mt-2">Masuk untuk memulai perjalanan.</p></div>
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <div className="relative group"><Icon name="User" className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-600" size={18}/><input type="text" value={loginInputUser} onChange={e => setLoginInputUser(e.target.value)} className="w-full p-4 pl-12 bg-white/50 border border-white rounded-2xl outline-none font-semibold focus:ring-4 focus:ring-teal-100 transition-all text-sm" placeholder="Username" required /></div>
+                            <div className="relative group"><Icon name="Key" className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-600" size={18}/><input type="password" value={loginInputPass} onChange={e => setLoginInputPass(e.target.value)} className="w-full p-4 pl-12 bg-white/50 border border-white rounded-2xl outline-none font-semibold focus:ring-4 focus:ring-teal-100 transition-all text-sm" placeholder="Password" required /></div>
+                            {loginError && <div className="p-3 bg-rose-50 text-rose-500 rounded-xl text-xs font-bold animate-pulse">{loginError}</div>}
+                            <button type="submit" className="w-full py-4 bg-teal-700 text-white rounded-2xl font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-transform touch-scale">Masuk Aplikasi</button>
+                        </form>
+                        <div className="opacity-30 font-medium text-[10px] uppercase tracking-widest">Demo: admin / 123</div>
                     </div>
-                );
-            }
+                </div>
+            );
 
             return (
-                <div className={`min-h-screen transition-all duration-700 pb-32 overflow-x-hidden font-sans ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-[#F0F4F3] text-slate-800'}`}>
+                <div className={`min-h-screen transition-all duration-700 pb-28 overflow-x-hidden font-sans ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-[#F0F4F3] text-slate-800'}`}>
                     <ConfirmModal isOpen={confirmDeleteData.isOpen} title={confirmDeleteData.title} message={confirmDeleteData.message} onConfirm={handleConfirmAction} onCancel={() => setConfirmDeleteData({ isOpen: false })} isDarkMode={isDarkMode} />
-                    <header className="px-6 py-6 max-w-xl mx-auto sticky top-4 z-50"><div className={`rounded-[2.5rem] p-5 flex justify-between items-center shadow-sm backdrop-blur-2xl border-t border-white/40 ${isDarkMode ? 'bg-slate-900/90' : 'bg-white/70'}`}><div className="flex items-center gap-2"><div className="w-10 h-10 bg-teal-600 rounded-2xl flex items-center justify-center text-white rotate-6 shadow-sm"><Icon name="Smile" size={20} /></div><h1 className="text-2xl font-bold tracking-tighter text-teal-900 dark:text-teal-400">TemanQu</h1></div><button onClick={() => setIsDarkMode(!isDarkMode)} className="p-3 bg-teal-600/10 dark:bg-slate-800 text-teal-700 dark:text-teal-400 rounded-2xl active:rotate-45 active-press">{isDarkMode ? <Icon name="Sun" size={20} /> : <Icon name="Moon" size={20} />}</button></div></header>
+                    
+                    <header className="px-6 py-6 sticky top-0 z-40 backdrop-blur-md bg-white/10 dark:bg-slate-900/10"><div className={`rounded-[2.5rem] p-4 flex justify-between items-center shadow-lg shadow-black/5 backdrop-blur-xl border border-white/40 ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-white/80'}`}><div className="flex items-center gap-3"><div className="w-10 h-10 bg-teal-600 rounded-2xl flex items-center justify-center text-white rotate-3 shadow-md"><Icon name="Smile" size={20} /></div><div><h1 className="text-lg font-bold tracking-tight text-teal-900 dark:text-white leading-none">TemanQu</h1><p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest mt-0.5">App Muslim Modern</p></div></div><button onClick={() => setIsDarkMode(!isDarkMode)} className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-2xl transition-all active:rotate-12 touch-scale">{isDarkMode ? <Icon name="Sun" size={18} /> : <Icon name="Moon" size={18} />}</button></div></header>
 
-                    <main className="max-w-xl mx-auto px-6 space-y-12 mt-12 animate-in">
+                    <main className="max-w-xl mx-auto px-5 space-y-10 animate-in pb-10">
                         {activeTab === 'home' && (
-                            <div className="space-y-10 text-center">
-                                <div><h2 className="text-4xl font-bold mb-3 tracking-tighter">Hai, {user.displayName || 'Sahabat'} ✨</h2><p className="text-sm font-medium opacity-60 uppercase tracking-widest">{hijriDate}</p></div>
-                                <div className={`p-10 rounded-[3rem] border shadow-xl ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white/60 border-white'}`}><div className="flex flex-col items-center mb-10 space-y-4 text-center"><div className="p-4 bg-teal-600/10 rounded-3xl text-teal-800 flex items-center gap-2"><Icon name="MapPin" size={16}/> <span className="text-sm font-bold">{locationInfo}</span><button onClick={fetchPrayerByGPS} className="active-press"><Icon name="RefreshCw" size={14} /></button></div><DigitalClock time={currentTime} />{nextPrayerInfo && <div className="px-5 py-3 bg-orange-100/50 text-orange-700 rounded-2xl text-xs font-bold"><Icon name="Timer" size={12} className="inline mr-1" />{countdownString} ke {nextPrayerInfo.name}</div>}</div><div className="grid gap-4">{prayerTimes && ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map(p => (<div key={p} className={`flex justify-between p-6 rounded-[2rem] border ${nextPrayerInfo?.name === p ? 'bg-teal-600 text-white' : 'opacity-60 border-white'}`}><span className="font-bold text-xs uppercase">{p}</span><span className="font-bold text-lg">{prayerTimes[p]}</span></div>))}</div></div>
+                            <div className="space-y-8">
+                                <div className="text-center mt-4">
+                                    <h2 className="text-4xl font-bold mb-2 tracking-tight text-slate-800 dark:text-white">Hai, {user.displayName || 'Sahabat'} 👋</h2>
+                                    <p className="text-xs font-bold text-teal-600 uppercase tracking-[0.2em] bg-teal-50 dark:bg-teal-900/30 py-2 px-4 rounded-full inline-block">{currentTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })} • {hijriDate}</p>
+                                </div>
+                                <div className={`p-8 rounded-[3rem] border border-white/60 shadow-[0_20px_50px_rgba(0,0,0,0.04)] ${isDarkMode ? 'bg-slate-900/50 border-white/5' : 'bg-white/60'}`}>
+                                    <div className="flex flex-col items-center mb-10 space-y-6 text-center">
+                                        <div className="flex items-center gap-3 p-1 pl-4 pr-1 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><div className="flex items-center gap-2 text-slate-500 dark:text-slate-400"><Icon name="MapPin" size={14}/> <span className="text-xs font-bold">{locationInfo}</span></div><button onClick={() => fetchPrayerByGPS(user.hijriAdjustment || 0)} className="w-8 h-8 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center hover:rotate-180 transition-transform"><Icon name="RefreshCw" size={12} /></button></div>
+                                        <div className="py-2"><DigitalClock time={currentTime} /></div>
+                                        {nextPrayerInfo && <div className="flex flex-col items-center animate-in"><span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-2">Menuju {nextPrayerInfo.name}</span><div className="px-6 py-3 bg-slate-900 text-white dark:bg-white dark:text-slate-900 rounded-2xl text-sm font-bold shadow-xl flex items-center gap-2"><Icon name="Timer" size={16} /> {countdownString}</div></div>}
+                                    </div>
+                                    <div className="grid gap-3">{prayerTimes && ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map(p => { const isNext = nextPrayerInfo?.name === p; return (<div key={p} className={`flex justify-between items-center p-5 rounded-[1.8rem] transition-all duration-500 ${isNext ? 'bg-teal-600 text-white shadow-lg shadow-teal-600/20 scale-[1.03]' : 'bg-white/40 dark:bg-white/5 hover:bg-white/80'}`}><span className="font-bold text-[10px] uppercase tracking-widest opacity-80">{p}</span><span className="font-bold text-lg tracking-tight">{prayerTimes[p]}</span></div>)})}</div>
+                                </div>
                             </div>
                         )}
-                         {activeTab === 'amal' && (
-                            <div className="space-y-10"><div className="flex items-center justify-center gap-3 mb-6"><h2 className="text-3xl font-bold tracking-tight">Ceklist Amal</h2><Icon name="ClipboardList" size={28} className="text-teal-600" /></div><div className={`p-12 rounded-[3.5rem] border shadow-xl flex flex-col items-center ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white/60 border-white'}`}><div className="relative flex items-center justify-center mb-10"><svg className="w-48 h-48 transform -rotate-90"><circle cx="96" cy="96" r="88" strokeWidth="16" fill="transparent" className="stroke-slate-200 opacity-30" /><circle cx="96" cy="96" r="88" strokeWidth="16" fill="transparent" strokeDasharray={552.9} strokeDashoffset={552.9 - (552.9 * (activeProgress / 100))} className="stroke-teal-600 transition-all duration-1000 ease-out" strokeLinecap="round" /></svg><span className="absolute text-5xl font-black text-teal-700">{activeProgress}%</span></div><div className="w-full space-y-1">{user.todos?.map((t, idx) => (<TodoItem key={t.id} t={t} index={idx} isDarkMode={isDarkMode} isDragging={draggedIndex === idx} onToggle={(id) => updateData({ todos: user.todos.map(x => x.id === id ? {...x, done: !x.done} : x) })} onDelete={triggerDeleteDeed} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={() => setDraggedIndex(null)} />))}</div><div className="flex gap-4 mt-12 w-full"><input id="addTodo" className="flex-1 p-4 bg-white/50 dark:bg-slate-800 border border-white rounded-2xl outline-none font-bold text-sm focus:ring-4 focus:ring-teal-100 transition-all dark:text-white" placeholder="Tulis amalan baru..." /><button onClick={() => { const i = document.getElementById('addTodo'); if(i.value) { updateData({ todos: [...(user.todos || []), { id: Date.now(), text: i.value, done: false }] }); i.value = ""; } }} className="bg-teal-600 text-white w-20 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition-transform active-press"><Icon name="Plus" size={32}/></button></div></div></div>
+                        {activeTab === 'amal' && (
+                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="ClipboardList" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Ceklist Amal</h2></div><div className={`p-10 rounded-[3rem] border border-white/50 shadow-xl flex flex-col items-center ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><div className="relative flex items-center justify-center mb-8 w-40 h-40"><svg className="w-full h-full transform -rotate-90"><circle cx="50%" cy="50%" r="70" strokeWidth="12" fill="transparent" className="stroke-slate-200 dark:stroke-slate-800" /><circle cx="50%" cy="50%" r="70" strokeWidth="12" fill="transparent" strokeDasharray={439.8} strokeDashoffset={439.8 - (439.8 * (activeProgress / 100))} className="stroke-teal-500 transition-all duration-1000 ease-out" strokeLinecap="round" /></svg><div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-4xl font-black text-teal-600 tracking-tighter">{activeProgress}%</span><span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Selesai</span></div></div><div className="w-full space-y-2">{user.todos?.map((t, idx) => (<TodoItem key={t.id} t={t} index={idx} isDarkMode={isDarkMode} isDragging={draggedIndex === idx} onToggle={(id) => updateData({ todos: user.todos.map(x => x.id === id ? {...x, done: !x.done} : x) })} onDelete={triggerDeleteDeed} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={() => setDraggedIndex(null)} />))}</div><div className="flex gap-3 mt-8 w-full"><input id="addTodo" className="flex-1 p-4 bg-white/50 dark:bg-slate-800 border border-transparent focus:border-teal-500 rounded-[1.2rem] outline-none font-bold text-sm transition-all" placeholder="Tambah target..." /><button onClick={() => { const i = document.getElementById('addTodo'); if(i.value) { updateData({ todos: [...(user.todos || []), { id: Date.now(), text: i.value, done: false }] }); i.value = ""; } }} className="w-14 bg-teal-600 text-white rounded-[1.2rem] flex items-center justify-center shadow-lg active:scale-90 transition-transform"><Icon name="Plus" size={24}/></button></div></div></div>
                         )}
                         {activeTab === 'healing' && (
-                            <div className="space-y-12 text-center"><h2 className="text-3xl font-bold">Curhat Dong! 🕊️</h2><div className={`p-10 rounded-[3rem] border shadow-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white/60'}`}><textarea className="w-full p-5 bg-white/40 dark:bg-slate-800 rounded-3xl outline-none font-medium text-base min-h-[200px] resize-none focus:ring-4 focus:ring-teal-100 transition-all dark:text-white border border-white" placeholder="Apa yang kamu pikirkan?" value={curhatInput} onChange={(e) => setCurhatInput(e.target.value)} /><button onClick={() => callAI('healing', curhatInput)} disabled={!curhatInput || isLoading} className="w-full bg-teal-900 dark:bg-teal-800 text-white py-4 rounded-2xl font-bold mt-6 shadow-xl active:scale-95 disabled:opacity-50 transition-all active-press">Bimbing Saya</button></div>{healingResult && (<div ref={healingRef} className="p-12 rounded-[4rem] bg-[#FFFBF0] text-black shadow-2xl border-4 border-white"><div className="prose max-w-none"><p className="text-xl leading-loose text-justify font-handwriting whitespace-pre-wrap">{healingResult}</p></div><button onClick={() => handleCapture(healingRef, 'Wasiat')} className="w-full py-4 bg-slate-900 text-white rounded-[1.5rem] font-bold mt-10 flex items-center justify-center gap-2 active:scale-95 transition-all active-press"><Icon name="Camera" size={18}/> Simpan</button></div>)}<div className="text-center"><button onClick={popWisdom} className="px-10 py-4 bg-slate-100 dark:bg-slate-800 rounded-full font-black text-xs uppercase flex items-center gap-2 mx-auto active-press"><Icon name="RotateCcw" size={16}/> Kapsul Hikmah</button>{wisdomPill && <div className="p-8 bg-emerald-500/10 rounded-[32px] mt-6 italic font-handwriting text-xl text-black">"{wisdomPill}"</div>}</div></div>
+                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="Wind" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Curhat Dong!</h2></div><div className={`p-8 rounded-[2.5rem] border border-white/50 shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><textarea className="w-full p-6 bg-white/50 dark:bg-slate-800 rounded-[1.8rem] outline-none font-medium text-base min-h-[180px] resize-none focus:ring-4 focus:ring-teal-100 dark:focus:ring-teal-900 transition-all border border-transparent" placeholder="Tumpahkan perasaanmu di sini..." value={curhatInput} onChange={(e) => setCurhatInput(e.target.value)} /><button onClick={() => callAI('healing', curhatInput)} disabled={!curhatInput || isLoading} className="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-5 rounded-[1.5rem] font-bold uppercase tracking-widest text-xs mt-4 shadow-xl active:scale-95 disabled:opacity-50 transition-all touch-scale">Minta Saran AI</button></div>{healingResult && (<div ref={healingRef} className="p-10 rounded-[2.5rem] bg-[#FFFBF0] text-slate-800 shadow-xl border-2 border-white relative overflow-hidden text-left"><div className="absolute top-0 right-0 p-6 opacity-10"><Icon name="Smile" size={80}/></div><p className="text-lg leading-loose font-handwriting relative z-10 whitespace-pre-wrap">{healingResult}</p><button onClick={() => handleCapture(healingRef, 'Wasiat')} className="w-full py-4 bg-orange-100 text-orange-700 rounded-[1.2rem] font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Camera" size={16}/> Simpan Gambar</button></div>)}</div>
                         )}
-                         {activeTab === 'bahasa' && (
-                            <div className="space-y-12 text-center"><h2 className="text-3xl font-bold">Poles Bahasa ✍️</h2><div className={`p-10 rounded-[3rem] border shadow-xl ${isDarkMode ? 'bg-slate-900' : 'bg-white/60'}`}><div className="flex gap-4 mb-6 justify-center"><button onClick={() => setSelectedLang('ar')} className={`px-6 py-3 rounded-2xl font-bold text-sm transition-all active-press ${selectedLang === 'ar' ? 'bg-teal-600 text-white' : 'bg-slate-100'}`}>Arab</button><button onClick={() => setSelectedLang('en')} className={`px-6 py-3 rounded-2xl font-bold text-sm transition-all active-press ${selectedLang === 'en' ? 'bg-teal-600 text-white' : 'bg-slate-100'}`}>Inggris</button></div><textarea className="w-full p-5 bg-white/40 dark:bg-slate-800 rounded-3xl outline-none font-medium text-base min-h-[150px] resize-none focus:ring-4 focus:ring-teal-100 transition-all dark:text-white border border-white" placeholder="Masukkan kalimat..." value={langInput} onChange={(e) => setLangInput(e.target.value)} /><button onClick={() => callAI('language', langInput)} disabled={!langInput || isLoading} className="w-full bg-slate-800 text-white py-4 rounded-2xl font-bold mt-6 shadow-xl active:scale-95 disabled:opacity-50 transition-all active-press">Analisis AI</button></div>{langResult && (<div ref={langRef} className="p-12 rounded-[4rem] bg-[#F0FDF4] text-slate-900 shadow-2xl border-4 border-white text-left"><div className="flex items-center gap-2 mb-6 border-b border-teal-100 pb-4 opacity-50"><Icon name="CheckCircle" size={18} className="text-teal-600"/><span className="text-[10px] font-black uppercase tracking-[0.3em]">Hasil</span></div><div className="prose max-w-none"><p className="text-lg leading-relaxed text-justify font-medium whitespace-pre-wrap">{langResult}</p></div><button onClick={() => handleCapture(langRef, 'Bahasa')} className="w-full py-4 bg-teal-800 text-white rounded-[1.5rem] font-bold mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all active-press"><Icon name="Camera" size={18}/> Simpan</button></div>)}</div>
+                        {activeTab === 'bahasa' && (
+                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="Globe" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Poles Bahasa</h2></div><div className={`p-8 rounded-[2.5rem] border border-white/50 shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><div className="flex gap-3 mb-4 justify-center bg-slate-100 dark:bg-slate-800 p-1.5 rounded-[1.2rem] w-fit mx-auto"><button onClick={() => setSelectedLang('ar')} className={`px-6 py-2.5 rounded-[0.9rem] font-bold text-xs transition-all ${selectedLang === 'ar' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Arab</button><button onClick={() => setSelectedLang('en')} className={`px-6 py-2.5 rounded-[0.9rem] font-bold text-xs transition-all ${selectedLang === 'en' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Inggris</button></div><textarea className="w-full p-6 bg-white/50 dark:bg-slate-800 rounded-[1.8rem] outline-none font-medium text-base min-h-[140px] resize-none focus:ring-4 focus:ring-teal-100 transition-all border border-transparent" placeholder={`Tulis kalimat ${selectedLang === 'ar' ? 'Arab' : 'Inggris'}...`} value={langInput} onChange={(e) => setLangInput(e.target.value)} /><button onClick={() => callAI('language', langInput)} disabled={!langInput || isLoading} className="w-full bg-teal-600 text-white py-5 rounded-[1.5rem] font-bold uppercase tracking-widest text-xs mt-4 shadow-lg active:scale-95 disabled:opacity-50 transition-all touch-scale">Cek Grammar</button></div>{langResult && (<div ref={langRef} className="p-10 rounded-[2.5rem] bg-[#F0FDF4] text-slate-800 shadow-xl border-2 border-white text-left"><div className="flex items-center gap-2 mb-4 opacity-40"><Icon name="CheckCircle" size={16}/><span className="text-[10px] font-black uppercase tracking-widest">Hasil Analisis</span></div><p className="text-lg leading-relaxed font-medium whitespace-pre-wrap">{langResult}</p><button onClick={() => handleCapture(langRef, 'Bahasa')} className="w-full py-4 bg-emerald-100 text-emerald-700 rounded-[1.2rem] font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Camera" size={16}/> Simpan</button></div>)}</div>
                         )}
                         {activeTab === 'recovery' && (
-                          <div className="space-y-10 text-center"><h2 className="text-3xl font-bold">Lawan Candu 🌱</h2><div className="p-12 rounded-[3.5rem] bg-orange-100/30 border-2 border-white shadow-xl relative text-left overflow-hidden"><div className="absolute top-0 right-0 p-8 opacity-10"><Icon name="ShieldAlert" size={120} /></div><div className="relative z-10"><div className="flex items-center gap-2 mb-6 opacity-40"><span className="text-[10px] font-black uppercase tracking-[0.2em]">Pengingat</span></div><p className="text-2xl leading-relaxed italic text-slate-700" style={{ fontFamily: "'Patrick Hand', cursive" }}>"{["Ingat tujuanmu!", "Kamu kuat!", "Jangan menyerah!", "Masa depan cerah menanti."][recoveryAdviceIndex % 4]}"</p></div></div>{user.recovery?.map(r => {
-                                const recTime = formatRecoveryTime(r.startTime);
-                                const streakMsg = getStreakMessage(recTime.d);
-                                return (<div key={r.id} className="p-10 rounded-[3.5rem] border shadow-xl text-left bg-white/60"><div className="flex justify-between items-start mb-8"><div><h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Bebas {r.name}:</h4><div className="text-2xl font-black text-slate-800 tracking-tighter">{recTime.full}</div><div className="mt-4 p-4 bg-teal-50 dark:bg-teal-900/20 rounded-2xl text-teal-700 dark:text-teal-400 text-sm font-bold flex items-center gap-2"><Icon name="Sparkles" size={16} /> {streakMsg}</div></div><button onClick={() => updateData({ recovery: user.recovery.filter(x => x.id !== r.id) })} className="p-4 bg-rose-100 text-rose-400 rounded-2xl active-press"><Icon name="Trash2" size={20}/></button></div><button onClick={() => callAI('healing', `Motivasi bebas ${r.name}`)} className="py-5 bg-teal-600/10 text-teal-800 rounded-3xl font-bold text-xs uppercase w-full active-press">Bimbingan</button></div>)
-                          })}<div className="flex gap-4"><input id="addRec" className="flex-1 p-6 bg-white/60 border border-white rounded-[2rem] outline-none font-bold text-center" placeholder="Target?" /><button onClick={() => { const i = document.getElementById('addRec'); if(i.value) { updateData({ recovery: [...(user.recovery || []), { id: Date.now(), name: i.value, startTime: Date.now() }] }); i.value = ""; } }} className="bg-teal-700 text-white w-20 rounded-[2rem] flex items-center justify-center shadow-xl active-press"><Icon name="Plus" size={32}/></button></div></div>
+                           <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="ShieldCheck" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Lawan Candu</h2></div><div className="p-10 rounded-[3rem] bg-orange-50 border border-orange-100 shadow-xl relative text-left overflow-hidden"><div className="absolute -top-4 -right-4 p-8 opacity-10 text-orange-500"><Icon name="ShieldAlert" size={140} /></div><div className="relative z-10"><div className="flex items-center gap-2 mb-4 opacity-40"><span className="text-[9px] font-black uppercase tracking-[0.2em] text-orange-800">Daily Reminder</span></div><p className="text-xl leading-relaxed italic text-slate-700 font-handwriting">"{RECOVERY_ADVICES_200[recoveryAdviceIndex]}"</p></div></div>{user.recovery?.map(r => { const recTime = formatRecoveryTime(r.startTime); return (<div key={r.id} className="p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-lg text-left dark:bg-slate-800 dark:border-slate-700"><div className="flex justify-between items-start mb-6"><div><div className="flex items-center gap-2 mb-2"><span className="px-3 py-1 bg-teal-50 text-teal-700 rounded-lg text-[10px] font-bold uppercase tracking-wider">{recTime.full}</span></div><h4 className="text-lg font-bold text-slate-800 dark:text-white">Bebas {r.name}</h4><p className="text-xs text-slate-400 mt-1">{getStreakMessage(recTime.d)}</p></div><button onClick={() => updateData({ recovery: user.recovery.filter(x => x.id !== r.id) })} className="p-3 bg-slate-50 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all"><Icon name="Trash2" size={18}/></button></div><button onClick={() => callAI('healing', `Motivasi bebas ${r.name}`)} className="w-full py-4 bg-slate-900 text-white rounded-[1.2rem] font-bold text-[10px] uppercase tracking-widest active:scale-95 transition-all">Minta Motivasi</button></div>) })}<div className="flex gap-3"><input id="addRec" className="flex-1 p-5 bg-white border border-slate-100 rounded-[1.5rem] outline-none font-bold text-sm shadow-sm dark:bg-slate-800 dark:border-slate-700" placeholder="Target baru?" /><button onClick={() => { const i = document.getElementById('addRec'); if(i.value) { updateData({ recovery: [...(user.recovery || []), { id: Date.now(), name: i.value, startTime: Date.now() }] }); i.value = ""; } }} className="w-16 bg-teal-600 text-white rounded-[1.5rem] flex items-center justify-center shadow-lg active:scale-90 transition-transform"><Icon name="Plus" size={28}/></button></div></div>
                         )}
                         {activeTab === 'journal' && (
-                            <div className="space-y-10 text-center"><h2 className="text-3xl font-bold">Renungan Ayat 📔</h2><div className={`p-6 rounded-[2.5rem] border shadow-xl flex gap-3 ${isDarkMode ? 'bg-slate-900' : 'bg-white/60'}`}><input type="number" placeholder="Ayat" className="w-20 p-4 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-black text-center text-lg dark:text-white border border-white/50" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} /><div className="relative flex-1"><input type="text" placeholder="Cari Surat..." className="w-full p-4 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold focus:ring-4 focus:ring-teal-100 transition-all dark:text-white border border-white/50" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} />{surahSearch && (<div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border rounded-[1.5rem] shadow-2xl max-h-56 overflow-y-auto z-50 p-2">{SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (<button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); callAI('journal', {surah: s, ayat: journalInput.ayat}); }} className="w-full text-left p-3 rounded-xl font-bold hover:bg-teal-50 dark:hover:bg-slate-700 transition-colors dark:text-white active-press">{s}</button>))}</div>)}</div></div>{journalResult && (<div ref={journalRef} className="p-12 rounded-[4rem] bg-[#FFFBF0] text-black shadow-2xl border-4 border-white relative overflow-hidden text-center"><div className="prose max-w-none"><p className="text-xl leading-loose text-justify font-handwriting whitespace-pre-wrap">{journalResult}</p></div><button onClick={() => handleCapture(journalRef, 'Tadabbur')} className="w-full py-5 bg-teal-900 text-white rounded-[1.8rem] font-bold mt-10 flex items-center justify-center gap-3 active:scale-95 transition-all active-press"><Icon name="Download" size={20}/> Simpan</button></div>)}</div>
+                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="BookOpen" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Renungan Ayat</h2></div><div className={`p-6 rounded-[2.5rem] border border-white/50 shadow-xl flex gap-4 ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><input type="number" placeholder="No" className="w-20 p-5 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-black text-center text-xl dark:text-white border border-transparent focus:bg-white transition-all" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} /><div className="relative flex-1"><input type="text" placeholder="Cari Surat..." className="w-full p-5 bg-white/40 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold focus:ring-4 focus:ring-teal-100 transition-all dark:text-white border border-transparent focus:bg-white pl-10" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} /><div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"><Icon name="BookOpen" size={16}/></div>{surahSearch && (<div className="absolute top-full left-0 right-0 mt-4 bg-white dark:bg-slate-800 border rounded-[2rem] shadow-2xl max-h-64 overflow-y-auto z-50 p-4">{SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (<button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); callAI('journal', {surah: s, ayat: journalInput.ayat}); }} className="w-full text-left p-4 rounded-2xl font-bold hover:bg-teal-50 dark:hover:bg-slate-700 transition-colors">{s}</button>))}</div>)}</div></div>{journalResult && (<div ref={journalRef} className="p-10 rounded-[3rem] bg-[#FFFBF0] text-slate-800 shadow-xl border-2 border-white relative overflow-hidden text-left"><div className="absolute top-0 right-0 p-6 opacity-5"><Icon name="BookOpen" size={120}/></div><div className="prose max-w-none"><p className="text-xl leading-loose text-justify font-handwriting whitespace-pre-wrap relative z-10">{journalResult}</p></div><button onClick={() => handleCapture(journalRef, 'Tadabbur')} className="w-full py-4 bg-orange-100 text-orange-700 rounded-[1.2rem] font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Download" size={16}/> Simpan Lembaran</button></div>)}</div>
                         )}
                         {activeTab === 'profil' && (
-                            <div className="space-y-10 text-center"><h2 className="text-3xl font-bold">Akun Saya ⚙️</h2><div className="p-12 rounded-[4rem] border bg-white/60 shadow-xl text-left space-y-8"><div className="space-y-2"><label className="text-[10px] font-black opacity-30 uppercase ml-4">Nama</label><input type="text" value={profileForm.displayName} onChange={e => setProfileForm({...profileForm, displayName: e.target.value})} className="w-full p-4 bg-white/40 dark:bg-slate-800 rounded-[1.8rem] outline-none font-bold text-lg dark:text-white border border-white" /></div><div className="space-y-2"><label className="text-[10px] font-black opacity-30 uppercase ml-4">GitHub Token (Wajib)</label><div className="relative"><input type={showToken ? "text" : "password"} value={profileForm.githubToken} onChange={e => setProfileForm({...profileForm, githubToken: e.target.value})} className={`w-full p-4 bg-white/40 dark:bg-slate-800 rounded-[1.8rem] outline-none font-mono text-xs text-teal-600 ${isProfileLocked ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={isProfileLocked} placeholder="ghp_..." /><button onClick={() => setShowToken(!showToken)} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-teal-600 p-2"><Icon name={showToken ? "EyeOff" : "Eye"} size={20} /></button></div></div><button onClick={() => { updateData(profileForm); setSaveStatus("Tersimpan!"); setTimeout(() => setSaveStatus(""), 2000); }} className="w-full py-6 bg-teal-700 text-white rounded-[2rem] font-bold shadow-xl active-press">Simpan Data</button>{saveStatus && <p className="text-center font-bold text-teal-600">{saveStatus}</p>}
-                                {isProfileLocked ? (<button onClick={() => setIsProfileLocked(false)} className="w-full py-6 bg-slate-800 dark:bg-teal-800 text-white rounded-[2rem] font-bold mt-4 active-press">Buka Gembok Profil</button>) : (<button onClick={() => {setIsProfileLocked(true); setProfileForm(user);}} className="w-full py-6 bg-slate-200 text-slate-700 font-bold rounded-[2rem] mt-4 active-press">Batal Edit</button>)}
-                                <button onClick={handleLogout} className="w-full py-5 text-rose-500 font-bold mt-6 active-press">Keluar</button></div></div>
+                            <div className="space-y-10">
+                                <div className="text-center"><h2 className="text-3xl font-bold tracking-tight">Pengaturan ⚙️</h2></div>
+                                <div className={`p-12 rounded-[4rem] border-2 shadow-xl relative ${isDarkMode ? 'bg-slate-900 border-white/5' : 'bg-white border-white'}`}>
+                                    <div className="absolute top-8 right-10"><div className={`flex items-center gap-2 px-3 py-1 rounded-full text-[8px] font-black uppercase ${isProfileLocked ? 'bg-rose-50 text-rose-400' : 'bg-teal-50 text-teal-500'}`}>{isProfileLocked ? 'Terkunci' : 'Terbuka'}</div></div>
+                                    <div className="space-y-8">
+                                        <div className="space-y-2"><label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-4">Nama Kamu</label><input type="text" value={profileForm.displayName} onChange={e => setProfileForm({...profileForm, displayName: e.target.value})} className="w-full p-6 bg-slate-50 dark:bg-slate-800 rounded-[1.8rem] outline-none font-bold text-lg" /></div>
+                                        <div className="space-y-2"><label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-4">Lokasi (Kota)</label><input type="text" value={profileForm.city} onChange={e => setProfileForm({...profileForm, city: e.target.value})} className="w-full p-6 bg-slate-50 dark:bg-slate-800 rounded-[1.8rem] outline-none font-bold text-lg" /></div>
+                                        <div className="space-y-2"><label className="text-[10px] font-black text-slate-300 uppercase tracking-widest ml-4">Koreksi Hijriah</label><div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800 p-2 rounded-[1.5rem]"><button onClick={() => setProfileForm(p => ({ ...p, hijriAdjustment: (p.hijriAdjustment || 0) - 1 }))} className="w-12 h-12 flex items-center justify-center bg-rose-100 text-rose-600 rounded-full font-bold text-lg active:scale-90 transition-transform">-</button><span className="text-lg font-bold">{profileForm.hijriAdjustment > 0 ? '+' : ''}{profileForm.hijriAdjustment || 0} Hari</span><button onClick={() => setProfileForm(p => ({ ...p, hijriAdjustment: (p.hijriAdjustment || 0) + 1 }))} className="w-12 h-12 flex items-center justify-center bg-teal-100 text-teal-600 rounded-full font-bold text-lg active:scale-90 transition-transform">+</button><button onClick={handleSaveCorrection} className="px-4 h-12 bg-slate-900 text-white rounded-[1.2rem] text-xs font-bold active:scale-95 transition-transform ml-2">{saveStatus || "Simpan"}</button></div></div>
+                                        <div className="pt-10 border-t border-slate-50 space-y-4">
+                                            <div className="flex items-center gap-2 font-bold uppercase text-[10px] tracking-widest opacity-30 justify-center mb-4">{isProfileLocked ? <Icon name="Lock" size={14}/> : <Icon name="Unlock" size={14}/>} Data Sistem</div>
+                                            <input type="text" disabled={isProfileLocked} value={profileForm.username} onChange={e => setProfileForm({...profileForm, username: e.target.value})} className="w-full p-5 bg-slate-50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold text-sm" placeholder="Username" />
+                                            <input type="password" disabled={isProfileLocked} value={profileForm.password} onChange={e => setProfileForm({...profileForm, password: e.target.value})} className="w-full p-5 bg-slate-50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold text-sm" placeholder="Password Baru" />
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-teal-400 uppercase tracking-widest block text-center mt-4">Token GitHub (Untuk AI)</label>
+                                                <div className="relative"><input type={showToken ? "text" : "password"} disabled={isProfileLocked} value={profileForm.githubToken} onChange={e => setProfileForm({...profileForm, githubToken: e.target.value})} className="w-full p-5 bg-slate-50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-mono text-[10px] text-teal-500 text-center" placeholder="ghp_..." /><button onClick={() => setShowToken(!showToken)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 p-2"><Icon name={showToken ? "EyeOff" : "Eye"} size={16} /></button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4 mt-12">
+                                        {isProfileLocked ? (<button onClick={() => setIsProfileLocked(false)} className="w-full py-6 bg-slate-800 text-white rounded-[2rem] font-bold shadow-xl flex items-center justify-center gap-3 active:scale-95"><Icon name="Unlock" size={20}/> Buka Gembok Profil</button>) : (<div className="grid grid-cols-2 gap-4"><button onClick={() => { setIsProfileLocked(true); setProfileForm({...user}); }} className="py-5 bg-slate-100 rounded-[1.5rem] font-bold">Batal</button><button onClick={() => { updateData(profileForm); setIsProfileLocked(true); setSaveStatus("Tersimpan!"); setTimeout(() => setSaveStatus(""), 2000); }} className="py-5 bg-teal-500 text-white rounded-[1.5rem] font-bold shadow-xl active:scale-95">Simpan Data</button></div>)}
+                                        {saveStatus && <p className="text-teal-500 text-center text-xs font-black uppercase tracking-widest">{saveStatus}</p>}
+                                        <button onClick={handleLogout} className="w-full py-5 text-rose-400 font-bold hover:text-rose-600 transition-colors mt-6">Keluar Sesi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {isLoading && (
+                            <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xl z-[100] flex items-center justify-center animate-in fade-in">
+                                <div className="bg-white p-12 rounded-[4rem] text-center shadow-2xl space-y-6">
+                                    <div className="w-20 h-20 border-8 border-teal-100 border-t-teal-500 rounded-full animate-spin mx-auto"></div>
+                                    <div>
+                                        <h3 className="font-bold text-teal-800 text-lg mb-2">Mohon Tunggu...</h3>
+                                        <p className="text-slate-400 text-sm">"Sambil menunggu, mari berdzikir."</p>
+                                    </div>
+                                </div>
+                            </div>
                         )}
                     </main>
 
-                    <nav className={`fixed bottom-8 left-6 right-6 h-24 rounded-[3rem] flex items-center justify-around px-2 z-40 backdrop-blur-2xl shadow-2xl border-t border-white/40 transition-all duration-500 transform ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-32 opacity-0' } ${isDarkMode ? 'bg-slate-900/95' : 'bg-white/80'}`}>
-                        {[{ id: 'home', icon: 'Home', label: 'Beranda' }, { id: 'healing', icon: 'Smile', label: 'Healing' }, { id: 'bahasa', icon: 'Globe', label: 'Bahasa' }, { id: 'amal', icon: 'ClipboardList', label: 'Amal' }, { id: 'recovery', icon: 'ShieldCheck', label: 'Bebas' }, { id: 'journal', icon: 'BookOpen', label: 'Jurnal' }, { id: 'profil', icon: 'Settings', label: 'Profil' }].map(t => (
-                            <button key={t.id} onClick={() => navigateToTab(t.id)} className={`flex flex-col items-center justify-center transition-all px-2 py-3 rounded-3xl active-press ${activeTab === t.id ? 'bg-teal-600 text-white shadow-lg' : 'text-slate-400'}`}><Icon name={t.icon} size={20} strokeWidth={activeTab === t.id ? 3 : 2} /><span className={`text-[7px] font-black uppercase mt-1.5 transition-opacity ${activeTab === t.id ? 'opacity-100' : 'opacity-0 h-0'}`}>{t.label}</span></button>
+                    <nav className={`fixed bottom-8 left-6 right-6 h-24 rounded-[3rem] flex items-center justify-around px-6 z-40 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-t border-white/40 transition-all duration-500 transform ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-32 opacity-0' } ${isDarkMode ? 'bg-slate-900/95' : 'bg-white/80'}`}>
+                        {[{ id: 'home', icon: 'Home', label: 'Beranda' }, { id: 'healing', icon: 'Smile', label: 'Curhat' }, { id: 'bahasa', icon: 'Globe', label: 'Bahasa' }, { id: 'amal', icon: 'ClipboardList', label: 'Amal' }, { id: 'recovery', icon: 'ShieldCheck', label: 'Bebas' }, { id: 'journal', icon: 'BookOpen', label: 'Jurnal' }, { id: 'profil', icon: 'Settings', label: 'Profil' }].map(t => (
+                            <button key={t.id} onClick={() => navigateToTab(t.id)} className={`relative flex flex-col items-center justify-center w-10 h-10 transition-all active:scale-90 ${activeTab === t.id ? 'text-teal-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+                                <div className={`absolute -top-1 w-1 h-1 rounded-full bg-teal-500 transition-all ${activeTab === t.id ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}></div>
+                                <Icon name={t.icon} size={22} strokeWidth={activeTab === t.id ? 2.5 : 2} />
+                            </button>
                         ))}
                     </nav>
-
-                    {isLoading && (
-                        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center animate-in">
-                            <div className="bg-white p-8 rounded-[2rem] text-center shadow-2xl space-y-6 max-w-xs mx-4 border-4 border-teal-100">
-                                <div className="w-16 h-16 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin mx-auto"></div>
-                                <div>
-                                    <h3 className="font-bold text-teal-800 text-lg mb-2">Sedang Meracik Hikmah...</h3>
-                                    <p className="text-slate-500 text-sm font-handwriting text-lg">"Sambil menunggu, dzikir dulu yuk..."</p>
-                                    <p className="text-teal-600 text-xs font-bold mt-4 animate-pulse">Subhanallah • Alhamdulillah • Allahuakbar</p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                    <style>{`
+                        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Patrick+Hand&display=swap');
+                        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+                        .prose p { margin: 0; }
+                    `}</style>
                 </div>
             );
         }
