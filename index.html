@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TemanQu - Sahabat Perjalanan Jiwa</title>
+    <title>TemanQu - Sahabat Terbaimu</title>
 
-    <!-- Fonts: Added Dancing Script and Caveat for beautiful handwriting -->
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Dancing+Script:wght@500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
@@ -19,19 +19,15 @@
                 extend: {
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        script: ['Dancing Script', 'cursive'], // Font cantik untuk judul/quote
-                        note: ['Caveat', 'cursive'], // Font tulisan tangan untuk isi teks panjang
+                        script: ['Dancing Script', 'cursive'],
+                        note: ['Caveat', 'cursive'],
                     },
                     colors: {
-                        primary: '#0F766E', // Teal 700
-                        accent: '#F59E0B', // Amber 500
-                        darkbg: '#020617', // Slate 950
+                        primary: '#0F766E',
+                        accent: '#F59E0B',
+                        darkbg: '#020617',
                         glass: 'rgba(255, 255, 255, 0.65)',
                         glassDark: 'rgba(15, 23, 42, 0.65)',
-                    },
-                    boxShadow: {
-                        'glow': '0 0 20px rgba(20, 184, 166, 0.5)',
-                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
                     },
                     animation: {
                         'blob': 'blob 7s infinite',
@@ -61,84 +57,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
-        html {
-            -webkit-tap-highlight-color: transparent;
-            scroll-behavior: smooth;
-            height: 100%;
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overscroll-behavior-y: none;
-            user-select: none;
-            background-color: #F8FAFC;
-            transition: background-color 0.5s ease;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        .dark body {
-            background-color: #020617;
-        }
-
-        /* Ambient Background blobs */
-        .ambient-light {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        
-        .blob {
-            position: absolute;
-            filter: blur(80px);
-            opacity: 0.6;
-            animation: blob 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Glassmorphism Utilities */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
-
+        html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; height: 100%; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-font-smoothing: antialiased; overscroll-behavior-y: none; user-select: none; background-color: #F8FAFC; transition: background-color 0.5s ease; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+        .dark body { background-color: #020617; }
+        .ambient-light { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; filter: blur(80px); opacity: 0.6; animation: blob 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); }
+        .dark .glass-panel { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); }
         ::-webkit-scrollbar { display: none; }
         * { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .touch-scale {
-            transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .touch-scale:active {
-            transform: scale(0.94);
-        }
-
-        input, textarea, select {
-            appearance: none;
-            outline: none;
-        }
+        .touch-scale { transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .touch-scale:active { transform: scale(0.94); }
+        input, textarea, select { appearance: none; outline: none; }
     </style>
 </head>
 <body class="text-slate-800 dark:text-slate-100">
-    <!-- Ambient Background -->
     <div class="ambient-light">
         <div class="blob bg-teal-200/40 dark:bg-teal-900/30 w-96 h-96 rounded-full top-0 -left-20"></div>
-        <div class="blob bg-purple-200/40 dark:bg-indigo-900/30 w-96 h-96 rounded-full bottom-0 -right-20 animation-delay-2000"></div>
-        <div class="blob bg-amber-100/40 dark:bg-amber-900/20 w-80 h-80 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animation-delay-4000"></div>
+        <div class="blob bg-purple-200/40 dark:bg-indigo-900/30 w-96 h-96 rounded-full bottom-0 -right-20"></div>
     </div>
 
     <div id="root"></div>
@@ -146,7 +82,7 @@
     <script type="text/babel">
         const { useState, useEffect, useMemo, useRef } = React;
 
-        // --- ICON COMPONENT ---
+        // --- ICONS ---
         const Icon = ({ name, ...props }) => {
             const Svg = ({ children, ...p }) => (
                 <svg xmlns="http://www.w3.org/2000/svg" width={p.size || 24} height={p.size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={p.strokeWidth || 2} strokeLinecap="round" strokeLinejoin="round" className={p.className}>{children}</svg>
@@ -166,25 +102,13 @@
                 MapPin: <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></>,
                 Plus: <><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
                 LogOut: <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
-                Save: <><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></>,
-                RotateCcw: <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L1 8m0 0V3m0 5h5" />,
-                Trophy: <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M12 5v17" />,
-                Lock: <><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></>,
-                Unlock: <><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></>,
                 RefreshCw: <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16" />,
                 User: <><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
                 Key: <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3L15.5 7.5z" />,
-                LinkIcon: <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />,
-                Timer: <><line x1="10" y1="2" x2="14" y2="2"/><line x1="12" y1="14" x2="15" y2="11"/><circle cx="12" cy="14" r="8"/></>,
-                GripVertical: <><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></>,
-                AlertTriangle: <><path d="m10.29 3.86 7.92 13.17c.75 1.25.21 2.97-1.18 2.97H2.97c-1.39 0-1.93-1.72-1.18-2.97l7.92-13.17a1.996 1.996 0 0 1 3.58 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></>,
-                Sparkles: <path d="m12 3 1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3Z" />,
-                Wind: <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2" />,
-                Download: <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />,
                 Globe: <><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></>,
-                Eye: <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></>,
-                EyeOff: <><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></>,
-                ClipboardList: <><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/><path d="M9 8h6"/></>
+                ClipboardList: <><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6"/><path d="M9 16h6"/><path d="M9 8h6"/></>,
+                GripVertical: <><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></>,
+                ChevronRight: <polyline points="9 18 15 12 9 6" />
             };
             return icons[name] ? <Svg {...props}>{icons[name]}</Svg> : null;
         };
@@ -194,10 +118,10 @@
             if (!isOpen) return null;
             return (
                 <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-900/30 backdrop-blur-md animate-in">
-                    <div className={`w-full max-w-xs rounded-[2.5rem] p-8 shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-white/50 ${isDarkMode ? 'bg-slate-900/90 text-white border-slate-700' : 'bg-white/95 text-slate-800'}`}>
+                    <div className={`w-full max-w-xs rounded-[2.5rem] p-8 shadow-2xl border border-white/50 ${isDarkMode ? 'bg-slate-900/90 text-white border-slate-700' : 'bg-white/95 text-slate-800'}`}>
                         <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse"><Icon name="AlertTriangle" className="text-rose-500" size={32} /></div>
-                        <h3 className="text-xl font-bold mb-2 tracking-tight text-center">{title}</h3>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 leading-relaxed text-center">{message}</p>
+                        <h3 className="text-xl font-bold mb-2 text-center">{title}</h3>
+                        <p className="text-sm text-slate-500 text-center mb-8 leading-relaxed">{message}</p>
                         <div className="grid grid-cols-2 gap-3">
                             <button onClick={onCancel} className="py-4 rounded-2xl text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 touch-scale">Batal</button>
                             <button onClick={onConfirm} className="py-4 rounded-2xl text-sm font-bold bg-rose-500 text-white shadow-lg shadow-rose-500/30 touch-scale">Lanjut</button>
@@ -208,25 +132,10 @@
         };
 
         const TodoItem = ({ t, onToggle, onDelete, isDarkMode, index, onDragStart, onDragOver, onDragEnd, isDragging }) => (
-            <div 
-                draggable 
-                onDragStart={(e) => onDragStart(e, index)} 
-                onDragOver={(e) => onDragOver(e, index)} 
-                onDragEnd={onDragEnd} 
-                className={`group relative mb-3 rounded-[2rem] transition-all duration-300 border flex items-center gap-4 p-4 cursor-pointer touch-scale
-                    ${isDragging ? 'opacity-40 scale-95 border-dashed border-teal-500' : ''} 
-                    ${t.done 
-                        ? 'bg-teal-50/50 dark:bg-teal-900/10 border-teal-100 dark:border-teal-900/30 opacity-75' 
-                        : (isDarkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-transparent shadow-sm hover:shadow-md')}`}
-            >
+            <div draggable onDragStart={(e) => onDragStart(e, index)} onDragOver={(e) => onDragOver(e, index)} onDragEnd={onDragEnd} className={`group relative mb-3 rounded-[2rem] transition-all duration-300 border flex items-center gap-4 p-4 cursor-pointer touch-scale ${isDragging ? 'opacity-40 scale-95 border-dashed border-teal-500' : ''} ${t.done ? 'bg-teal-50/50 dark:bg-teal-900/10 border-teal-100 dark:border-teal-900/30 opacity-75' : (isDarkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-transparent shadow-sm hover:shadow-md')}`}>
                 <div className="text-slate-300 dark:text-slate-600 cursor-grab active:cursor-grabbing hover:text-teal-500 p-1"><Icon name="GripVertical" size={18} /></div>
                 <div className="flex-1 flex items-center gap-4" onClick={() => onToggle(t.id)}>
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all shrink-0 
-                        ${t.done 
-                            ? 'bg-teal-500 border-teal-500 text-white scale-90' 
-                            : (isDarkMode ? 'border-slate-600 bg-slate-800' : 'border-slate-200 bg-slate-50')}`}>
-                        {t.done && <Icon name="CheckCircle" size={20} />}
-                    </div>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center border-2 transition-all shrink-0 ${t.done ? 'bg-teal-500 border-teal-500 text-white scale-90' : (isDarkMode ? 'border-slate-600 bg-slate-800' : 'border-slate-200 bg-slate-50')}`}>{t.done && <Icon name="CheckCircle" size={20} />}</div>
                     <span className={`font-semibold text-sm tracking-tight flex-1 transition-all ${t.done ? 'line-through text-slate-400' : (isDarkMode ? 'text-slate-200' : 'text-slate-700')}`}>{t.text}</span>
                 </div>
                 <button className="p-3 text-slate-300 hover:text-rose-400 active:text-rose-500 transition-colors" onClick={(e) => { e.stopPropagation(); onDelete(t.id); }}><Icon name="Trash2" size={18} /></button>
@@ -237,7 +146,7 @@
 
         // --- MAIN APP ---
         function App() {
-            const STORAGE_KEY = "temanqu_v42_final_secured";
+            const STORAGE_KEY = "temanqu_v60_github_optimized";
             const [isLoggedIn, setIsLoggedIn] = useState(false);
             const [loginInputUser, setLoginInputUser] = useState("");
             const [loginInputPass, setLoginInputPass] = useState("");
@@ -247,31 +156,27 @@
             const [isDarkMode, setIsDarkMode] = useState(false);
             const [showNav, setShowNav] = useState(true);
             const [lastScrollY, setLastScrollY] = useState(0);
+            
+            // AI States
+            const [curhatInput, setCurhatInput] = useState("");
             const [langInput, setLangInput] = useState("");
             const [selectedLang, setSelectedLang] = useState("ar");
+            const [healingResult, setHealingResult] = useState("");
             const [langResult, setLangResult] = useState("");
-            const [showToken, setShowToken] = useState(false);
+            const [journalResult, setJournalResult] = useState("");
+            const [journalInput, setJournalInput] = useState({ surah: '', ayat: '' });
+            const [surahSearch, setSurahSearch] = useState("");
 
-            const [accounts, setAccounts] = useState(() => {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                try { return saved ? JSON.parse(saved) : [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "", hijriAdjustment: 0 }]; } 
-                catch { return [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "", hijriAdjustment: 0 }]; }
-            });
-
+            const [accounts, setAccounts] = useState(() => { try { const saved = localStorage.getItem(STORAGE_KEY); return saved ? JSON.parse(saved) : [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "", hijriAdjustment: 0 }]; } catch { return [{ username: 'admin', password: '123', displayName: 'Hamba Allah', city: 'Jakarta', todos: [], recovery: [], githubToken: "", hijriAdjustment: 0 }]; } });
             const [profileForm, setProfileForm] = useState({ displayName: '', city: '', githubToken: '', username: '', password: '', hijriAdjustment: 0 });
             const [prayerTimes, setPrayerTimes] = useState(null);
             const [hijriDate, setHijriDate] = useState("");
             const [locationInfo, setLocationInfo] = useState("Jakarta");
             const [currentTime, setCurrentTime] = useState(new Date());
             const [isLoading, setIsLoading] = useState(false);
-            const [healingResult, setHealingResult] = useState("");
-            const [journalResult, setJournalResult] = useState("");
-            const [journalInput, setJournalInput] = useState({ surah: '', ayat: '' });
-            const [surahSearch, setSurahSearch] = useState("");
-            const [wisdomPill, setWisdomPill] = useState("");
-            const [curhatInput, setCurhatInput] = useState("");
             const [isProfileLocked, setIsProfileLocked] = useState(true);
             const [saveStatus, setSaveStatus] = useState("");
+            const [showToken, setShowToken] = useState(false);
             const [confirmDeleteData, setConfirmDeleteData] = useState({ isOpen: false, id: null, type: null, title: '', message: '' });
             const [draggedIndex, setDraggedIndex] = useState(null);
 
@@ -279,247 +184,265 @@
             const journalRef = useRef(null);
             const langRef = useRef(null);
             const user = accounts[currentUserIdx] || {};
+            const activeProgress = user.todos?.length > 0 ? Math.round((user.todos.filter(t => t.done).length / user.todos.length) * 100) : 0;
 
-            // Constants
             const SURAHS_LIST = ["Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "An-Anfal", "At-Tawbah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Ta-Ha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Ash-Shu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Ya-Sin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hashr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghashiyah", "Al-Fajr", "Al-Balad", "Ash-Shams", "Al-Layl", "Ad-Duha", "Ash-Sharh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", "At-Takathur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"];
-            const RECOVERY_ADVICES_200 = ["Allah melihatmu, Kak. Jangan biarkan Dia melihatmu bermaksiat di balik pintu yang terkunci.","Satu klik salah bisa menghancurkan benteng pertahanan yang sudah kamu bangun berhari-hari.","Ingat wajah Ibu dan Ayah. Maukah kamu mengecewakan harapan dan doa mereka demi kesenangan semu?","Layar HP-mu akan menjadi saksi di hari kiamat. Pastikan ia bersaksi tentang kebaikanmu.","Pikirkan maut. Bagaimana jika malaikat maut datang saat layar itu masih menyala?","Kebahagiaan maksiat itu palsu, ia hanya meninggalkan rasa hampa dan sedih di hatimu.","Hati yang bersih akan merasakan nikmatnya sujud yang lama. Menanglah hari ini!"];
-            
-            // History & Nav Logic
-            useEffect(() => {
-                try { if (!window.history.state) window.history.replaceState({ tab: 'home' }, ''); } catch (e) {}
-                const handlePopState = () => { if (activeTab !== 'home') setActiveTab('home'); };
-                window.addEventListener('popstate', handlePopState);
-                return () => window.removeEventListener('popstate', handlePopState);
-            }, [activeTab]);
+            const RECOVERY_ADVICES = ["Allah melihatmu. Jangan biarkan Dia melihatmu bermaksiat.", "Satu klik salah bisa menghancurkan benteng pertahananmu.", "Ingat wajah orang tuamu. Jangan kecewakan mereka.", "Layar HP-mu akan bersaksi di hari kiamat.", "Pikirkan maut. Bagaimana jika datang sekarang?"];
 
-            const navigateToTab = (newTab) => {
-                setActiveTab(newTab);
-                try { if (newTab !== 'home') window.history.pushState({ tab: newTab }, '', `#${newTab}`); else window.history.pushState({ tab: 'home' }, '', window.location.pathname); } catch (e) {}
-            };
-
-            // Scroll Logic
-            useEffect(() => {
-                const handleScroll = () => {
-                    const currentY = window.scrollY;
-                    if (currentY < lastScrollY || currentY < 50) setShowNav(true); else setShowNav(false);
-                    setLastScrollY(currentY);
-                };
-                window.addEventListener('scroll', handleScroll);
-                return () => window.removeEventListener('scroll', handleScroll);
-            }, [lastScrollY]);
-
-            // Timer & Init Logic
-            useEffect(() => {
-                const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-                const session = localStorage.getItem('temanqu_session');
-                const savedIdx = localStorage.getItem('temanqu_active_idx');
-                if(session === 'true' && savedIdx !== null) { setIsLoggedIn(true); setCurrentUserIdx(parseInt(savedIdx)); }
-                return () => clearInterval(timer);
-            }, []);
-
-            useEffect(() => {
-                if (user && isLoggedIn) {
-                    setProfileForm({ displayName: user.displayName || '', city: user.city || '', githubToken: user.githubToken || '', username: user.username || '', password: user.password || '', hijriAdjustment: user.hijriAdjustment || 0 });
-                    if(!prayerTimes) fetchPrayerByCity(user.city || 'Jakarta', user.hijriAdjustment || 0);
-                }
-            }, [currentUserIdx, isLoggedIn, user]);
-
+            useEffect(() => { const timer = setInterval(() => setCurrentTime(new Date()), 1000); const session = localStorage.getItem('temanqu_session'); const savedIdx = localStorage.getItem('temanqu_active_idx'); if(session === 'true' && savedIdx !== null) { setIsLoggedIn(true); setCurrentUserIdx(parseInt(savedIdx)); } return () => clearInterval(timer); }, []);
+            useEffect(() => { if (user && isLoggedIn) { setProfileForm({ displayName: user.displayName || '', city: user.city || '', githubToken: user.githubToken || '', username: user.username || '', password: user.password || '', hijriAdjustment: user.hijriAdjustment || 0 }); if(!prayerTimes) fetchPrayerByCity(user.city || 'Jakarta', user.hijriAdjustment || 0); } }, [currentUserIdx, isLoggedIn, user]);
             useEffect(() => { document.documentElement.classList.toggle('dark', isDarkMode); }, [isDarkMode]);
 
-            // Memoized Values
-            const recoveryAdviceIndex = useMemo(() => Math.floor(currentTime.getTime() / (1 * 60 * 1000)) % RECOVERY_ADVICES_200.length, [currentTime]);
-            
-            const nextPrayerInfo = useMemo(() => {
-                if (!prayerTimes) return null;
-                const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-                for (let name of prayers) {
-                    const [h, m] = prayerTimes[name].split(':');
-                    const pTime = new Date(currentTime); pTime.setHours(parseInt(h), parseInt(m), 0, 0);
-                    if (pTime > currentTime) return { name, time: pTime };
-                }
-                const [fh, fm] = prayerTimes['Fajr'].split(':');
-                const nextFajr = new Date(currentTime); nextFajr.setDate(nextFajr.getDate() + 1); nextFajr.setHours(parseInt(fh), parseInt(fm), 0, 0);
-                return { name: 'Fajr', time: nextFajr };
-            }, [prayerTimes, currentTime]);
+            const nextPrayerInfo = useMemo(() => { if (!prayerTimes) return null; const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha']; for (let name of prayers) { const [h, m] = prayerTimes[name].split(':'); const pTime = new Date(currentTime); pTime.setHours(parseInt(h), parseInt(m), 0, 0); if (pTime > currentTime) return { name, time: pTime }; } const [fh, fm] = prayerTimes['Fajr'].split(':'); const nextFajr = new Date(currentTime); nextFajr.setDate(nextFajr.getDate() + 1); nextFajr.setHours(parseInt(fh), parseInt(fm), 0, 0); return { name: 'Fajr', time: nextFajr }; }, [prayerTimes, currentTime]);
+            const countdownString = useMemo(() => { if (!nextPrayerInfo) return ""; const diff = nextPrayerInfo.time - currentTime; const h = Math.floor(diff / 3600000); const m = Math.floor((diff % 3600000) / 60000); const s = Math.floor((diff % 60000) / 1000); return (h < 10 ? '0' + h : h) + 'j ' + (m < 10 ? '0' + m : m) + 'm ' + (s < 10 ? '0' + s : s) + 'd'; }, [currentTime, nextPrayerInfo]);
+            const recoveryAdviceIndex = useMemo(() => Math.floor(currentTime.getTime() / (1 * 60 * 1000)) % RECOVERY_ADVICES.length, [currentTime]);
 
-            const countdownString = useMemo(() => {
-                if (!nextPrayerInfo) return "";
-                const diff = nextPrayerInfo.time - currentTime;
-                const h = Math.floor(diff / 3600000);
-                const m = Math.floor((diff % 3600000) / 60000);
-                const s = Math.floor((diff % 60000) / 1000);
-                return (h < 10 ? '0' + h : h) + 'j ' + (m < 10 ? '0' + m : m) + 'm ' + (s < 10 ? '0' + s : s) + 'd';
-            }, [currentTime, nextPrayerInfo]);
+            const fetchPrayerByCity = (city, adj = 0) => { setLocationInfo(city); fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=Indonesia&method=20&adjustment=${adj}`).then(r => r.json()).then(d => { if(d?.data) { setPrayerTimes(d.data.timings); setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`); } }); };
+            const fetchPrayerByGPS = (adj = 0) => { setLocationInfo("Mencari..."); if (navigator.geolocation) { navigator.geolocation.getCurrentPosition((pos) => { fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=20&adjustment=${adj}`).then(r => r.json()).then(d => { if(d?.data) { setPrayerTimes(d.data.timings); setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`); setLocationInfo(`${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`); } }); }, () => fetchPrayerByCity(user.city || "Jakarta", adj)); } };
 
-            // Helpers
-            const formatRecoveryTime = (start) => {
-                const diff = currentTime - start;
-                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-                return { 
-                    full: `${d}h ${h}j ${m}m ${s}d`, 
-                    days: d,
-                    totalMs: diff 
-                };
-            };
-
-            const getMilestoneMessage = (diff) => {
-                const hours = diff / (1000 * 60 * 60);
-                const days = hours / 24;
-                
-                if (diff < 60 * 1000) return "Tarik napas, detik pertama adalah yang terberat.";
-                if (hours < 1) return "Satu jam demi satu jam. Kamu kuat.";
-                if (hours < 24) return "Hari ini kamu menang melawan hawa nafsu.";
-                if (days < 3) return "3 hari awal adalah fase detoksifikasi terberat. Bertahanlah!";
-                if (days < 7) return "Satu minggu! Jiwamu mulai pulih.";
-                if (days < 40) return "Menuju 40 hari pembentukan kebiasaan baru.";
-                return "Maa Syaa Allah, kamu telah menjadi pribadi baru.";
-            };
-
-            const fetchPrayerByCity = (city, adjustment = 0) => {
-                setLocationInfo(city);
-                fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=Indonesia&method=20&adjustment=${adjustment}&t=${Date.now()}`)
-                .then(r => r.json()).then(d => { if(d?.data) { setPrayerTimes(d.data.timings); setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`); } });
-            };
-            const fetchPrayerByGPS = (adjustment = 0) => {
-                setLocationInfo("Mencari...");
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((pos) => {
-                        fetch(`https://api.aladhan.com/v1/timings?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&method=20&adjustment=${adjustment}&t=${Date.now()}`)
-                        .then(r => r.json()).then(d => { if(d?.data) { setPrayerTimes(d.data.timings); setHijriDate(`${d.data.date.hijri.day} ${d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`); setLocationInfo(`${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}`); } });
-                    }, () => fetchPrayerByCity(user.city || "Jakarta", adjustment));
-                }
-            };
-
-            const handleCapture = async (ref, fileName) => {
-                if (!ref.current || !window.html2canvas) return;
-                setIsLoading(true);
-                try {
-                    const canvas = await window.html2canvas(ref.current, { backgroundColor: "#FFFBF0", scale: 3, useCORS: true });
-                    const link = document.createElement("a");
-                    link.href = canvas.toDataURL("image/png");
-                    link.download = `TemanQu-${fileName}-${Date.now()}.png`;
-                    link.click();
-                } catch (e) { console.error(e); }
-                finally { setIsLoading(false); }
-            };
+            const formatRecoveryTime = (start) => { const diff = currentTime - start; const d = Math.floor(diff / 86400000); const h = Math.floor((diff % 86400000) / 3600000); const m = Math.floor((diff % 3600000) / 60000); const s = Math.floor((diff % 60000) / 1000); return { full: `${d}h ${h}j ${m}m ${s}d`, totalMs: diff }; };
+            const getMilestoneMessage = (ms) => { const h = ms / 3600000; const d = h / 24; if (ms < 60000) return "Detik pertama kemenangan."; if (h < 1) return "Satu jam yang berharga."; if (h < 24) return "Hari ini kamu menang!"; if (d < 7) return "Semakin kuat!"; return "Istiqomah adalah kunci."; };
 
             const callAI = async (type, data) => {
                 const token = (profileForm.githubToken || user.githubToken || "").trim();
-                if (!token) {
-                    const simulated = `[Info] Masukkan Token GitHub di Profil untuk fitur AI.`;
-                    if(type === 'journal') setJournalResult(simulated); else if(type === 'language') setLangResult(simulated); else setHealingResult(simulated);
-                    return;
+                if (!token) { 
+                    const msg = `[Info] Token GitHub belum diisi di menu Profil.`;
+                    if(type==='journal') setJournalResult(msg); else if(type==='language') setLangResult(msg); else setHealingResult(msg);
+                    return; 
                 }
+                
                 setIsLoading(true);
-                if(type === 'journal') setJournalResult(""); else if(type === 'language') setLangResult(""); else setHealingResult("");
-
-                // INSTRUCTION: FORBID MARKDOWN
-                const cleanInstruction = " Jawablah hanya dengan teks polos yang rapi. Jangan gunakan formatting Markdown seperti **bold**, ## heading, atau list dengan simbol. Gunakan paragraf yang mengalir.";
-
-                let sysPrompt = "", usrPrompt = "";
-                if (type === 'healing') { sysPrompt = "TemanQu: sahabat bijak Islami, hangat, bahasa Indonesia santai." + cleanInstruction; usrPrompt = `User rasa: "${data}". Beri tanggapan tenang, validasi, nasihat psikologis & spiritual.`; }
-                else if (type === 'journal') { sysPrompt = "Ahli tafsir puitis Indonesia." + cleanInstruction; usrPrompt = `Tadabbur: Surat ${data.surah} Ayat ${data.ayat}. Makna & hikmah praktis.`; }
-                else if (type === 'language') { sysPrompt = `Ahli bahasa ${selectedLang==='ar'?'Arab':'Inggris'}, jawab Indo.` + cleanInstruction; usrPrompt = `Analisis: "${data}". Cek grammar & koreksi.`; }
-                else if (type === 'recovery') { sysPrompt = "Mentor recovery tegas sayang." + cleanInstruction; usrPrompt = `Lawan: "${data}". Motivasi kuat cegah relapse.`; }
+                const cleanInstruction = " Jawablah hanya dengan teks polos yang rapi. Jangan gunakan formatting Markdown (** atau ##). Rata kiri-kanan. Gunakan bahasa Indonesia menenangkan.";
+                let sys = "", usr = "";
+                if (type === 'healing') { sys = "TemanQu: sahabat Islami bijak." + cleanInstruction; usr = `User rasa: "${data}". Beri saran spiritual & psikologis.`; }
+                else if (type === 'journal') { sys = "Ahli tafsir Al-Quran puitis." + cleanInstruction; usr = `Tadabbur Surat ${data.surah} Ayat ${data.ayat}. Makna hikmah praktis.`; }
+                else if (type === 'language') { sys = `Ahli bahasa ${selectedLang==='ar'?'Arab':'Inggris'}.` + cleanInstruction; usr = `Analisis kalimat: "${data}". Cek grammar & arti.`; }
 
                 try {
                     const res = await fetch("https://models.inference.ai.azure.com/chat/completions", {
-                        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                        body: JSON.stringify({ messages: [{ role: "system", content: sysPrompt }, { role: "user", content: usrPrompt }], model: "gpt-4o", temperature: 0.7, max_tokens: 800 })
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ messages: [{ role: "system", content: sys }, { role: "user", content: usr }], model: "gpt-4o", temperature: 0.7, max_tokens: 800 })
                     });
-                    if (!res.ok) throw new Error();
+                    if (!res.ok) throw new Error(`Status: ${res.status}`);
                     const json = await res.json();
                     let txt = json.choices[0].message.content.trim();
-                    
-                    // CLEANUP: Regex to strip standard markdown symbols just in case
-                    txt = txt.replace(/\*\*/g, '').replace(/##/g, '').replace(/###/g, '').replace(/__/g, '').replace(/^\s*[-*]\s+/gm, '• ');
-
-                    if(type === 'journal') setJournalResult(txt); else if(type === 'language') setLangResult(txt); else setHealingResult(txt);
+                    txt = txt.replace(/[\*#_]/g, '').replace(/^\s*[-]\s+/gm, '• ');
+                    if(type==='journal') setJournalResult(txt); else if(type==='language') setLangResult(txt); else setHealingResult(txt);
                 } catch (e) {
-                    const err = "[Gagal] Cek Token/Koneksi.";
-                    if(type === 'language') setLangResult(err); else if(type === 'journal') setJournalResult(err); else setHealingResult(err);
+                    const err = `[Gagal] ${e.message}. Cek koneksi atau token.`;
+                    if(type==='journal') setJournalResult(err); else if(type==='language') setLangResult(err); else setHealingResult(err);
                 } finally { setIsLoading(false); }
             };
 
-            const handleLogin = (e) => { e.preventDefault(); const idx = accounts.findIndex(a => a.username === loginInputUser && a.password === loginInputPass); if(idx !== -1) { setCurrentUserIdx(idx); setIsLoggedIn(true); localStorage.setItem('temanqu_session', 'true'); localStorage.setItem('temanqu_active_idx', idx.toString()); setLoginError(""); } else setLoginError("Kombinasi salah."); };
-            const handleLogout = () => setConfirmDeleteData({ isOpen: true, id: 'logout', type: 'logout', title: 'Istirahat?', message: 'Keluar sesi.' });
             const updateData = (newData) => { const updated = [...accounts]; updated[currentUserIdx] = { ...updated[currentUserIdx], ...newData }; setAccounts(updated); localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); };
-            const handleSaveCorrection = () => { updateData({ hijriAdjustment: profileForm.hijriAdjustment }); setSaveStatus("Menyimpan..."); setTimeout(() => { fetchPrayerByCity(profileForm.city || user.city || 'Jakarta', profileForm.hijriAdjustment); setSaveStatus("Berhasil!"); setTimeout(() => setSaveStatus(""), 2000); }, 500); };
-            const triggerDeleteDeed = (id) => setConfirmDeleteData({ isOpen: true, id, type: 'todo', title: 'Hapus?', message: 'Permanen.' });
-            const handleConfirmAction = () => { if (confirmDeleteData.type === 'todo') updateData({ todos: user.todos.filter(x => x.id !== confirmDeleteData.id) }); else if (confirmDeleteData.type === 'logout') { setIsLoggedIn(false); localStorage.removeItem('temanqu_session'); } setConfirmDeleteData({ isOpen: false }); };
-            const handleDragStart = (e, i) => { setDraggedIndex(i); e.dataTransfer.effectAllowed = 'move'; };
-            const handleDragOver = (e, i) => { e.preventDefault(); if (draggedIndex === null || draggedIndex === i) return; const list = [...user.todos]; const item = list.splice(draggedIndex, 1)[0]; list.splice(i, 0, item); setDraggedIndex(i); updateData({ todos: list }); };
-            const handleDragEnd = () => setDraggedIndex(null);
-
-            // Added activeProgress definition
-            const activeProgress = user.todos?.length > 0 ? Math.round((user.todos.filter(t => t.done).length / user.todos.length) * 100) : 0;
+            const handleLogin = (e) => { e.preventDefault(); const idx = accounts.findIndex(a => a.username === loginInputUser && a.password === loginInputPass); if(idx !== -1) { setCurrentUserIdx(idx); setIsLoggedIn(true); localStorage.setItem('temanqu_session', 'true'); localStorage.setItem('temanqu_active_idx', idx.toString()); } else setLoginError("Salah."); };
+            const handleCapture = async (ref, fileName) => { if (!ref.current) return; setIsLoading(true); try { const canvas = await html2canvas(ref.current, { backgroundColor: "#FFFBF0", scale: 2 }); const link = document.createElement("a"); link.href = canvas.toDataURL(); link.download = `TemanQu-${fileName}.png`; link.click(); } catch(e){} finally { setIsLoading(false); } };
 
             if (!isLoggedIn) return (
                 <div className="min-h-screen flex items-center justify-center bg-[#E5ECEB] dark:bg-slate-900 p-6">
                     <div className="w-full max-w-sm glass-panel p-10 rounded-[3rem] shadow-2xl text-center space-y-8 animate-in">
-                        <div className="w-20 h-20 bg-teal-600 rounded-[2rem] flex items-center justify-center mx-auto shadow-xl shadow-teal-600/30 rotate-12"><Icon name="Sparkles" className="text-white" size={40} /></div>
-                        <div><h1 className="text-3xl font-bold text-teal-900 dark:text-white tracking-tight font-script">TemanQu</h1><p className="text-slate-500 text-sm mt-2">Masuk untuk memulai perjalanan.</p></div>
+                        <div className="w-20 h-20 bg-teal-600 rounded-[2rem] flex items-center justify-center mx-auto text-white shadow-xl rotate-12"><Icon name="Smile" size={40} /></div>
+                        <h1 className="text-3xl font-bold text-teal-900 dark:text-white font-script">TemanQu</h1>
                         <form onSubmit={handleLogin} className="space-y-4">
-                            <div className="relative group"><Icon name="User" className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-600" size={18}/><input type="text" value={loginInputUser} onChange={e => setLoginInputUser(e.target.value)} className="w-full p-4 pl-12 bg-white/50 border border-white rounded-2xl outline-none font-semibold focus:ring-4 focus:ring-teal-100 transition-all text-sm" placeholder="Username" required /></div>
-                            <div className="relative group"><Icon name="Key" className="absolute left-5 top-1/2 -translate-y-1/2 text-teal-600" size={18}/><input type="password" value={loginInputPass} onChange={e => setLoginInputPass(e.target.value)} className="w-full p-4 pl-12 bg-white/50 border border-white rounded-2xl outline-none font-semibold focus:ring-4 focus:ring-teal-100 transition-all text-sm" placeholder="Password" required /></div>
-                            {loginError && <div className="p-3 bg-rose-50 text-rose-500 rounded-xl text-xs font-bold animate-pulse">{loginError}</div>}
-                            <button type="submit" className="w-full py-4 bg-teal-700 text-white rounded-2xl font-bold uppercase tracking-widest text-xs shadow-xl active:scale-95 transition-transform touch-scale">Masuk Aplikasi</button>
+                            <input type="text" value={loginInputUser} onChange={e => setLoginInputUser(e.target.value)} className="w-full p-4 bg-white/50 border border-white rounded-2xl outline-none font-bold" placeholder="Username" required />
+                            <input type="password" value={loginInputPass} onChange={e => setLoginInputPass(e.target.value)} className="w-full p-4 bg-white/50 border border-white rounded-2xl outline-none font-bold" placeholder="Password" required />
+                            {loginError && <p className="text-rose-500 text-xs font-bold">{loginError}</p>}
+                            <button type="submit" className="w-full py-4 bg-teal-700 text-white rounded-2xl font-bold uppercase tracking-widest text-xs touch-scale">Masuk Aplikasi</button>
                         </form>
-                        <div className="opacity-30 font-medium text-[10px] uppercase tracking-widest">Demo: admin / 123</div>
                     </div>
                 </div>
             );
 
             return (
-                <div className={`min-h-screen transition-all duration-700 pb-28 overflow-x-hidden font-sans ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-[#F0F4F3] text-slate-800'}`}>
-                    <ConfirmModal isOpen={confirmDeleteData.isOpen} title={confirmDeleteData.title} message={confirmDeleteData.message} onConfirm={handleConfirmAction} onCancel={() => setConfirmDeleteData({ isOpen: false })} isDarkMode={isDarkMode} />
+                <div className={`min-h-screen pb-28 font-sans ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-[#F0F4F3] text-slate-800'}`}>
+                    <ConfirmModal isOpen={confirmDeleteData.isOpen} title={confirmDeleteData.title} message={confirmDeleteData.message} onConfirm={() => { if(confirmDeleteData.type==='todo') updateData({todos: user.todos.filter(x=>x.id!==confirmDeleteData.id)}); else { setIsLoggedIn(false); localStorage.removeItem('temanqu_session'); } setConfirmDeleteData({isOpen:false}); }} onCancel={()=>setConfirmDeleteData({isOpen:false})} isDarkMode={isDarkMode} />
                     
-                    <header className="px-6 py-6 sticky top-0 z-40 backdrop-blur-md bg-white/10 dark:bg-slate-900/10"><div className={`rounded-[2.5rem] p-4 flex justify-between items-center shadow-lg shadow-black/5 backdrop-blur-xl border border-white/40 ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-white/80'}`}><div className="flex items-center gap-3"><div className="w-10 h-10 bg-teal-600 rounded-2xl flex items-center justify-center text-white rotate-3 shadow-md"><Icon name="Smile" size={20} /></div><div><h1 className="text-2xl font-bold tracking-tight text-teal-900 dark:text-white leading-none font-script">TemanQu</h1><p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest mt-0.5">App Muslim Modern</p></div></div><button onClick={() => setIsDarkMode(!isDarkMode)} className="p-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-2xl transition-all active:rotate-12 touch-scale">{isDarkMode ? <Icon name="Sun" size={18} /> : <Icon name="Moon" size={18} />}</button></div></header>
+                    <header className="px-6 py-6 sticky top-0 z-40 backdrop-blur-md">
+                        <div className={`max-w-xl mx-auto rounded-[2.5rem] p-4 flex justify-between items-center shadow-lg border border-white/40 ${isDarkMode ? 'bg-slate-900/80 border-white/5' : 'bg-white/80'}`}>
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center text-white"><Icon name="Smile" size={20} /></div>
+                                <div><h1 className="text-xl font-bold font-script leading-none">TemanQu</h1><p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Sahabat Terbaikmu</p></div>
+                            </div>
+                            <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl touch-scale">{isDarkMode ? <Icon name="Sun" size={18} /> : <Icon name="Moon" size={18} />}</button>
+                        </div>
+                    </header>
 
-                    <main className="max-w-xl mx-auto px-5 space-y-10 animate-in pb-10">
+                    <main className="max-w-xl mx-auto px-5 space-y-10 animate-in">
                         {activeTab === 'home' && (
                             <div className="space-y-8">
-                                <div className="text-center mt-4">
-                                    <h2 className="text-4xl font-bold mb-2 tracking-tight text-slate-800 dark:text-white font-script">Hai, {user.displayName || 'Sahabat'} 👋</h2>
-                                    <p className="text-xs font-bold text-teal-600 uppercase tracking-[0.2em] bg-teal-50 dark:bg-teal-900/30 py-2 px-4 rounded-full inline-block">{currentTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })} • {hijriDate}</p>
+                                <div className="text-center">
+                                    <h2 className="text-4xl font-bold font-script">Hai, {user.displayName} 👋</h2>
+                                    <p className="text-xs font-bold text-teal-600 uppercase mt-2 tracking-widest">{currentTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })} • {hijriDate}</p>
                                 </div>
-                                <div className={`p-8 rounded-[3rem] border border-white/60 shadow-[0_20px_50px_rgba(0,0,0,0.04)] ${isDarkMode ? 'bg-slate-900/50 border-white/5' : 'bg-white/60'}`}>
+                                <div className={`p-8 rounded-[3rem] border border-white shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}>
                                     <div className="flex flex-col items-center mb-10 space-y-6 text-center">
-                                        <div className="flex items-center gap-3 p-1 pl-4 pr-1 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><div className="flex items-center gap-2 text-slate-500 dark:text-slate-400"><Icon name="MapPin" size={14}/> <span className="text-xs font-bold">{locationInfo}</span></div><button onClick={() => fetchPrayerByGPS(user.hijriAdjustment || 0)} className="w-8 h-8 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center hover:rotate-180 transition-transform"><Icon name="RefreshCw" size={12} /></button></div>
-                                        <div className="py-2"><DigitalClock time={currentTime} /></div>
-                                        {nextPrayerInfo && <div className="flex flex-col items-center animate-in"><span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] mb-2">Menuju {nextPrayerInfo.name}</span><div className="px-6 py-3 bg-slate-900 text-white dark:bg-white dark:text-slate-900 rounded-2xl text-sm font-bold shadow-xl flex items-center gap-2"><Icon name="Timer" size={16} /> {countdownString}</div></div>}
+                                        <div className="flex items-center gap-3 p-1 pl-4 pr-1 bg-white dark:bg-slate-800 rounded-full shadow-sm"><span className="text-xs font-bold text-slate-500">{locationInfo}</span><button onClick={() => fetchPrayerByGPS(user.hijriAdjustment)} className="w-8 h-8 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center"><Icon name="RefreshCw" size={12}/></button></div>
+                                        <DigitalClock time={currentTime} />
+                                        {nextPrayerInfo && <div className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl text-sm font-bold shadow-xl flex items-center gap-2 tracking-tighter"><Icon name="Timer" size={16}/> Menuju {nextPrayerInfo.name}: {countdownString}</div>}
                                     </div>
-                                    <div className="grid gap-3">{prayerTimes && ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map(p => { const isNext = nextPrayerInfo?.name === p; return (<div key={p} className={`flex justify-between items-center p-5 rounded-[1.8rem] transition-all duration-500 ${isNext ? 'bg-teal-600 text-white shadow-lg shadow-teal-600/20 scale-[1.03]' : 'bg-white/40 dark:bg-white/5 hover:bg-white/80'}`}><span className="font-bold text-[10px] uppercase tracking-widest opacity-80">{p}</span><span className="font-bold text-lg tracking-tight">{prayerTimes[p]}</span></div>)})}</div>
+                                    <div className="grid gap-3">
+                                        {prayerTimes && ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'].map(p => (
+                                            <div key={p} className={`flex justify-between items-center p-5 rounded-[1.8rem] ${nextPrayerInfo?.name === p ? 'bg-teal-600 text-white shadow-lg scale-105' : 'bg-white/40 dark:bg-white/5'}`}>
+                                                <span className="font-bold text-xs uppercase opacity-70">{p}</span>
+                                                <span className="font-bold text-xl">{prayerTimes[p]}</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         )}
-                        {activeTab === 'amal' && (
-                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="ClipboardList" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Ceklist Amal</h2></div><div className={`p-10 rounded-[3rem] border border-white/50 shadow-xl flex flex-col items-center ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><div className="relative flex items-center justify-center mb-8 w-40 h-40"><svg className="w-full h-full transform -rotate-90"><circle cx="50%" cy="50%" r="70" strokeWidth="12" fill="transparent" className="stroke-slate-200 dark:stroke-slate-800" /><circle cx="50%" cy="50%" r="70" strokeWidth="12" fill="transparent" strokeDasharray={439.8} strokeDashoffset={439.8 - (439.8 * (activeProgress / 100))} className="stroke-teal-500 transition-all duration-1000 ease-out" strokeLinecap="round" /></svg><div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-4xl font-black text-teal-600 tracking-tighter">{activeProgress}%</span><span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Selesai</span></div></div><div className="w-full space-y-2">{user.todos?.map((t, idx) => (<TodoItem key={t.id} t={t} index={idx} isDarkMode={isDarkMode} isDragging={draggedIndex === idx} onToggle={(id) => updateData({ todos: user.todos.map(x => x.id === id ? {...x, done: !x.done} : x) })} onDelete={triggerDeleteDeed} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={() => setDraggedIndex(null)} />))}</div><div className="flex gap-3 mt-8 w-full"><input id="addTodo" className="flex-1 p-4 bg-white/50 dark:bg-slate-800 border border-transparent focus:border-teal-500 rounded-[1.2rem] outline-none font-bold text-sm transition-all" placeholder="Tambah target..." /><button onClick={() => { const i = document.getElementById('addTodo'); if(i.value) { updateData({ todos: [...(user.todos || []), { id: Date.now(), text: i.value, done: false }] }); i.value = ""; } }} className="w-14 bg-teal-600 text-white rounded-[1.2rem] flex items-center justify-center shadow-lg active:scale-90 transition-transform"><Icon name="Plus" size={24}/></button></div></div></div>
-                        )}
+
                         {activeTab === 'healing' && (
-                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="Wind" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Curhat Dong!</h2></div><div className={`p-8 rounded-[2.5rem] border border-white/50 shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><textarea className="w-full p-6 bg-white/50 dark:bg-slate-800 rounded-[1.8rem] outline-none font-medium text-base min-h-[180px] resize-none focus:ring-4 focus:ring-teal-100 dark:focus:ring-teal-900 transition-all border border-transparent" placeholder="Tumpahkan perasaanmu di sini..." value={curhatInput} onChange={(e) => setCurhatInput(e.target.value)} /><button onClick={() => callAI('healing', curhatInput)} disabled={!curhatInput || isLoading} className="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-5 rounded-[1.5rem] font-bold uppercase tracking-widest text-xs mt-4 shadow-xl active:scale-95 disabled:opacity-50 transition-all touch-scale">Minta Saran AI</button></div>{healingResult && (<div ref={healingRef} className="p-10 rounded-[2.5rem] bg-[#FFFBF0] text-slate-800 shadow-xl border-2 border-white relative overflow-hidden text-justify"><div className="absolute top-0 right-0 p-6 opacity-10"><Icon name="Smile" size={80}/></div><p className="text-xl leading-loose font-note relative z-10 whitespace-pre-wrap">{healingResult}</p><button onClick={() => handleCapture(healingRef, 'Wasiat')} className="w-full py-4 bg-orange-100 text-orange-700 rounded-[1.2rem] font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Camera" size={16}/> Simpan Gambar</button></div>)}</div>
+                            <div className="space-y-8 text-center">
+                                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="Smile" size={20} className="text-teal-500"/><h2 className="text-lg font-bold">Curhat Dong!</h2></div>
+                                <div className={`p-8 rounded-[2.5rem] border border-white shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}>
+                                    <textarea className="w-full p-6 bg-white/50 dark:bg-slate-800 rounded-[1.8rem] min-h-[150px] font-medium resize-none focus:ring-4 focus:ring-teal-100 transition-all" placeholder="Tumpahkan perasaanmu di sini..." value={curhatInput} onChange={(e) => setCurhatInput(e.target.value)} />
+                                    <button onClick={() => callAI('healing', curhatInput)} disabled={!curhatInput || isLoading} className="w-full bg-slate-900 dark:bg-white dark:text-slate-900 text-white py-5 rounded-[1.5rem] font-bold uppercase tracking-widest text-xs mt-4 shadow-xl active:scale-95 disabled:opacity-50 transition-all touch-scale">Minta Saran AI</button>
+                                </div>
+                                {healingResult && (
+                                    <div ref={healingRef} className="p-10 rounded-[2.5rem] bg-[#FFFBF0] text-slate-800 shadow-xl border-2 border-white text-justify overflow-hidden relative">
+                                        <div className="absolute top-0 right-0 p-6 opacity-10"><Icon name="Smile" size={80}/></div>
+                                        <p className="text-xl leading-loose font-note relative z-10 whitespace-pre-wrap">{healingResult}</p>
+                                        <button onClick={() => handleCapture(healingRef, 'Curhat')} className="w-full py-4 bg-orange-100 text-orange-700 rounded-xl font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Camera" size={16}/> Simpan Gambar</button>
+                                    </div>
+                                )}
+                            </div>
                         )}
+
                         {activeTab === 'bahasa' && (
-                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="Globe" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Poles Bahasa</h2></div><div className={`p-8 rounded-[2.5rem] border border-white/50 shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><div className="flex gap-3 mb-4 justify-center bg-slate-100 dark:bg-slate-800 p-1.5 rounded-[1.2rem] w-fit mx-auto"><button onClick={() => setSelectedLang('ar')} className={`px-6 py-2.5 rounded-[0.9rem] font-bold text-xs transition-all ${selectedLang === 'ar' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Arab</button><button onClick={() => setSelectedLang('en')} className={`px-6 py-2.5 rounded-[0.9rem] font-bold text-xs transition-all ${selectedLang === 'en' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>Inggris</button></div><textarea className="w-full p-6 bg-white/50 dark:bg-slate-800 rounded-[1.8rem] outline-none font-medium text-base min-h-[140px] resize-none focus:ring-4 focus:ring-teal-100 transition-all border border-transparent" placeholder={`Tulis kalimat ${selectedLang === 'ar' ? 'Arab' : 'Inggris'}...`} value={langInput} onChange={(e) => setLangInput(e.target.value)} /><button onClick={() => callAI('language', langInput)} disabled={!langInput || isLoading} className="w-full bg-teal-600 text-white py-5 rounded-[1.5rem] font-bold uppercase tracking-widest text-xs mt-4 shadow-lg active:scale-95 disabled:opacity-50 transition-all touch-scale">Cek Grammar</button></div>{langResult && (<div ref={langRef} className="p-10 rounded-[2.5rem] bg-[#F0FDF4] text-slate-800 shadow-xl border-2 border-white text-justify"><div className="flex items-center gap-2 mb-4 opacity-40"><Icon name="CheckCircle" size={16}/><span className="text-[10px] font-black uppercase tracking-widest">Hasil Analisis</span></div><p className="text-lg leading-relaxed font-note whitespace-pre-wrap">{langResult}</p><button onClick={() => handleCapture(langRef, 'Bahasa')} className="w-full py-4 bg-emerald-100 text-emerald-700 rounded-[1.2rem] font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Camera" size={16}/> Simpan</button></div>)}</div>
+                            <div className="space-y-8 text-center">
+                                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm"><Icon name="Globe" size={20} className="text-teal-500"/><h2 className="text-lg font-bold">Poles Bahasa</h2></div>
+                                <div className={`p-8 rounded-[2.5rem] border border-white shadow-xl ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}>
+                                    <div className="flex gap-3 mb-4 justify-center bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl w-fit mx-auto">
+                                        <button onClick={() => setSelectedLang('ar')} className={`px-6 py-2 rounded-xl font-bold text-xs ${selectedLang === 'ar' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-400'}`}>Arab</button>
+                                        <button onClick={() => setSelectedLang('en')} className={`px-6 py-2 rounded-xl font-bold text-xs ${selectedLang === 'en' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-400'}`}>Inggris</button>
+                                    </div>
+                                    <textarea className="w-full p-6 bg-white/50 dark:bg-slate-800 rounded-[1.8rem] min-h-[120px] font-medium resize-none focus:ring-4 focus:ring-teal-100 transition-all" placeholder={`Tulis kalimat...`} value={langInput} onChange={(e) => setLangInput(e.target.value)} />
+                                    <button onClick={() => callAI('language', langInput)} disabled={!langInput || isLoading} className="w-full bg-teal-600 text-white py-5 rounded-[1.5rem] font-bold uppercase tracking-widest text-xs mt-4 shadow-lg active:scale-95 disabled:opacity-50 touch-scale">Cek Grammar</button>
+                                </div>
+                                {langResult && (
+                                    <div ref={langRef} className="p-10 rounded-[2.5rem] bg-[#F0FDF4] text-slate-800 shadow-xl border-2 border-white text-justify">
+                                        <p className="text-lg leading-relaxed font-note whitespace-pre-wrap">{langResult}</p>
+                                        <button onClick={() => handleCapture(langRef, 'Bahasa')} className="w-full py-4 bg-emerald-100 text-emerald-700 rounded-xl font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Camera" size={16}/> Simpan</button>
+                                    </div>
+                                )}
+                            </div>
                         )}
+
+                        {activeTab === 'amal' && (
+                            <div className="space-y-8 text-center">
+                                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm"><Icon name="ClipboardList" size={20} className="text-teal-500"/><h2 className="text-lg font-bold">Ceklist Amal</h2></div>
+                                <div className={`p-10 rounded-[3rem] border border-white shadow-xl flex flex-col items-center ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}>
+                                    <div className="relative flex items-center justify-center mb-8 w-40 h-40">
+                                        <svg className="w-full h-full transform -rotate-90"><circle cx="50%" cy="50%" r="70" strokeWidth="12" fill="transparent" className="stroke-slate-200 dark:stroke-slate-800" /><circle cx="50%" cy="50%" r="70" strokeWidth="12" fill="transparent" strokeDasharray={439.8} strokeDashoffset={439.8 - (439.8 * (activeProgress / 100))} className="stroke-teal-500 transition-all duration-1000 ease-out" strokeLinecap="round" /></svg>
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-4xl font-black text-teal-600 tracking-tighter">{activeProgress}%</span><span className="text-[9px] font-bold text-slate-400 uppercase mt-1">Selesai</span></div>
+                                    </div>
+                                    <div className="w-full space-y-2">
+                                        {user.todos?.map((t, idx) => (<TodoItem key={t.id} t={t} index={idx} isDarkMode={isDarkMode} isDragging={draggedIndex === idx} onToggle={(id) => updateData({ todos: user.todos.map(x => x.id === id ? {...x, done: !x.done} : x) })} onDelete={(id)=>setConfirmDeleteData({isOpen:true, id, type:'todo', title:'Hapus?', message:'Target ini akan dihapus.'})} onDragStart={(e,i)=>{setDraggedIndex(i); e.dataTransfer.effectAllowed='move';}} onDragOver={(e,i)=>{e.preventDefault(); if(draggedIndex===null||draggedIndex===i)return; const list=[...user.todos]; const item=list.splice(draggedIndex,1)[0]; list.splice(i,0,item); setDraggedIndex(i); updateData({todos:list});}} onDragEnd={()=>setDraggedIndex(null)} />))}
+                                    </div>
+                                    <div className="flex gap-3 mt-8 w-full">
+                                        <input id="addTodo" className="flex-1 p-4 bg-white/50 dark:bg-slate-800 border border-transparent focus:border-teal-500 rounded-2xl outline-none font-bold text-sm" placeholder="Target baru..." />
+                                        <button onClick={() => { const i = document.getElementById('addTodo'); if(i.value) { updateData({ todos: [...(user.todos || []), { id: Date.now(), text: i.value, done: false }] }); i.value = ""; } }} className="w-14 bg-teal-600 text-white rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition-transform"><Icon name="Plus" size={24}/></button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {activeTab === 'recovery' && (
-                           <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="ShieldCheck" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Lawan Candu</h2></div><div className="p-10 rounded-[3rem] bg-orange-50 border border-orange-100 shadow-xl relative text-left overflow-hidden"><div className="absolute -top-4 -right-4 p-8 opacity-10 text-orange-500"><Icon name="ShieldAlert" size={140} /></div><div className="relative z-10"><div className="flex items-center gap-2 mb-4 opacity-40"><span className="text-[9px] font-black uppercase tracking-[0.2em] text-orange-800">Daily Reminder</span></div><p className="text-3xl leading-relaxed italic text-slate-700 font-script">"{RECOVERY_ADVICES_200[recoveryAdviceIndex]}"</p></div></div>{user.recovery?.map(r => { const recTime = formatRecoveryTime(r.startTime); return (<div key={r.id} className="p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-lg text-left dark:bg-slate-800 dark:border-slate-700"><div className="flex justify-between items-start mb-6"><div><div className="flex items-center gap-2 mb-2"><span className="px-4 py-2 bg-teal-50 text-teal-700 rounded-xl text-lg font-black tracking-tighter tabular-nums border border-teal-100 shadow-sm">{recTime.full}</span></div><h4 className="text-xl font-bold text-slate-800 dark:text-white mt-4 font-script">Bebas {r.name}</h4><p className="text-base text-teal-600 mt-2 font-note font-bold leading-none">{getMilestoneMessage(recTime.totalMs)}</p></div><button onClick={() => updateData({ recovery: user.recovery.filter(x => x.id !== r.id) })} className="p-3 bg-slate-50 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all"><Icon name="Trash2" size={18}/></button></div><button onClick={() => callAI('healing', `Motivasi bebas ${r.name}`)} className="w-full py-4 bg-slate-900 text-white rounded-[1.2rem] font-bold text-[10px] uppercase tracking-widest active:scale-95 transition-all">Minta Motivasi</button></div>) })}<div className="flex gap-3"><input id="addRec" className="flex-1 p-5 bg-white border border-slate-100 rounded-[1.5rem] outline-none font-bold text-sm shadow-sm dark:bg-slate-800 dark:border-slate-700" placeholder="Target baru?" /><button onClick={() => { const i = document.getElementById('addRec'); if(i.value) { updateData({ recovery: [...(user.recovery || []), { id: Date.now(), name: i.value, startTime: Date.now() }] }); i.value = ""; } }} className="w-16 bg-teal-600 text-white rounded-[1.5rem] flex items-center justify-center shadow-lg active:scale-90 transition-transform"><Icon name="Plus" size={28}/></button></div></div>
+                            <div className="space-y-8 text-center">
+                                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm"><Icon name="ShieldCheck" size={20} className="text-teal-500"/><h2 className="text-lg font-bold">Lawan Candu</h2></div>
+                                <div className="p-10 rounded-[3rem] bg-orange-50 border border-orange-100 shadow-xl relative text-left overflow-hidden">
+                                    <div className="absolute -top-4 -right-4 p-8 opacity-10 text-orange-500"><Icon name="ShieldAlert" size={140} /></div>
+                                    <div className="relative z-10"><span className="text-[9px] font-black uppercase text-orange-800">Daily Reminder</span><p className="text-3xl leading-relaxed italic text-slate-700 font-script mt-2">"{RECOVERY_ADVICES[recoveryAdviceIndex]}"</p></div>
+                                </div>
+                                {user.recovery?.map(r => { const recTime = formatRecoveryTime(r.startTime); return (
+                                    <div key={r.id} className="p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-lg text-left dark:bg-slate-800 dark:border-slate-700">
+                                        <div className="flex justify-between items-start mb-6">
+                                            <div>
+                                                <span className="px-4 py-2 bg-teal-50 text-teal-700 rounded-xl text-lg font-black tracking-tighter tabular-nums border border-teal-100 shadow-sm">{recTime.full}</span>
+                                                <h4 className="text-xl font-bold text-slate-800 dark:text-white mt-4 font-script">Bebas {r.name}</h4>
+                                                <p className="text-base text-teal-600 mt-2 font-note font-bold leading-none">{getMilestoneMessage(recTime.totalMs)}</p>
+                                            </div>
+                                            <button onClick={() => updateData({ recovery: user.recovery.filter(x => x.id !== r.id) })} className="p-3 bg-slate-50 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all"><Icon name="Trash2" size={18}/></button>
+                                        </div>
+                                        <button onClick={() => callAI('healing', `Berikan saya motivasi kuat Islami agar tetap berhenti melakukan ${r.name}`)} disabled={isLoading} className="w-full py-4 bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest active:scale-95">Minta Motivasi</button>
+                                    </div>
+                                )})}
+                                <div className="flex gap-3">
+                                    <input id="addRec" className="flex-1 p-5 bg-white border border-slate-100 rounded-2xl outline-none font-bold text-sm shadow-sm dark:bg-slate-800" placeholder="Target baru?" />
+                                    <button onClick={() => { const i = document.getElementById('addRec'); if(i.value) { updateData({ recovery: [...(user.recovery || []), { id: Date.now(), name: i.value, startTime: Date.now() }] }); i.value = ""; } }} className="w-16 bg-teal-600 text-white rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition-transform"><Icon name="Plus" size={28}/></button>
+                                </div>
+                            </div>
                         )}
+
                         {activeTab === 'journal' && (
-                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="BookOpen" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Renungan Ayat</h2></div><div className={`p-6 rounded-[2.5rem] border border-white/50 shadow-xl flex gap-3 ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}><input type="number" placeholder="Ayat" className="w-20 p-4 bg-white/50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-black text-center text-lg border-transparent focus:bg-white transition-all" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} /><div className="relative flex-1"><input type="text" placeholder="Cari Surat..." className="w-full p-4 bg-white/50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold border-transparent focus:bg-white transition-all pl-10" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} /><div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"><Icon name="BookOpen" size={16}/></div>{surahSearch && (<div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-100 rounded-[1.5rem] shadow-2xl max-h-56 overflow-y-auto z-50 p-2">{SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (<button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); callAI('journal', {surah: s, ayat: journalInput.ayat}); }} className="w-full text-left p-3 rounded-xl font-bold hover:bg-teal-50 dark:hover:bg-slate-700 transition-colors text-sm">{s}</button>))}</div>)}</div></div>{journalResult && (<div ref={journalRef} className="p-10 rounded-[3rem] bg-[#FFFBF0] text-slate-800 shadow-xl border-2 border-white relative overflow-hidden text-left"><div className="absolute top-0 right-0 p-6 opacity-5"><Icon name="BookOpen" size={120}/></div><div className="prose max-w-none"><p className="text-2xl leading-loose text-justify font-note whitespace-pre-wrap relative z-10">{journalResult}</p></div><button onClick={() => handleCapture(journalRef, 'Tadabbur')} className="w-full py-4 bg-orange-100 text-orange-700 rounded-[1.2rem] font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Download" size={16}/> Simpan Lembaran</button></div>)}</div>
+                            <div className="space-y-8 text-center">
+                                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100"><Icon name="BookOpen" size={20} className="text-teal-500" /><h2 className="text-lg font-bold">Renungan Ayat</h2></div>
+                                <div className={`p-6 rounded-[2.5rem] border border-white shadow-xl flex gap-3 ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/60'}`}>
+                                    <input type="number" placeholder="No" className="w-20 p-4 bg-white/50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-black text-center text-lg border-transparent focus:bg-white transition-all" value={journalInput.ayat} onChange={e => setJournalInput(p => ({...p, ayat: e.target.value}))} />
+                                    <div className="relative flex-1">
+                                        <input type="text" placeholder="Cari Surat..." className="w-full p-4 bg-white/50 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold border-transparent focus:bg-white transition-all pl-10" value={surahSearch} onChange={e => setSurahSearch(e.target.value)} />
+                                        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"><Icon name="BookOpen" size={16}/></div>
+                                        {surahSearch && (
+                                            <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-100 rounded-[1.5rem] shadow-2xl max-h-56 overflow-y-auto z-50 p-2">
+                                                {SURAHS_LIST.filter(s => s.toLowerCase().includes(surahSearch.toLowerCase())).map(s => (
+                                                    <button key={s} onClick={() => { setJournalInput(p => ({...p, surah: s})); setSurahSearch(""); }} className="w-full text-left p-3 rounded-xl font-bold hover:bg-teal-50 dark:hover:bg-slate-700 transition-colors text-sm flex justify-between items-center">{s} <Icon name="ChevronRight" size={14}/></button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                {journalInput.surah && (
+                                    <div className="bg-teal-50 dark:bg-slate-800 p-6 rounded-[2rem] flex flex-col items-center animate-in">
+                                        <p className="font-bold text-teal-800 dark:text-teal-200">Surat {journalInput.surah} Ayat {journalInput.ayat || '1'}</p>
+                                        <button onClick={() => callAI('journal', journalInput)} disabled={isLoading} className="mt-4 px-8 py-3 bg-teal-600 text-white rounded-xl font-bold uppercase text-[10px] tracking-widest shadow-lg touch-scale">Mulai Tadabbur AI</button>
+                                    </div>
+                                )}
+                                {journalResult && (
+                                    <div ref={journalRef} className="p-10 rounded-[3rem] bg-[#FFFBF0] text-slate-800 shadow-xl border-2 border-white text-justify overflow-hidden relative">
+                                        <div className="absolute top-0 right-0 p-6 opacity-5"><Icon name="BookOpen" size={120}/></div>
+                                        <p className="text-xl leading-loose font-note whitespace-pre-wrap relative z-10">{journalResult}</p>
+                                        <button onClick={() => handleCapture(journalRef, 'Tadabbur')} className="w-full py-4 bg-orange-100 text-orange-700 rounded-xl font-bold uppercase tracking-widest text-[10px] mt-8 flex items-center justify-center gap-2 active:scale-95 transition-all"><Icon name="Download" size={16}/> Simpan Lembaran</button>
+                                    </div>
+                                )}
+                            </div>
                         )}
+
                         {activeTab === 'profil' && (
-                            <div className="space-y-8 text-center"><div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-slate-100 dark:border-white/5"><Icon name="Settings" size={20} className="text-teal-500" /><h2 className="text-lg font-bold tracking-tight">Akun Saya</h2></div><div className="p-8 rounded-[3rem] bg-white/60 dark:bg-slate-900/50 border border-white/50 shadow-xl text-left space-y-6"><div className="space-y-1"><label className="text-[10px] font-black opacity-30 uppercase ml-4">Nama Panggilan</label><input type="text" value={profileForm.displayName} onChange={e => setProfileForm({...profileForm, displayName: e.target.value})} className="w-full p-4 bg-white/60 dark:bg-slate-800 rounded-[1.5rem] outline-none font-bold text-lg border-transparent focus:bg-white transition-all" /></div><div className="space-y-1"><label className="text-[10px] font-black opacity-30 uppercase ml-4">Koreksi Hijriah</label><div className="flex items-center justify-between bg-white/60 dark:bg-slate-800 p-2 rounded-[1.5rem]"><button onClick={() => setProfileForm(p => ({ ...p, hijriAdjustment: (p.hijriAdjustment || 0) - 1 }))} className="w-12 h-12 flex items-center justify-center bg-rose-100 text-rose-600 rounded-full font-bold text-lg active:scale-90 transition-transform">-</button><span className="text-lg font-bold">{profileForm.hijriAdjustment > 0 ? '+' : ''}{profileForm.hijriAdjustment || 0}</span><button onClick={() => setProfileForm(p => ({ ...p, hijriAdjustment: (p.hijriAdjustment || 0) + 1 }))} className="w-12 h-12 flex items-center justify-center bg-teal-100 text-teal-600 rounded-full font-bold text-lg active:scale-90 transition-transform">+</button><button onClick={handleSaveCorrection} className="px-4 h-12 bg-slate-900 text-white rounded-[1.2rem] text-xs font-bold active:scale-95 transition-transform ml-2">{saveStatus || "Simpan"}</button></div></div><div className="pt-6 border-t border-slate-200/50 dark:border-white/5 space-y-3"><div className="flex items-center gap-2 font-bold uppercase text-[10px] tracking-widest opacity-30 justify-center mb-2">{isProfileLocked ? <Icon name="Lock" size={12}/> : <Icon name="Unlock" size={12}/>} Area Sensitif</div><input type="text" disabled={isProfileLocked} value={profileForm.username} onChange={e => setProfileForm({...profileForm, username: e.target.value})} className="w-full p-4 bg-white/40 dark:bg-slate-800 rounded-[1.2rem] text-sm font-bold opacity-60" placeholder="Username" /><div className="relative"><input type={showToken ? "text" : "password"} value={profileForm.githubToken} onChange={e => setProfileForm({...profileForm, githubToken: e.target.value})} className={`w-full p-4 pl-10 bg-white/40 dark:bg-slate-800 rounded-[1.2rem] text-xs font-mono text-teal-600 ${isProfileLocked ? 'opacity-40 cursor-not-allowed' : ''}`} disabled={isProfileLocked} placeholder="ghp_..." /><button onClick={() => setShowToken(!showToken)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 p-2"><Icon name={showToken ? "EyeOff" : "Eye"} size={16} /></button><div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"><Icon name="Key" size={14}/></div></div></div><div className="flex flex-col gap-3 mt-4">{isProfileLocked ? (<button onClick={() => setIsProfileLocked(false)} className="w-full py-4 bg-slate-200 text-slate-600 rounded-[1.5rem] font-bold text-xs uppercase tracking-widest active:scale-95 transition-all">Buka Gembok</button>) : (<><button onClick={() => { updateData(profileForm); setIsProfileLocked(true); setSaveStatus("Tersimpan!"); setTimeout(() => setSaveStatus(""), 2000); }} className="w-full py-4 bg-teal-600 text-white rounded-[1.5rem] font-bold text-xs uppercase tracking-widest active:scale-95 transition-all">Simpan Semua</button><button onClick={() => {setIsProfileLocked(true); setProfileForm(user);}} className="w-full py-4 text-slate-400 font-bold text-xs uppercase">Batal</button></>)}<button onClick={handleLogout} className="w-full py-4 text-rose-400 font-bold text-xs uppercase tracking-widest hover:text-rose-600">Keluar</button></div></div></div>
+                            <div className="space-y-8 text-center">
+                                <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-800 rounded-full shadow-sm"><Icon name="Settings" size={20} className="text-teal-500"/><h2 className="text-lg font-bold">Akun Saya</h2></div>
+                                <div className="p-8 rounded-[3rem] bg-white/60 dark:bg-slate-900/50 border border-white shadow-xl text-left space-y-6">
+                                    <div className="space-y-1"><label className="text-[10px] font-black opacity-30 uppercase ml-4">Nama Panggilan</label><input type="text" value={profileForm.displayName} onChange={e => setProfileForm({...profileForm, displayName: e.target.value})} className="w-full p-4 bg-white/60 dark:bg-slate-800 rounded-2xl outline-none font-bold border-transparent focus:bg-white transition-all" /></div>
+                                    <div className="space-y-1"><label className="text-[10px] font-black opacity-30 uppercase ml-4">Koreksi Hijriah</label>
+                                        <div className="flex items-center justify-between bg-white/60 dark:bg-slate-800 p-2 rounded-2xl">
+                                            <button onClick={() => setProfileForm(p => ({ ...p, hijriAdjustment: (p.hijriAdjustment || 0) - 1 }))} className="w-12 h-12 flex items-center justify-center bg-rose-100 text-rose-600 rounded-full font-bold">-</button>
+                                            <span className="text-lg font-bold">{profileForm.hijriAdjustment > 0 ? '+' : ''}{profileForm.hijriAdjustment || 0}</span>
+                                            <button onClick={() => setProfileForm(p => ({ ...p, hijriAdjustment: (p.hijriAdjustment || 0) + 1 }))} className="w-12 h-12 flex items-center justify-center bg-teal-100 text-teal-600 rounded-full font-bold">+</button>
+                                            <button onClick={() => { updateData({ hijriAdjustment: profileForm.hijriAdjustment }); setSaveStatus("Saved!"); setTimeout(()=>setSaveStatus(""), 2000); fetchPrayerByCity(profileForm.city || user.city, profileForm.hijriAdjustment); }} className="px-4 h-12 bg-slate-900 text-white rounded-xl text-xs font-bold ml-2">{saveStatus || "Simpan"}</button>
+                                        </div>
+                                    </div>
+                                    <div className="pt-6 border-t border-slate-200/50 dark:border-white/5 space-y-3">
+                                        <div className="flex items-center gap-2 font-bold uppercase text-[10px] tracking-widest opacity-30 justify-center mb-2">{isProfileLocked ? <Icon name="Lock" size={12}/> : <Icon name="Unlock" size={12}/>} Keamanan API GitHub</div>
+                                        <div className="relative">
+                                            <input type={showToken ? "text" : "password"} value={profileForm.githubToken} onChange={e => setProfileForm({...profileForm, githubToken: e.target.value})} className={`w-full p-4 pl-10 bg-white/40 dark:bg-slate-800 rounded-2xl text-xs font-mono text-teal-600 ${isProfileLocked ? 'opacity-40 cursor-not-allowed' : ''}`} disabled={isProfileLocked} placeholder="ghp_..." />
+                                            <button onClick={() => setShowToken(!showToken)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 p-2"><Icon name={showToken ? "EyeOff" : "Eye"} size={16} /></button>
+                                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300"><Icon name="Key" size={14}/></div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-3 mt-4">
+                                        {isProfileLocked ? (<button onClick={() => setIsProfileLocked(false)} className="w-full py-4 bg-slate-200 text-slate-600 rounded-2xl font-bold text-xs uppercase tracking-widest active:scale-95">Buka Gembok</button>) : (<><button onClick={() => { updateData(profileForm); setIsProfileLocked(true); setSaveStatus("Tersimpan!"); setTimeout(()=>setSaveStatus(""), 2000); }} className="w-full py-4 bg-teal-600 text-white rounded-2xl font-bold text-xs uppercase active:scale-95">Simpan Semua</button><button onClick={() => {setIsProfileLocked(true); setProfileForm(user);}} className="w-full py-4 text-slate-400 font-bold text-xs uppercase">Batal</button></>)}
+                                        <button onClick={()=>setConfirmDeleteData({isOpen:true, id:'logout', type:'logout', title:'Keluar?', message:'Kamu akan keluar sesi.'})} className="w-full py-4 text-rose-400 font-bold text-xs uppercase hover:text-rose-600">Keluar</button>
+                                    </div>
+                                </div>
+                            </div>
                         )}
                     </main>
 
-                    {/* Bottom Nav */}
-                    <nav className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md h-20 rounded-[2.5rem] flex items-center justify-between px-6 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-white/50 backdrop-blur-xl transition-all duration-500 transform ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-32 opacity-0' } ${isDarkMode ? 'bg-slate-900/80 border-slate-700' : 'bg-white/80'}`}>
-                        {[{ id: 'home', icon: 'Home', label: 'Home' }, { id: 'healing', icon: 'Smile', label: 'Curhat' }, { id: 'bahasa', icon: 'Globe', label: 'Bahasa' }, { id: 'amal', icon: 'CheckCircle', label: 'Amal' }, { id: 'recovery', icon: 'ShieldCheck', label: 'Bebas' }, { id: 'journal', icon: 'BookOpen', label: 'Jurnal' }, { id: 'profil', icon: 'Settings', label: 'Profil' }].map(t => (
-                            <button key={t.id} onClick={() => navigateToTab(t.id)} className={`relative flex flex-col items-center justify-center w-10 h-10 transition-all active:scale-90 ${activeTab === t.id ? 'text-teal-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+                    {/* Navigasi Bawah */}
+                    <nav className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md h-20 rounded-[2.5rem] flex items-center justify-between px-6 z-50 shadow-2xl border border-white/50 backdrop-blur-xl transition-all duration-500 ${showNav ? 'translate-y-0' : 'translate-y-32' } ${isDarkMode ? 'bg-slate-900/80 border-slate-700' : 'bg-white/80'}`}>
+                        {[{ id: 'home', icon: 'Home' }, { id: 'healing', icon: 'Smile' }, { id: 'bahasa', icon: 'Globe' }, { id: 'amal', icon: 'CheckCircle' }, { id: 'recovery', icon: 'ShieldCheck' }, { id: 'journal', icon: 'BookOpen' }, { id: 'profil', icon: 'Settings' }].map(t => (
+                            <button key={t.id} onClick={() => setActiveTab(t.id)} className={`relative flex flex-col items-center justify-center w-10 h-10 transition-all active:scale-90 ${activeTab === t.id ? 'text-teal-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
                                 <div className={`absolute -top-1 w-1 h-1 rounded-full bg-teal-500 transition-all ${activeTab === t.id ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}></div>
                                 <Icon name={t.icon} size={22} strokeWidth={activeTab === t.id ? 2.5 : 2} />
                             </button>
@@ -531,10 +454,8 @@
                         <div className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-300">
                             <div className="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-2xl flex flex-col items-center gap-4 max-w-xs mx-4 text-center border border-white/20">
                                 <div className="w-16 h-16 border-4 border-teal-100 border-t-teal-500 rounded-full animate-spin"></div>
-                                <div>
-                                    <h3 className="font-bold text-lg text-slate-800 dark:text-white mb-1">Meracik Hikmah...</h3>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400">Mohon tunggu sebentar ya.</p>
-                                </div>
+                                <h3 className="font-bold text-lg text-slate-800 dark:text-white">Sedang Meracik Hikmah...</h3>
+                                <p className="text-xs text-slate-500 dark:text-slate-400">AI hanya bekerja saat diperintah manual untuk menjaga kuota token kamu.</p>
                             </div>
                         </div>
                     )}
